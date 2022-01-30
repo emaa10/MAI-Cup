@@ -224,7 +224,7 @@ void loop() {
       hindernisRechts = 1;
     }
 
-    if (2 >= (hindernisLinks + hindernisRechts)) {
+    if (2 <= (hindernisLinks + hindernisRechts)) {
       stehenbleiben();
       Serial.println("Überall ein Hindernis, bleibe stehen.");
       delay(5000);
