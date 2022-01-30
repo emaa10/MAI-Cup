@@ -223,24 +223,28 @@ void loop() {
     if(entfernungRechts > 17) { //schaut ob ein hindernis rechts vorhanden ist, speicher dann
       hindernisRechts = 1;
     }
-/*
     if (2 == (hindernisLinks + hindernisRechts)) {
       stehenbleiben();
       Serial.println("Überall ein Hindernis, bleibe stehen.");
       delay(5000);
-    }*/
+      goto EndeHindernis; //springt zum ende, weil wenn beide hindernisse da sind soll er ja nicht in 2 richtungen fahren
+    }
     if (hindernisLinks = 1) {
       halbUmdrehungRechts();
       Serial.println("Fahre rechts da links hindernis");
+      goto EndeHindernis:
     }
     if (hindernisRechts = 1) {
       halbUmdrehungLinks();
       Serial.println("Fahre links da rechts Hindernis");
+      goto EndeHindernis;
     }
     if (0 >= (hindernisLinks + hindernisRechts)) {
       Serial.println("Kein Hindernis vorhanden, fährt nach rechts");
       halbUmdrehungRechts();
+      goto EndeHindernis;
     }
+    EndeHindernis:
     /*
     if(1 >= (hindernisLinks + hindernisRechts)) { //schauen ob mindestens ein hindernis vorhanden ist
       if(hindernisLinks = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
