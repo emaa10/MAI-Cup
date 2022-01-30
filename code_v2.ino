@@ -1,4 +1,4 @@
-#include <Arduino.h> s
+#include <Arduino.h>
 
    /*
   MAI Cup Junior Code
