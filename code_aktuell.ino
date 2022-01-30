@@ -137,7 +137,7 @@ void entfernungMessenRechts() {
 }
 
 void umdrehungZeit() {
-    delay(1000);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
+    delay(900);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
 }
 
 void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
