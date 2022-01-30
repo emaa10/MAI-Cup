@@ -232,7 +232,7 @@ void loop() {
     if (hindernisLinks = 1) {
       halbUmdrehungRechts();
       Serial.println("Fahre rechts da links hindernis");
-      goto EndeHindernis:
+      goto EndeHindernis;
     }
     if (hindernisRechts = 1) {
       halbUmdrehungLinks();
