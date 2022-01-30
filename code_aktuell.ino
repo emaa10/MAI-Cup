@@ -151,7 +151,7 @@ void halbUmdrehungRechts() { //Quasi 90* Drehung
     outLeft = 200;
     outRight = 0;
     motorAnsteuern();
-    delay(900)
+    delay(900);
     outLeft = 0;
     motorAnsteuern();
 }
@@ -160,7 +160,7 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung
     outLeft = 0;
     outRight = 200;
     motorAnsteuern();
-    delay(900)
+    delay(900);
     outRight = 0;
     motorAnsteuern();
 }
