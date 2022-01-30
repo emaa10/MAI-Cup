@@ -33,13 +33,16 @@
 // - Daten -
 int outLeft; 
 int outRight;
-
+// alte trash logic dinger
 int logicRight; //Temporärer Speicher bei der Kurve
 int logicLeft; //Temporärer Speicher bei der Kurve
 int logicRight1; //Temporärer Speicher bei der Kurve
 int logicLeft1; //Temporärer Speicher bei der Kurve
 int logicRight2; //Temporärer Speicher bei der Kurve
 int logicLeft2; //Temporärer Speicher bei der Kurve
+// neue logic checks
+int hindernisLinks;
+int hindernisRechts;
 
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
@@ -144,7 +147,23 @@ void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
     delay(100);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE UMDREHUNG
 }
 
+void 90gradRechts() { //Zeit um wieder auf den Kurs zu kommen
+    outLeft = 200;
+    outRight = 0;
+    motorAnsteuern();
+    delay(900)
+    outLeft = 0;
+    motorAnsteuern();
+}
 
+void 90gradLinks() { //Zeit um wieder auf den Kurs zu kommen
+    outLeft = 0;
+    outRight = 200;
+    motorAnsteuern();
+    delay(900)
+    outRight = 0;
+    motorAnsteuern();
+}
 
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
@@ -192,70 +211,52 @@ void setup() {
  * Main Loop
  */
 void loop() {
-  entfernungMessenVorne();
+  entfernungMessenVorne(); // bot misst erstmal überall die entfernung
   entfernungMessenLinks();
   entfernungMessenRechts();
-  Serial.println("-------");
-  if (entfernungVorne < 12) { //Check ob Hindernis, danach Kurve
+  Serial.println("-------"); //print dass man sich auskennt im serial monitor
+  if (entfernungVorne < 12) { //bot schaut ob vorne eine wand ist, die maximal 12cm entfernt ist, wenn ja:
     stehenbleiben(); //erstmal stehenbleiben
-    Serial.println("--- Stehen bleiben laut Check vorne kleiner als 12cm");
-    if (entfernungLinks > 30) { //schauen ob entfernung links kleiner als 30cm ist, speichert dann ab ob hier ein hindernis ist oder nicht (nur temporär)
-      logicRight = 1;
+    if (entfernungLinks > 17) { //schaut ob ein hindernis links vorhanden ist, speicher dann
+      hindernisLinks = 1;
     }
-    if(entfernungRechts > 30) { //schauen ob entfernung rechts kleiner als 30cm ist, speichert dann ab ob hier ein hindernis ist oder nicht
-      logicLeft = 1;
+    if(entfernungRechts > 17) { //schaut ob ein hindernis rechts vorhanden ist, speicher dann
+      hindernisRechts = 1;
     }
-    if(2 >= (logicRight + logicLeft)) { //schauen ob ein Hindernis vorhanden ist
-      if(logicRight = 1) { //wenn rechts ein hindernis ist wird nach links gefahren
-        outRight = 200;
-        Serial.println("--- Right 100 laut if schleife");
-      }
-      else { //wenn links ein hindernis ist wird nach rechts gefahren
-        outLeft = 200;
-        Serial.println("--- Left 100 laut if schleife");
-      }
-      motorAnsteuern();
-      umdrehungZeit();
+    if(1 >= (hindernisLinks + hindernisRechts)) { //schauen ob mindestens ein hindernis vorhanden ist
+      if(hindernisLinks = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
+        90gradRechts();
+      } //AB HIER BUG: AUCH WENN KEINS IS WIRD NACH RECHTS GEFAHREN!!!
+      if(hindernisRechts = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
+        90gradLinks()
+      } 
       stehenbleiben();
     }
-    logicLeft = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
-    logicRight = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
-    Serial.println("--- logicRight 0 beide laut if schleife ende (vor kurve ende)");
+    hindernisLinks = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
+    hindernisRechts = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
     fahrenBeide(); //wieder losfahren
-    Serial.println("--- Fahren laut schleife ende (vor kurve ende)");
   
     // Kurve ende
-    entfernungMessenLinks();
+    entfernungMessenLinks(); //entfernungen nach der kurve zur sicherheit messen
     entfernungMessenRechts();
-    Serial.println("--- Kurve ende beginnt");
-    if (entfernungLinks <= 10) {
-      logicRight1 = 1; //Logicright1 -> Links
-    }
-    if (entfernungRechts <= 10) {
-      logicLeft2 = 1;
-    }
-    if (logicLeft = 1) {
-      outLeft = 200;
-      motorAnsteuern();
-      kursUmdrehungZeit();
-      outLeft = 100;
-      outRight = 100;
-      motorAnsteuern();
-      logicLeft = 0;
-      logicRight = 0;
-    }
-    else {
-      if (logicRight = 1) {
-        outRight = 200;
-        motorAnsteuern();
-        kursUmdrehungZeit();
-        outLeft = 100;
+
+    if (entfernungLinks != entfernungRechts) {
+      if (entfernungLinks > entfernungRechts) {
+        stehenbleiben();
         outRight = 100;
         motorAnsteuern();
-        logicLeft = 0;
-        logicRight = 0;
+        delay(150);
+        fahrenBeide();
+      }
+      if (entfernungRechts > entfernungLinks) {
+        stehenbleiben();
+        outLinks = 100;
+        motorAnsteuern();
+        delay(150);
+        fahrenBeide();
       }
     }
+
   } 
   delay(500); //Delay dass der ned durchdreht ;)
 }
