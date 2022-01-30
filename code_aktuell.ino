@@ -223,6 +223,21 @@ void loop() {
     if(entfernungRechts > 17) { //schaut ob ein hindernis rechts vorhanden ist, speicher dann
       hindernisRechts = 1;
     }
+
+    if (2 >= (hindernisLinks + hindernisRechts)) {
+      stehenbleiben();
+    }
+    if (hindernisLinks = 1) {
+      halbUmdrehungRechts();
+    }
+    if (hindernisRechts = 1) {
+      halbUmdrehungLinks();
+    }
+    if (0 >= (hindernisLinks + hindernisRechts)) {
+      Serial.println("Kein Hindernis vorhanden, fährt nach rechts");
+      halbUmdrehungRechts();
+    }
+    /*
     if(1 >= (hindernisLinks + hindernisRechts)) { //schauen ob mindestens ein hindernis vorhanden ist
       if(hindernisLinks = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
         halbUmdrehungRechts();
@@ -236,7 +251,7 @@ void loop() {
     }
     else {
       halbUmdrehungRechts();
-    }
+    }*/
     hindernisLinks = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
     hindernisRechts = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
     fahrenBeide(); //wieder losfahren
