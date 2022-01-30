@@ -226,12 +226,16 @@ void loop() {
 
     if (2 >= (hindernisLinks + hindernisRechts)) {
       stehenbleiben();
+      Serial.println("Überall ein Hindernis, bleibe stehen.");
+      delay(5000);
     }
     if (hindernisLinks = 1) {
       halbUmdrehungRechts();
+      Serial.println("Fahre rechts da links hindernis");
     }
     if (hindernisRechts = 1) {
       halbUmdrehungLinks();
+      Serial.println("Fahre links da rechts Hindernis");
     }
     if (0 >= (hindernisLinks + hindernisRechts)) {
       Serial.println("Kein Hindernis vorhanden, fährt nach rechts");
