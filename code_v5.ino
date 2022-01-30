@@ -184,6 +184,7 @@ void setup() {
   Serial.println("--- Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
   Serial.println("--- Im Setup Fahren gestartet");
+  delay(3000);
 }
 
 
@@ -206,11 +207,11 @@ void loop() {
     }
     if(2 >= (logicRight + logicLeft)) { //schauen ob ein Hindernis vorhanden ist
       if(logicRight = 1) { //wenn rechts ein hindernis ist wird nach links gefahren
-        outRight = 100;
+        outRight = 200;
         Serial.println("--- Right 100 laut if schleife");
       }
       else { //wenn links ein hindernis ist wird nach rechts gefahren
-        outLeft = 100;
+        outLeft = 200;
         Serial.println("--- Left 100 laut if schleife");
       }
       motorAnsteuern();
