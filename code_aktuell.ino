@@ -228,7 +228,7 @@ void loop() {
         halbUmdrehungRechts();
       } //AB HIER BUG: AUCH WENN KEINS IS WIRD NACH RECHTS GEFAHREN!!!
       if(hindernisRechts = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
-        halbUmdrehungLinks()
+        halbUmdrehungLinks();
       } 
       stehenbleiben();
     }
@@ -250,7 +250,7 @@ void loop() {
       }
       if (entfernungRechts > entfernungLinks) {
         stehenbleiben();
-        outLinks = 100;
+        outLeft = 100;
         motorAnsteuern();
         delay(150);
         fahrenBeide();
