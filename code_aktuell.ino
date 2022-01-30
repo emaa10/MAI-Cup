@@ -226,12 +226,12 @@ void loop() {
     if(1 >= (hindernisLinks + hindernisRechts)) { //schauen ob mindestens ein hindernis vorhanden ist
       if(hindernisLinks = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
         halbUmdrehungRechts();
-        Serial.println("Fährt 90° nach rechts")
+        Serial.println("Fährt 90° nach rechts");
       } //AB HIER BUG: AUCH WENN KEINS IS WIRD NACH RECHTS GEFAHREN!!!
       if(hindernisRechts = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
         halbUmdrehungLinks();
-        Serial.println("Fährt 90° nach links")
-      } 
+        Serial.println("Fährt 90° nach links");
+      }
       stehenbleiben();
     }
     else {
