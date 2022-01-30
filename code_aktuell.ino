@@ -147,7 +147,7 @@ void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
     delay(100);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE UMDREHUNG
 }
 
-void 90gradRechts() { //Zeit um wieder auf den Kurs zu kommen
+void halbUmdrehungRechts() { //Quasi 90* Drehung
     outLeft = 200;
     outRight = 0;
     motorAnsteuern();
@@ -156,7 +156,7 @@ void 90gradRechts() { //Zeit um wieder auf den Kurs zu kommen
     motorAnsteuern();
 }
 
-void 90gradLinks() { //Zeit um wieder auf den Kurs zu kommen
+void halbUmdrehungLinks() { //Quasi 90* Drehung
     outLeft = 0;
     outRight = 200;
     motorAnsteuern();
@@ -225,10 +225,10 @@ void loop() {
     }
     if(1 >= (hindernisLinks + hindernisRechts)) { //schauen ob mindestens ein hindernis vorhanden ist
       if(hindernisLinks = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
-        90gradRechts();
+        halbUmdrehungRechts();
       } //AB HIER BUG: AUCH WENN KEINS IS WIRD NACH RECHTS GEFAHREN!!!
       if(hindernisRechts = 1) { //wenn links ein hindernis ist wird nach rechts gefahren
-        90gradLinks()
+        halbUmdrehungLinks()
       } 
       stehenbleiben();
     }
