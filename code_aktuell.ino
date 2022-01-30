@@ -233,7 +233,7 @@ void loop() {
       stehenbleiben();
     }
     else {
-      halbUmdrehungRechts()
+      halbUmdrehungRechts();
     }
     hindernisLinks = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
     hindernisRechts = 0; //Temporäre Variablen wieder auf 0 setzten für die nächste Kurve
