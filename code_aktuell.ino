@@ -151,7 +151,7 @@ void halbUmdrehungRechts() { //Quasi 90* Drehung
     outLeft = 200;
     outRight = 0;
     motorAnsteuern();
-    delay(900);
+    umdrehungZeit();
     outLeft = 0;
     motorAnsteuern();
 }
@@ -160,7 +160,7 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung
     outLeft = 0;
     outRight = 200;
     motorAnsteuern();
-    delay(900);
+    umdrehungZeit();
     outRight = 0;
     motorAnsteuern();
 }
@@ -232,7 +232,7 @@ void loop() {
     if (hindernisLinks = 1) {
       halbUmdrehungRechts();
       Serial.println("Fahre rechts da links hindernis");
-      goto EndeHindernis;
+      goto EndeHindernis:
     }
     if (hindernisRechts = 1) {
       halbUmdrehungLinks();
