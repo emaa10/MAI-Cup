@@ -203,7 +203,7 @@ void setup() {
   Serial.println("--- Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
   Serial.println("--- Im Setup Fahren gestartet");
-  delay(3000);
+  delay(3000); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
 }
 
 
