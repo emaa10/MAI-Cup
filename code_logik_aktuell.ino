@@ -64,8 +64,8 @@ void motorAnsteuern() {
  * Motoren starten (beiden fahren)
  */
 void fahrenBeide() {
-  outLeft = 100; //Setze Geschwindigkeit links auf 100
-  outRight = 100; //Setze Geschwindigkeit rechts auf 100
+  outLeft = 105; //Setze Geschwindigkeit links auf 100
+  outRight = 110; //Setze Geschwindigkeit rechts auf 100
   motorAnsteuern();
   Serial.println("fahren beide laut Methode");
 }
@@ -139,7 +139,7 @@ void entfernungMessenRechts() {
 }
 
 void umdrehungZeit() {
-    delay(900);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
+    delay(830);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
 }
 
 void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
@@ -211,7 +211,7 @@ void setup() {
  */
 void loop() {
   entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
-  if (entfernungVorne <= 12) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+  if (entfernungVorne <= 17) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
     entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
     entfernungMessenRechts();
@@ -244,7 +244,7 @@ void loop() {
       fahrenBeide();
     }
   }
-  delay(500); //zum Testen
+  delay(200); //zum Testen
   hindernisLinks = 0;
   hindernisRechts = 0;
 }
