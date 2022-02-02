@@ -146,7 +146,7 @@ void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
     delay(100);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE UMDREHUNG
 }
 
-void halbUmdrehungRechts() { //Quasi 90* Drehung
+void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
     outLeft = 200;
     outRight = 0;
     motorAnsteuern();
@@ -155,7 +155,7 @@ void halbUmdrehungRechts() { //Quasi 90* Drehung
     motorAnsteuern();
 }
 
-void halbUmdrehungLinks() { //Quasi 90* Drehung
+void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
     outLeft = 0;
     outRight = 200;
     motorAnsteuern();
@@ -215,28 +215,32 @@ void loop() {
     stehenbleiben(); //direkt stehenbleiben
     entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
     entfernungMessenRechts();
-    if (entfernungLinks <= 17 || entfernungLinks <=0) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
+    if (entfernungLinks <= 17) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
       hindernisLinks = 1;
     }
-    if (entfernungRechts <= 17 || entfernungRechts <=0) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+    if (entfernungRechts <= 17) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
       hindernisRechts = 1;
     }
+
+
     //Abfrage start 
     if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
       stehenbleiben();
       Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
     }
     else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
+      halbUmdrehungRechts();
       fahrenBeide();
-      Serial.println("----- INFO: Links hindernis fährt also wieder (zum testen)");
+      Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
     }
     else if (hindernisRechts == 1) { 
+      halbUmdrehungLinks();
       fahrenBeide();
-      Serial.println("----- INFO: Rechts hindernis fährt also wieder (zum testen) -----");
+      Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
     }
-    else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne bleibt er auch erstmal stehen und gibt eine ausgabe
-      Serial.println("----- INFO: Kein Hindernis links/rechts");
-      stehenbleiben();
+    else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
+      Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
+      
     }
   }
   delay(1000); //zum Testen
