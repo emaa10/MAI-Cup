@@ -202,7 +202,7 @@ void setup() {
   Serial.println("----- INFO: Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
   Serial.println("----- INFO: Im Setup Fahren gestartet");
-  delay(3000); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
+  delay(1500); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
 }
 
 
@@ -241,9 +241,10 @@ void loop() {
     else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
       Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
       halbUmdrehungRechts();
+      fahrenBeide();
     }
   }
-  delay(1000); //zum Testen
+  delay(500); //zum Testen
   hindernisLinks = 0;
   hindernisRechts = 0;
 }
