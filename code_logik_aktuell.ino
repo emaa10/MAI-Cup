@@ -93,7 +93,7 @@ void entfernungMessenVorne() {
   entfernungVorne = (long)((dauerVorne/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungVorne >= 500 || entfernungVorne <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
-    Serial.println("Kein Messwert"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
+    Serial.println("Kein Messwert vorne"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
     Serial.print(entfernungVorne); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
@@ -111,7 +111,7 @@ void entfernungMessenLinks() {
   entfernungLinks = (long)((dauerLinks/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungLinks >= 500 || entfernungLinks <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
-    Serial.println("Kein Messwert"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
+    Serial.println("Kein Messwert links"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
     Serial.print(entfernungLinks); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
@@ -130,7 +130,7 @@ void entfernungMessenRechts() {
   entfernungRechts = (long)((dauerRechts/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungRechts >= 500 || entfernungRechts <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
-    Serial.println("Kein Messwert"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
+    Serial.println("Kein Messwert rechts"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
     Serial.print(entfernungRechts); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
@@ -199,9 +199,9 @@ void setup() {
   pinMode(ECHO_RECHTS, INPUT); // Echo-Pin ist ein Eingang
 
   
-  Serial.println("--- Pins gesetzt");
+  Serial.println("----- INFO: Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
-  Serial.println("--- Im Setup Fahren gestartet");
+  Serial.println("----- INFO: Im Setup Fahren gestartet");
   delay(3000); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
 }
 
@@ -211,25 +211,36 @@ void setup() {
  */
 void loop() {
   entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
-  delay(50); // delay nur zum testen da
   if (entfernungVorne <= 12) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
-    entfernungMessenLinks(); 
-    delay(50); //zum testen da
+    entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
     entfernungMessenRechts();
-    delay(50);
-    if (entfernungLinks <= 17) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt
+    if (entfernungLinks <= 17 || entfernungLinks <=0) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
       hindernisLinks = 1;
     }
-    if (entfernungRechts <= 17) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+    if (entfernungRechts <= 17 || entfernungRechts <=0) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
       hindernisRechts = 1;
     }
     //Abfrage start 
-    if (2 == hindernisLinks + hindernisRechts) {
+    if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
       stehenbleiben();
-      Serial.println("Stehen geblieben, da 2 Hindernisse vorhanden sind");
+      Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
+    }
+    else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
+      fahrenBeide();
+      Serial.println("----- INFO: Links hindernis fährt also wieder (zum testen)");
+    }
+    else if (hindernisRechts == 1) { 
+      fahrenBeide();
+      Serial.println("----- INFO: Rechts hindernis fährt also wieder (zum testen) -----");
+    }
+    else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne bleibt er auch erstmal stehen und gibt eine ausgabe
+      Serial.println("----- INFO: Kein Hindernis links/rechts");
+      stehenbleiben();
     }
   }
-  delay(200); //Delay dass der ned durchdreht ;)
+  delay(1000); //zum Testen
+  hindernisLinks = 0;
+  hindernisRechts = 0;
 }
 //Code Ende
