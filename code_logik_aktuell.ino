@@ -77,7 +77,6 @@ void stehenbleiben() {
   outLeft = 0;
   outRight = 0;
   motorAnsteuern();
-  Serial.println("stehen beide laut Variable");
 }
 
 /*
@@ -213,20 +212,20 @@ void setup() {
 void loop() {
   entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
   delay(50); // delay nur zum testen da
-  if (entfernungVorne >= 12) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+  if (entfernungVorne <= 12) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
     entfernungMessenLinks(); 
     delay(50); //zum testen da
     entfernungMessenRechts();
     delay(50);
-    if (entfernungLinks >= 17) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt
+    if (entfernungLinks <= 17) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt
       hindernisLinks = 1;
     }
-    if (entfernungRechts >= 17) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+    if (entfernungRechts <= 17) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
       hindernisRechts = 1;
     }
     //Abfrage start 
-    if (hindernisLinks + hindernisRechts) {
+    if (2 == hindernisLinks + hindernisRechts) {
       stehenbleiben();
       Serial.println("Stehen geblieben, da 2 Hindernisse vorhanden sind");
     }
