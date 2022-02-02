@@ -240,7 +240,7 @@ void loop() {
     }
     else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
       Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
-      
+      halbUmdrehungRechts();
     }
   }
   delay(1000); //zum Testen
