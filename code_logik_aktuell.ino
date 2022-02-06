@@ -44,6 +44,7 @@ int logicLeft2; //Temporärer Speicher bei der Kurve
 int hindernisLinks;
 int hindernisRechts;
 
+
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
 
@@ -52,6 +53,9 @@ long entfernungLinks=0;
 
 long dauerRechts=0; 
 long entfernungRechts=0;
+
+int entfernungLinksOld; //alte variable wird hier gespeichert
+int entfernungRechtsOld;
 
 void motorAnsteuern() {
   analogWrite(RIGHT_LPWM,outRight); //Schreibe Geschwindigkeit auf Pins
@@ -102,6 +106,7 @@ void entfernungMessenVorne() {
 }
 
 void entfernungMessenLinks() {
+  entfernungLinksOld = entfernungLinks;
   digitalWrite(TRIGGER_LINKS, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
   digitalWrite(TRIGGER_LINKS, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
@@ -117,10 +122,13 @@ void entfernungMessenLinks() {
     Serial.print(entfernungLinks); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
     Serial.println(" cm Links"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
+  Serial.print(entfernungLinksOld);
+  Serial.println(" Alte Entfernung links");
 }
 
 
 void entfernungMessenRechts() {
+  entfernungRechtsOld = entfernungRechts;
   digitalWrite(TRIGGER_RECHTS, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
   digitalWrite(TRIGGER_RECHTS, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
@@ -136,6 +144,8 @@ void entfernungMessenRechts() {
     Serial.print(entfernungRechts); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
     Serial.println(" cm Rechts"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
+  Serial.print(entfernungRechtsOld);
+  Serial.println(" Alte Entfernung rechts");
 }
 
 void umdrehungZeit() {
@@ -162,6 +172,22 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
     umdrehungZeit();
     outRight = 0;
     motorAnsteuern();
+}
+
+void kurzerAusgleichNachLinks() {
+  outRight = 200;
+  motorAnsteuern();
+  delay(250);
+  outRight = 110;
+  motorAnsteuern();
+}
+
+void kurzerAusgleichNachRechts() {
+  outLeft = 200;
+  motorAnsteuern();
+  delay(250);
+  outLeft = 105;
+  motorAnsteuern();
 }
 
 // ------------------------------------------------------------------------------------
@@ -211,10 +237,10 @@ void setup() {
  */
 void loop() {
   entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
+  entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
+  entfernungMessenRechts();
   if (entfernungVorne <= 17) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
-    entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
-    entfernungMessenRechts();
     if (entfernungLinks <= 17) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
       hindernisLinks = 1;
     }
@@ -243,6 +269,17 @@ void loop() {
       halbUmdrehungRechts();
       fahrenBeide();
     }
+  }
+
+  //gerade fahren skript beginn
+
+  if (entfernungRechtsOld >= entfernungRechts) { //er speichert alle 200ms die alte und die neue entfernung und vergleicht beide variablen dann. wenn rechts vorher weiter weg war, nähert er sich nach rechts an und fährt nun nach links (nur kurz). umgekehrt halt genauso
+    kurzerAusgleichNachLinks();
+    Serial.println("----- INFO: Rechts war davor weiter weg, daher fährt er kurz nach links");
+  }
+  if (entfernungRechts >= entfernungRechtsOld) {
+    kurzerAusgleichNachRechts();
+    Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
   }
   delay(200); //zum Testen
   hindernisLinks = 0;
