@@ -239,12 +239,12 @@ void loop() {
   entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
   entfernungMessenRechts();
-  if (entfernungVorne <= 17) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+  if (entfernungVorne <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
-    if (entfernungLinks <= 17) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
+    if (entfernungLinks <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
       hindernisLinks = 1;
     }
-    if (entfernungRechts <= 17) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+    if (entfernungRechts <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
       hindernisRechts = 1;
     }
 
