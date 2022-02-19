@@ -30,8 +30,8 @@
 #define TRIGGER_RECHTS 4 
 #define ECHO_RECHTS A4
 //Hall Sensor
-#define Hall_Sensor A0          //analog output (optional)
-#define Hall_Sensor_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
+#define HALL_SENSOR A0          //analog output (optional)
+#define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
 //Infrarot Sensor
 int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
 int ir_right = A1;
@@ -76,7 +76,7 @@ void motorAnsteuern() {
 }
 
 void magnetLesen() {
-  Hall_Val2=digitalRead(Hall_Sensor_D);
+  Hall_Val2=digitalRead(HALL_SENSOR_D);
   if(Hall_Val2 == 0) {
     Serial.print("MAGNET GESICHTET"); // das hier wird nur zum loggen ausgeführt, man kann danach die hall_val2 trz abfragen für eine andere aktion
   }
@@ -266,7 +266,7 @@ void setup() {
   pinMode(ir_left, INPUT); // sensor pin INPUT
   pinMode(ir_right, INPUT); // sensor pin INPUT
   // Hall Sensor
-  pinMode(Hall_Sensor_D,INPUT);
+  pinMode(HALL_SENSOR_D,INPUT);
 
   
   Serial.println("----- INFO: Pins gesetzt");
