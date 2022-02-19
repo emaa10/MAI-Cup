@@ -1,6 +1,6 @@
-#define IR_LEFT = A3 // connect ir sensor to arduino pin 2 (left one)
-#define IR_MIDDLE = A2 // connect ir sensor to arduino pin 2 (middle one)
-#define IR_RIGHT = A1 // connect ir sensor to arduino pin 2 (middle one)
+#define IR_LEFT A3 // connect ir sensor to arduino pin 2 (left one)
+#define IR_MIDDLE A2 // connect ir sensor to arduino pin 2 (middle one)
+#define IR_RIGHT A1 // connect ir sensor to arduino pin 2 (middle one)
 int statusSensorLeft;
 int statusSensorMiddle;
 int statusSensorRight;
