@@ -20,7 +20,7 @@
 #define LEFT_LPWM 11
 #define LEFT_REN 2
 #define LEFT_LEN 3
-// Ultraschall vorne
+// Ultraschall vorne/MITTE
 #define TRIGGER_VORNE 12 //Ultraschallsensor vorne Trigger Pin 
 #define ECHO_VORNE 13    //Ultraschallsensor vorne Echo Pin 
 // Ultraschall links
@@ -32,8 +32,13 @@
 //Hall Sensor
 #define Hall_Sensor A0          //analog output (optional)
 #define Hall_Sensor_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
+//Infrarot Sensor
+int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
+int ir_right = A1;
+
 
 // - Daten -
+
 int outLeft; 
 int outRight;
 // alte trash logic dinger
@@ -48,9 +53,6 @@ int hindernisLinks;
 int hindernisRechts;
 //Hall Sensor
 int Hall_Val1=0,Hall_Val2=0;
-//Infrarot Sensor
-int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
-int ir_right = A1;
 // Ultraschall
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
