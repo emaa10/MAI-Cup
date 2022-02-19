@@ -1,21 +1,22 @@
-//test v1 - noch nichts besonderes
+/* This code is to be used with KY-024 Hall effect sensor
+ * It displays both Analog and Digital values given by the sensor
+ * Refer to www.surtrtech.com for more details
+ */
 
-//int statusLed = 12 ; // PIN für die LED zur anzeige des Sensor zustandes
-int magnetSensor = A0; // PIN für den Magnetischen Hall Sensors
- 
-void setup () {
-  pinMode (magnetSensor, INPUT);  // definieren des PIN's für den Sensor als Eingangssignal
+#define Hall_Sensor A0          //A0 used with analog output, D2 with digital output
+#define Hall_Sensor_D A2
+
+int Hall_Val1=0,Hall_Val2=0;             //Here you can store both values, the Val2 can be boolean
+
+
+void setup() {
   Serial.begin(9600);
+  pinMode(Hall_Sensor_D,INPUT);
 }
- 
-void loop (){
-int magnetSignal = digitalRead (magnetSensor) ; // Lesen des Zustandes des Sensors.
-  if (magnetSignal == LOW){ //Wenn dieser AN ist dann soll die StatusLed leuchten.
-    Serial.println("led high");
-//    digitalWrite (statusLed, HIGH);
-  } 
-  else { //Wenn dieser AUS ist dann soll die StatusLed NICHT leuchten.
-//    digitalWrite (statusLed, LOW);
-    Serial.println("led low");
-  }
+
+void loop() {
+   Hall_Val2=digitalRead(Hall_Sensor_D);
+   if(Hall_Val2 == 0) {
+      Serial.println("MAGNET GESICHTET");
+    }
 }
