@@ -2,7 +2,6 @@ int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
 int ir_middle = A2;
 int ir_right = A1;
 
-
 void setup() 
 {
   pinMode (ir_left, INPUT); // sensor pin INPUT
@@ -25,6 +24,8 @@ void loop()
   {
     Serial.println("Left Hindernis issda");
   }
+
+  
   if (statusSensorMiddle == 1) {
     Serial.println("MItte kein Hindernis");
   }
@@ -33,6 +34,7 @@ void loop()
   {
     Serial.println("Mitte Hindernis issda");
   }
+
   
   if (statusSensorRight == 1) {
     Serial.println("Recgts kein Hindernis");
