@@ -70,7 +70,7 @@ int entfernungRechtsOld;
 
 void motorAnsteuern() {
   analogWrite(RIGHT_LPWM,outRight); //Schreibe Geschwindigkeit auf Pins
-  analogWrite(RIGHT_RPWM,0);        //Schreibe Geschwindigkeit auf Pins
+  analogWrite(RIGHT_RPWM,0);        //Schreibe Geschwindigkeit auf Pins9
   analogWrite(LEFT_LPWM,outLeft);   //Schreibe Geschwindigkeit auf Pins
   analogWrite(LEFT_RPWM,0);         //Schreibe Geschwindigkeit auf Pins
 }
@@ -78,30 +78,32 @@ void motorAnsteuern() {
 void magnetLesen() {
   Hall_Val2=digitalRead(HALL_SENSOR_D);
   if(Hall_Val2 == 0) {
-    Serial.print("MAGNET GESICHTET"); // das hier wird nur zum loggen ausgeführt, man kann danach die hall_val2 trz abfragen für eine andere aktion
+    Serial.print("Ja"); // das hier wird nur zum loggen ausgeführt, man kann danach die hall_val2 trz abfragen für eine andere aktion
+  } else {
+    Serial.print("Nein");
   }
-  Serial.println("\t");
+  Serial.println("   ");
 }
 
 void linieLinks() {
   int statusSensorLeft = digitalRead(ir_left);
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
-    Serial.print("Left kein Hindernis");
-    Serial.print("\t");
+    Serial.print("Ja");
+    Serial.print("   ");
   } else {
-    Serial.print("Left Hindernis issda");
-    Serial.print("\t");
+    Serial.print("Nein");
+    Serial.print("   ");
   }
 }
 
 void linieRechts() {
   int statusSensorRight = digitalRead(ir_right);
   if(statusSensorRight == 1) {
-    Serial.print("Rechts kein Hindernis");
-    Serial.print("\t");
+    Serial.print("Ja");
+    Serial.print("   ");
   } else
-    Serial.print("Rechts Hindernis issda");
-    Serial.print("\t");
+    Serial.print("Nein");
+    Serial.print("   ");
 }
 
 /*
@@ -111,7 +113,7 @@ void fahrenBeide() {
   outLeft = 105; //Setze Geschwindigkeit links auf 100
   outRight = 110; //Setze Geschwindigkeit rechts auf 100
   motorAnsteuern();
-  Serial.println("fahren beide laut Methode");
+//  Serial.println("fahren beide laut Methode");
 }
 
 /*
@@ -137,12 +139,13 @@ void entfernungMessenVorne() {
   entfernungVorne = (long)((dauerVorne/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungVorne >= 500 || entfernungVorne <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
-    Serial.println("Kein Messwert vorne"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
+    Serial.print("o/A"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
     Serial.print(entfernungVorne); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
-    Serial.println(" cm Vorne"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
+  //  Serial.println(" cm Vorne"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
+  Serial.print(" cm   ");
 }
 
 void entfernungMessenLinks() {
@@ -156,14 +159,16 @@ void entfernungMessenLinks() {
   entfernungLinks = (long)((dauerLinks/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungLinks >= 500 || entfernungLinks <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
-    Serial.println("Kein Messwert links"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
+    Serial.print("o/A"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
     Serial.print(entfernungLinks); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
-    Serial.println(" cm Links"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
+  //  Serial.print(" cm Links"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
+  Serial.print(" cm   ");
   Serial.print(entfernungLinksOld);
-  Serial.println(" Alte Entfernung links");
+  Serial.print(" cm   ");
+  //Serial.println(" Alte Entfernung links");
 }
 
 
@@ -178,14 +183,15 @@ void entfernungMessenRechts() {
   entfernungRechts = (long)((dauerRechts/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungRechts >= 500 || entfernungRechts <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
-    Serial.println("Kein Messwert rechts"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
+    Serial.print("o/A"); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
     Serial.print(entfernungRechts); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
-    Serial.println(" cm Rechts"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
+  //  Serial.println(" cm Rechts"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
+  Serial.print(" cm   ")
   Serial.print(entfernungRechtsOld);
-  Serial.println(" Alte Entfernung rechts");
+  Serial.print(" cm   ");
 }
 
 void umdrehungZeit() {
@@ -280,8 +286,8 @@ void setup() {
  * Main Loop
  */
 void loop() {
-  entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
-  entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
+  entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
+  entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
   entfernungMessenRechts();
   linieLinks();
   linieRechts();
