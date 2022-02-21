@@ -339,6 +339,8 @@ void loop() {
     kurzerAusgleichNachRechts();
     //Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
   }
+  int statusSensorLeft = digitalRead(ir_left);
+  int statusSensorRight = digitalRead(ir_Right);
   //linienabfrage:
   if (statusSensorLeft == 1) { //wenn sensor links auf linie ist
     halbUmdrehungLinks(); //soll er nach links fahren weil er ja nur die abbiegung wahrnimmt
