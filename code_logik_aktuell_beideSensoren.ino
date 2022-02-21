@@ -328,7 +328,7 @@ void loop() {
       fahrenBeide();
     }
   }
-
+  //test
   //gerade fahren skript beginn
 
   if (entfernungRechtsOld > entfernungRechts) { //er speichert alle 200ms die alte und die neue entfernung und vergleicht beide variablen dann. wenn rechts vorher weiter weg war, nähert er sich nach rechts an und fährt nun nach links (nur kurz). umgekehrt halt genauso
