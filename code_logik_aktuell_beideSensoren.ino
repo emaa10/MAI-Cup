@@ -189,7 +189,7 @@ void entfernungMessenRechts() {
     Serial.print(entfernungRechts); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
   //  Serial.println(" cm Rechts"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
-  Serial.print(" cm   ")
+  Serial.print(" cm   ");
   Serial.print(entfernungRechtsOld);
   Serial.print(" cm   ");
 }
