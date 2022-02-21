@@ -70,7 +70,7 @@ int entfernungRechtsOld;
 
 void infoSerial() { //existiert nur für einen überblick über die ausgaben
   //Serial.println("41 cm   41 cm   5 cm   22 cm   23 cm   Nein   Nein   Nein");
-  Serial.println("Left  - Leftold-Vorne - R neu - R old  left - right - magnet      left/right -> Linie")
+  Serial.println("Left  - Leftold-Vorne - R neu - R old  left - right - magnet      left/right -> Linie");
 }
 
 void motorAnsteuern() {
