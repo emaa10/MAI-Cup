@@ -344,9 +344,11 @@ void loop() {
   //linienabfrage:
   if (statusSensorLeft == 1) { //wenn sensor links auf linie ist
     halbUmdrehungLinks(); //soll er nach links fahren weil er ja nur die abbiegung wahrnimmt
+    Serial.println("Fährt 90° nach Links weil Linie");
   }
   if (statusSensorRight == 1) {
     halbUmdrehungRechts();
+    Serial.println("Fährt 90° nach Rechts weil Linie");
   }
 
   infoSerial();
