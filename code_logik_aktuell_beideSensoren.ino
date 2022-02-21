@@ -93,10 +93,10 @@ void magnetLesen() {
 void linieLinks() {
   int statusSensorLeft = digitalRead(ir_left);
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
-    Serial.print("Ja");
+    Serial.print("Nein");
     Serial.print("   ");
   } else {
-    Serial.print("Nein");
+    Serial.print("Ja");
     Serial.print("   ");
   }
 }
@@ -104,10 +104,10 @@ void linieLinks() {
 void linieRechts() {
   int statusSensorRight = digitalRead(ir_right);
   if(statusSensorRight == 1) {
-    Serial.print("Ja");
+    Serial.print("Nein");
     Serial.print("   ");
   } else
-    Serial.print("Nein");
+    Serial.print("Ja");
     Serial.print("   ");
 }
 
@@ -202,7 +202,7 @@ void entfernungMessenRechts() {
 void umdrehungZeit() {
     delay(830);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
 }
-
+// outdated
 void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
     delay(100);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE UMDREHUNG
 }
