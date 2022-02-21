@@ -339,8 +339,16 @@ void loop() {
     kurzerAusgleichNachRechts();
     //Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
   }
+  //linienabfrage:
+  if (statusSensorLeft == 1) { //wenn sensor links auf linie ist
+    halbUmdrehungLinks(); //soll er nach links fahren weil er ja nur die abbiegung wahrnimmt
+  }
+  if (statusSensorRight == 1) {
+    halbUmdrehungRechts();
+  }
+
   infoSerial();
-  delay(200); //zum Testen, könnten wir gut dalassen
+  //delay(200); //zum Testen, könnten wir gut dalassen
   hindernisLinks = 0;
   hindernisRechts = 0;
 }
