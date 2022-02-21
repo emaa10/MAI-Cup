@@ -70,7 +70,7 @@ int entfernungRechtsOld;
 
 void infoSerial() { //existiert nur für einen überblick über die ausgaben
   //Serial.println("41 cm   41 cm   5 cm   22 cm   23 cm   Nein   Nein   Nein");
-  Serial.println("Left  - Leftold-Vorne - R neu - R old  left - right - magnet      left/right -> Linie");
+  //Serial.println("Left  - Leftold-Vorne - R neu - R old  left - right - magnet      left/right -> Linie");
 }
 
 void motorAnsteuern() {
@@ -315,15 +315,15 @@ void loop() {
     else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
       halbUmdrehungRechts();
       fahrenBeide();
-      Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
+      //Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
     }
     else if (hindernisRechts == 1) { 
       halbUmdrehungLinks();
       fahrenBeide();
-      Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
+      //Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
     }
     else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
-      Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
+      //Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
       halbUmdrehungRechts();
       fahrenBeide();
     }
@@ -333,11 +333,11 @@ void loop() {
 
   if (entfernungRechtsOld > entfernungRechts) { //er speichert alle 200ms die alte und die neue entfernung und vergleicht beide variablen dann. wenn rechts vorher weiter weg war, nähert er sich nach rechts an und fährt nun nach links (nur kurz). umgekehrt halt genauso
     kurzerAusgleichNachLinks();
-    Serial.println("----- INFO: Rechts war davor weiter weg, daher fährt er kurz nach links");
+    //Serial.println("----- INFO: Rechts war davor weiter weg, daher fährt er kurz nach links");
   }
   if (entfernungRechts > entfernungRechtsOld) {
     kurzerAusgleichNachRechts();
-    Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
+    //Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
   }
   infoSerial();
   delay(200); //zum Testen, könnten wir gut dalassen
