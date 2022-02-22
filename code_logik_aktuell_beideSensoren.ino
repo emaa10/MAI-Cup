@@ -38,7 +38,7 @@ int ir_right = A1;
 
 
 // - Daten -
-
+//motor
 int outLeft; 
 int outRight;
 // alte trash logic dinger
@@ -65,6 +65,8 @@ long entfernungRechts=0;
 
 int entfernungLinksOld; //alte variable wird hier gespeichert
 int entfernungRechtsOld;
+//technik
+int durchgangCounter=0;
 
 // - Methoden -
 
@@ -291,6 +293,8 @@ void setup() {
  * Main Loop
  */
 void loop() {
+  durchgangCounter++;
+  //Serial.print(durchgangCounter);
   entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
   entfernungMessenRechts();
@@ -345,22 +349,28 @@ void loop() {
   int statusSensorRight = digitalRead(ir_right);
   if (statusSensorLeft == 1) { //wenn sensor links auf linie ist
     halbUmdrehungLinks(); //soll er nach links fahren weil er ja nur die abbiegung wahrnimmt
-    Serial.println("Fährt 90° nach Links weil Linie");
+    //Serial.println("Fährt 90° nach Links weil Linie");
   }
   if (statusSensorRight == 1) {
     halbUmdrehungRechts();
-    Serial.println("Fährt 90° nach Rechts weil Linie");
-  }
-  //in der mitte fahren test
-  if (entfernungLinks < 500 && entfernungLinks > 0 && entfernungRechts < 500 && entfernungRechts > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
-    if (entfernungLinks > entfernungRechts) { //wenn links weiter weg ist als rechts
-      kurzerAusgleichNachLinks(); //fährt kurz nach links als ausgleich
-    }
-    if (entfernungRechts > entfernungLinks) { //wenn rechts weiter weg ist als links
-      kurzerAusgleichNachRechts();
-    }
+    //Serial.println("Fährt 90° nach Rechts weil Linie");
   }
 
+
+  //in der mitte fahren test
+  if (durchgangCounter == 10) {
+    if (entfernungLinks < 500 && entfernungLinks > 0 && entfernungRechts < 500 && entfernungRechts > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
+      if (entfernungLinks > entfernungRechts) { //wenn links weiter weg ist als rechts
+        kurzerAusgleichNachLinks(); //fährt kurz nach links als ausgleich
+        //Serial.print("Will nach links ausgleichen");
+      }
+      if (entfernungRechts > entfernungLinks) { //wenn rechts weiter weg ist als links
+        kurzerAusgleichNachRechts();
+        //Serial.print("Will nach RECHTS ausgleichen");
+      }
+    } 
+    durchgangCounter = 0;
+  }
   infoSerial(); //Zeigt bei der Ausgabe tipps für die Spalten an
   //delay(200); //zum Testen, könnten wir gut dalassen
   hindernisLinks = 0;
