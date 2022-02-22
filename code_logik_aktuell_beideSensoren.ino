@@ -339,9 +339,10 @@ void loop() {
     kurzerAusgleichNachRechts();
     //Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
   }
+
+  //linienabfrage start
   int statusSensorLeft = digitalRead(ir_left);
   int statusSensorRight = digitalRead(ir_right);
-  //linienabfrage:
   if (statusSensorLeft == 1) { //wenn sensor links auf linie ist
     halbUmdrehungLinks(); //soll er nach links fahren weil er ja nur die abbiegung wahrnimmt
     Serial.println("Fährt 90° nach Links weil Linie");
@@ -350,8 +351,17 @@ void loop() {
     halbUmdrehungRechts();
     Serial.println("Fährt 90° nach Rechts weil Linie");
   }
+  //in der mitte fahren test
+  if (entfernungLinks < 500 && entfernungLinks > 0 && entfernungRechts < 500 && entfernungRechts > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
+    if (entfernungLinks > entfernungRechts) { //wenn links weiter weg ist als rechts
+      kurzerAusgleichNachLinks(); //fährt kurz nach links als ausgleich
+    }
+    if (entfernungRechts > entfernungLinks) { //wenn rechts weiter weg ist als links
+      kurzerAusgleichNachRechts();
+    }
+  }
 
-  infoSerial();
+  infoSerial(); //Zeigt bei der Ausgabe tipps für die Spalten an
   //delay(200); //zum Testen, könnten wir gut dalassen
   hindernisLinks = 0;
   hindernisRechts = 0;
