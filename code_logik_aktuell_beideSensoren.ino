@@ -243,6 +243,15 @@ void kurzerAusgleichNachRechts() {
   motorAnsteuern();
 }
 
+void linieVerfolgen() {
+  int statusSensorLeft = digitalRead(ir_left);
+  if(statusSensorLeft == 1) {
+    outLeft = 0;
+    outRight = 200;
+    motorAnsteuern();
+  }
+}
+
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
 // ------------------------------------------------------------------------------------
@@ -348,12 +357,10 @@ void loop() {
   int statusSensorLeft = digitalRead(ir_left);
   int statusSensorRight = digitalRead(ir_right);
   if (statusSensorLeft == 1) { //wenn sensor links auf linie ist
-    halbUmdrehungLinks(); //soll er nach links fahren weil er ja nur die abbiegung wahrnimmt
-    //Serial.println("Fährt 90° nach Links weil Linie");
+    linieVerfolgen();
   }
   if (statusSensorRight == 1) {
-    halbUmdrehungRechts();
-    //Serial.println("Fährt 90° nach Rechts weil Linie");
+    linieVerfolgen();
   }
 
 
@@ -377,4 +384,4 @@ void loop() {
   hindernisRechts = 0;
 }
 //Code Ende
-// test vscode 3
+// test vscode 3 3
