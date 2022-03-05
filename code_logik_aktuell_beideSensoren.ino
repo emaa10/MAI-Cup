@@ -245,9 +245,14 @@ void kurzerAusgleichNachRechts() {
 
 void linieVerfolgen() {
   int statusSensorLeft = digitalRead(ir_left);
+  int statusSensorRight = digitalRead(ir_right);
   if(statusSensorLeft == 1) {
     outLeft = 0;
     outRight = 200;
+    motorAnsteuern();
+  } if(statusSensorRight == 1) {
+    outLeft = 200;
+    outRight == 0;
     motorAnsteuern();
   }
 }
@@ -302,7 +307,7 @@ void setup() {
  * Main Loop
  */
 void loop() {
-  durchgangCounter++;
+  durchgangCounter++; //eigentlich schwachsinn funktioniert aber
   //Serial.print(durchgangCounter);
   entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
@@ -342,8 +347,8 @@ void loop() {
     }
   }
   //test
-  //gerade fahren skript beginn
 
+  //gerade fahren skript beginn
   if (entfernungRechtsOld > entfernungRechts) { //er speichert alle 200ms die alte und die neue entfernung und vergleicht beide variablen dann. wenn rechts vorher weiter weg war, nähert er sich nach rechts an und fährt nun nach links (nur kurz). umgekehrt halt genauso
     kurzerAusgleichNachLinks();
     //Serial.println("----- INFO: Rechts war davor weiter weg, daher fährt er kurz nach links");
@@ -353,15 +358,14 @@ void loop() {
     //Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
   }
 
+
   //linienabfrage start
   int statusSensorLeft = digitalRead(ir_left);
   int statusSensorRight = digitalRead(ir_right);
-  if (statusSensorLeft == 1) { //wenn sensor links auf linie ist
+  if (statusSensorLeft == 1 || statusSensorRight == 1) { //wenn sensor links oder redchts auf linie ist
     linieVerfolgen();
-  }
-  if (statusSensorRight == 1) {
-    linieVerfolgen();
-  }
+    fahrenBeide();
+  }  
 
 
   //in der mitte fahren test
