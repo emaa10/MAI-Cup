@@ -264,6 +264,7 @@ void linieLinks() { //Sensor links
     outLeft = 0; //setz die Motoren auf die drehung
     outRight = 200;
     motorAnsteuern();
+    Serial.println("Dreht sich jez rechts auf 200, links 0");
     for (int i=0; i <= 830; i++){ //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
       delay(1); //das besagte delay
       if (statusSensorRight == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
@@ -271,11 +272,13 @@ void linieLinks() { //Sensor links
           outLeft = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outRight = 0;
           motorAnsteuern(); 
+          Serial.println("Dreht sich jez links auf 200, rechts 0");
         } 
       }
     }
     outLeft = 0; //er richtet sich wieder aus um die Linie gerade zu verfolgen
     outRight = 200;
+    Serial.println("Dreht sich jez links auf 0, rechts 200");
     delay(30);
     motorAnsteuern();
     //delay(30); //Zeit der drehung zum wieder auf linie ausrichten idk
@@ -292,6 +295,7 @@ void linieRechts() { //Sensor rechts
     outRight = 0; //setz die Motoren auf die drehung
     outLeft = 200;
     motorAnsteuern();
+    Serial.println("Dreht sich jez rechts auf 0, links 200");
     for (int i=0; i <= 830; i++){ //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
       delay(1); //das besagte delay
       if (statusSensorLeft == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
@@ -299,11 +303,13 @@ void linieRechts() { //Sensor rechts
           outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outLeft = 0;
           motorAnsteuern(); 
+          Serial.println("Dreht sich jez rechts auf 200, links 0");
         } 
       }
     }
     outRight = 0; //er richtet sich wieder aus um die Linie gerade zu verfolgen
     outLeft = 200;
+    Serial.println("Dreht sich jez rechts auf 0, links 200");
     delay(30);
     motorAnsteuern();
     //delay(30); //Zeit der drehung zum wieder auf linie ausrichten idk
@@ -311,3 +317,51 @@ void linieRechts() { //Sensor rechts
     Serial.print("Boden");
     Serial.print("   ");
   }
+
+
+
+//sus
+
+void setup {
+  Serial.begin(9600); //Starte den Serial Monitor
+  // Motor rechts
+  pinMode(RIGHT_RPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(RIGHT_LPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(RIGHT_LEN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(RIGHT_REN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  digitalWrite(RIGHT_REN,HIGH); //Pin beschreiben
+  digitalWrite(RIGHT_LEN,HIGH); //Pin beschreiben
+  // Motor links
+  pinMode(LEFT_RPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(LEFT_LPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(LEFT_LEN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(LEFT_REN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  digitalWrite(LEFT_REN,HIGH); //Pin beschreiben
+  digitalWrite(LEFT_LEN,HIGH); //Pin beschreiben
+  // Abstandssensor vorne
+  pinMode(TRIGGER_VORNE, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pinMode(ECHO_VORNE, INPUT); // Echo-Pin ist ein Eingang
+  // Abstandssensor links
+  pinMode(TRIGGER_LINKS, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pinMode(ECHO_LINKS, INPUT); // Echo-Pin ist ein Eingang
+  // Abstandssensor rechts
+  pinMode(TRIGGER_RECHTS, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pinMode(ECHO_RECHTS, INPUT); // Echo-Pin ist ein Eingang
+  // Infrarotsensoren
+  pinMode(ir_left, INPUT); // sensor pin INPUT
+  pinMode(ir_right, INPUT); // sensor pin INPUT
+  // Hall Sensor
+  pinMode(HALL_SENSOR_D,INPUT);
+
+  
+  Serial.println("----- INFO: Pins gesetzt");
+  fahrenBeide(); //Bot startet das Fahren
+  Serial.println("----- INFO: Im Setup Fahren gestartet");
+  delay(1500); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
+}
+
+//ab hier void loop
+void loop {
+  linieLinks();
+  linieRechts();
+}
