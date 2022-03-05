@@ -270,13 +270,16 @@ void linieLinks() { // Sensor links
         for (statusSensorLeft == 1) {//wenn eben dieser Fall eintritt dreht er sich wieder zurück auf die linie und da es im loop ist wird dadurch die linie auch verfolgt
           outLeft = 200;//gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outRight = 0;
-          motorAnsteuern(); }
-        outLeft = 0;//er richtet sich wieder aus um die Linie gerade zu verfolgen
-        outRight = 200;
+          motorAnsteuern(); 
+        } 
+      }
+      outLeft = 0;//er richtet sich wieder aus um die Linie gerade zu verfolgen
+      outRight = 200;
+      delay (30)
         motorAnsteuern();
         //delay(30);//Zeit der drehung zum wieder auf linie ausrichten idk
-
-  } else {
+    }
+  else {
     Serial.print("Boden");
     Serial.print("   ");
   }
