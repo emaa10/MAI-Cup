@@ -85,26 +85,6 @@ void magnetLesen() {
   Serial.println("   ");
 }
 
-void linieLinks() {
-  int statusSensorLeft = digitalRead(ir_left);
-  if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
-    Serial.print("Linie");
-    Serial.print("   ");
-  } else {
-    Serial.print("Boden");
-    Serial.print("   ");
-  }
-}
-
-void linieRechts() {
-  int statusSensorRight = digitalRead(ir_right);
-  if(statusSensorRight == 1) {
-    Serial.print("Linie");
-    Serial.print("   ");
-  } else
-    Serial.print("Boden");
-    Serial.print("   ");
-}
 
 /*
  * Motoren starten (beiden fahren)
@@ -253,9 +233,7 @@ void linieVerfolgen() {
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                                                     Ende der Methoden
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-void umdrehungZeit() {
-    delay(830);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
-}
+
 void linieLinks() { //Sensor links
   int statusSensorLeft = digitalRead(ir_left); //funktioniert
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
@@ -267,8 +245,12 @@ void linieLinks() { //Sensor links
     Serial.println("Dreht sich jez rechts auf 200, links 0");
     for (int i=0; i <= 830; i++){ //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
       delay(1); //das besagte delay
+      int statusSensorLeft = digitalRead(ir_left); //funktioniert
+      int statusSensorRight = digitalRead(ir_right); //funktioniert
       if (statusSensorRight == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
         for (statusSensorLeft == 1) {//wenn eben dieser Fall eintritt dreht er sich wieder zurück auf die linie und da es im loop ist wird dadurch die linie auch verfolgt
+          int statusSensorLeft = digitalRead(ir_left); //funktioniert
+          int statusSensorRight = digitalRead(ir_right); //funktioniert
           outLeft = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outRight = 0;
           motorAnsteuern(); 
@@ -288,7 +270,8 @@ void linieLinks() { //Sensor links
   }
 
 void linieRechts() { //Sensor rechts
-  int statusSensorRight = digitalRead(ir_Right); //funktioniert jajaja
+  int statusSensorLeft = digitalRead(ir_left); //funktioniert
+  int statusSensorRight = digitalRead(ir_right); //funktioniert
   if(statusSensorRight == 1) { // diese abfrage kann man später auch noch verwenden
     Serial.print("Linie");
     Serial.print("   "); //serial monitor bestätigt kann mit fahr code anfangen
@@ -298,8 +281,12 @@ void linieRechts() { //Sensor rechts
     Serial.println("Dreht sich jez rechts auf 0, links 200");
     for (int i=0; i <= 830; i++){ //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
       delay(1); //das besagte delay
+      int statusSensorLeft = digitalRead(ir_left); //funktioniert
+      int statusSensorRight = digitalRead(ir_right); //funktioniert
       if (statusSensorLeft == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
         for (statusSensorRight == 1) {//wenn eben dieser Fall eintritt dreht er sich wieder zurück auf die linie und da es im loop ist wird dadurch die linie auch verfolgt
+          int statusSensorLeft = digitalRead(ir_left); //funktioniert
+          int statusSensorRight = digitalRead(ir_right); //funktioniert
           outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outLeft = 0;
           motorAnsteuern(); 
