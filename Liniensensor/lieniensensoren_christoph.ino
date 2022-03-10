@@ -358,7 +358,7 @@ void setup() {
 }
 
 //ab hier void loop
-void loop {
+void loop() {
   linieLinks();
   linieRechts();
 }
