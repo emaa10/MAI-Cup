@@ -319,7 +319,7 @@ void linieRechts() { //Sensor rechts
 
 //sus
 
-void setup {
+void setup() {
   Serial.begin(9600); //Starte den Serial Monitor
   // Motor rechts
   pinMode(RIGHT_RPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
