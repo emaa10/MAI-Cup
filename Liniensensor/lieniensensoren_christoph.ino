@@ -249,8 +249,8 @@ void linieLinks() { //Sensor links
       int statusSensorRight = digitalRead(ir_right); //funktioniert
       if (statusSensorRight == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
         for (int i=0; i <= 99999999999; i++)
-          int statusSensorLeft = digitalRead(ir_left)
-          int StatusSensorRight = digitalRead(ir=right)
+          int statusSensorLeft = digitalRead(ir_left);
+          int StatusSensorRight = digitalRead(ir_right);
           outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outLeft = 0;
           motorAnsteuern(); 
