@@ -256,12 +256,12 @@ void linieLinks() { //Sensor links
           motorAnsteuern(); 
           Serial.println("Dreht sich jez rechts auf 200, links 0");
           if (statusSensorLeft == 1) {
-            break
+            break;
           }
         }
       }
     }
-  }
+  
     outLeft = 0; //er richtet sich wieder aus um die Linie gerade zu verfolgen
     outRight = 200;
     Serial.println("Dreht sich jez links auf 0, rechts 200");
