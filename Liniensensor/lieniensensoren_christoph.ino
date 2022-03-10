@@ -289,21 +289,21 @@ void linieRechts() { //Sensor rechts
       int statusSensorLeft = digitalRead(ir_left); //funktioniert
       int statusSensorRight = digitalRead(ir_right); //funktioniert
       if (statusSensorLeft == 1) { //check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
-        for (int i=0; i <= 99999999999; i++)
-          int statusSensorLeft = digitalRead(ir_left)
-          int StatusSensorRight = digitalRead(ir=right)
+        for (int i=0; i <= 99999999999; i++) {
+          int statusSensorLeft = digitalRead(ir_left);
+          int StatusSensorRight = digitalRead(ir_right);
           outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outLeft = 0;
           motorAnsteuern(); 
           Serial.println("Dreht sich jez rechts auf 200, links 0");
-          if (statusSensorRight == 1)
-            break
-            }
-          }          
+          if (statusSensorRight == 1) {
+            break;
+          }
         }
-
       }
-    }
+    }          
+  }
+
     outRight = 0; //er richtet sich wieder aus um die Linie gerade zu verfolgen
     outLeft = 200;
     Serial.println("Dreht sich jez rechts auf 0, links 200");
