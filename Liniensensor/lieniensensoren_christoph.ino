@@ -243,19 +243,22 @@ void linieLinks() { //Sensor links
     outRight = 200;
     motorAnsteuern();
     Serial.println("Dreht sich jez rechts auf 200, links 0");
-    for (int i=0; i <= 830; i++){ //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
+    for (int i=0; i <= 830; i++) { //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
       delay(1); //das besagte delay
       int statusSensorLeft = digitalRead(ir_left); //funktioniert
       int statusSensorRight = digitalRead(ir_right); //funktioniert
       if (statusSensorRight == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
-        for (statusSensorLeft == 1) {//wenn eben dieser Fall eintritt dreht er sich wieder zurück auf die linie und da es im loop ist wird dadurch die linie auch verfolgt
-          int statusSensorLeft = digitalRead(ir_left); //funktioniert
-          int statusSensorRight = digitalRead(ir_right); //funktioniert
-          outLeft = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
-          outRight = 0;
+        for (int i=0; i <= 99999999999; i++)
+          int statusSensorLeft = digitalRead(ir_left)
+          int StatusSensorRight = digitalRead(ir=right)
+          outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
+          outLeft = 0;
           motorAnsteuern(); 
-          Serial.println("Dreht sich jez links auf 200, rechts 0");
-        } 
+          Serial.println("Dreht sich jez rechts auf 200, links 0");
+          if (statusSensorLeft == 1)
+            break
+    }
+}
       }
     }
     outLeft = 0; //er richtet sich wieder aus um die Linie gerade zu verfolgen
@@ -283,15 +286,20 @@ void linieRechts() { //Sensor rechts
       delay(1); //das besagte delay
       int statusSensorLeft = digitalRead(ir_left); //funktioniert
       int statusSensorRight = digitalRead(ir_right); //funktioniert
-      if (statusSensorLeft == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
-        for (statusSensorRight == 1) {//wenn eben dieser Fall eintritt dreht er sich wieder zurück auf die linie und da es im loop ist wird dadurch die linie auch verfolgt
-          int statusSensorLeft = digitalRead(ir_left); //funktioniert
-          int statusSensorRight = digitalRead(ir_right); //funktioniert
+      if (statusSensorLeft == 1) { //check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
+        for (int i=0; i <= 99999999999; i++)
+          int statusSensorLeft = digitalRead(ir_left)
+          int StatusSensorRight = digitalRead(ir=right)
           outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
           outLeft = 0;
           motorAnsteuern(); 
           Serial.println("Dreht sich jez rechts auf 200, links 0");
-        } 
+          if (statusSensorRight == 1)
+            break
+            }
+          }          
+        }
+
       }
     }
     outRight = 0; //er richtet sich wieder aus um die Linie gerade zu verfolgen
