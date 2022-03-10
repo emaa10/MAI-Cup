@@ -302,7 +302,6 @@ void linieRechts() { //Sensor rechts
         }
       }
     }          
-  }
 
     outRight = 0; //er richtet sich wieder aus um die Linie gerade zu verfolgen
     outLeft = 200;
@@ -314,6 +313,7 @@ void linieRechts() { //Sensor rechts
     Serial.print("Boden");
     Serial.print("   ");
   }
+}
 
 
 
