@@ -230,25 +230,30 @@ void linieVerfolgen() {
   }
 }
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                                                    Ende der Methoden
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+void LEDan() { //definiert die Methode zum anschalten der LED
+    analogWrite(a == 1) //Setz den Analogen pin auf 1
+}
+
+void LEDaus() {//definiert die Methode zum ausschalten der LED
+    analogWrite(a==0) // Setz den Analogen pin auf 0
+}
+
 
 void linieLinks() { //Sensor links
   int statusSensorLeft = digitalRead(ir_left); //funktioniert
-  if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
+  if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwendens
     Serial.print("Linie");
     Serial.print("   "); //serial monitor bestätigt kann mit fahr code anfangen
     outLeft = 0; //setz die Motoren auf die drehung
     outRight = 200;
     motorAnsteuern();
     Serial.println("Dreht sich jez rechts auf 200, links 0");
-    for (int i=0; i <= 830; i++) { //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
+    for (while True:) { //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
       delay(1); //das besagte delay
       int statusSensorLeft = digitalRead(ir_left); //funktioniert
       int statusSensorRight = digitalRead(ir_right); //funktioniert
       if (statusSensorRight == 1) {//check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
-        for (int i=0; i <= 99999999999; i++) {
+        for (int i=0; i <= isfinite(x); i++) {
           int statusSensorLeft = digitalRead(ir_left);
           int StatusSensorRight = digitalRead(ir_right);
           outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
@@ -289,7 +294,7 @@ void linieRechts() { //Sensor rechts
       int statusSensorLeft = digitalRead(ir_left); //funktioniert
       int statusSensorRight = digitalRead(ir_right); //funktioniert
       if (statusSensorLeft == 1) { //check in der Schleife ob nicht der andere sensor die Linie erkennnt, denn das würde bedeuten das er dieser noch folgen müsste
-        for (int i=0; i <= 99999999999; i++) {
+        for (while True:) {
           int statusSensorLeft = digitalRead(ir_left);
           int StatusSensorRight = digitalRead(ir_right);
           outRight = 200; //gibt den Motor das Signal sich wieder zurück zu drehen und weiter der Linie zu folgen
@@ -315,9 +320,10 @@ void linieRechts() { //Sensor rechts
   }
 }
 
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                    Ende der Methoden
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-
-//sus
 
 void setup() {
   Serial.begin(9600); //Starte den Serial Monitor
@@ -359,6 +365,54 @@ void setup() {
 
 //ab hier void loop
 void loop() {
-  linieLinks();
-  linieRechts();
+  entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
+  entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
+    ntfernungMessenRechts();
+  if (entfernungVorne <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+    stehenbleiben(); //direkt stehenbleiben
+      if (entfernungLinks <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
+      hindernisLinks = 1;
+    }
+    if (entfernungRechts <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+    hindernisRechts = 1;
+    }
+
+
+    //Abfrage start 
+    if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
+      stehenbleiben();
+      Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
+    }
+    else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
+      halbUmdrehungRechts();
+      fahrenBeide();
+      Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
+    }
+    else if (hindernisRechts == 1) { 
+      halbUmdrehungLinks();
+      fahrenBeide();
+      Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
+    }
+    else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
+      Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
+      halbUmdrehungRechts();
+      fahrenBeide();
+    }
+  }
+
+  //gerade fahren skript beginn
+
+  if (entfernungRechtsOld > entfernungRechts) { //er speichert alle 200ms die alte und die neue entfernung und vergleicht beide variablen dann. wenn rechts vorher weiter weg war, nähert er sich nach rechts an und fährt nun nach links (nur kurz). umgekehrt halt genauso
+    kurzerAusgleichNachLinks();
+    Serial.println("----- INFO: Rechts war davor weiter weg, daher fährt er kurz nach links");
+  }
+  if (entfernungRechts > entfernungRechtsOld) {
+    kurzerAusgleichNachRechts();
+    Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
+  }
+  delay(200); //zum Testen
+  hindernisLinks = 0;
+  hindernisRechts = 0;
 }
+//Code Ende
+// test vscode 2 und test githu
