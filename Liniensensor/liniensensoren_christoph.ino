@@ -44,6 +44,7 @@ int logicLeft2; //Temporärer Speicher bei der Kurve
 // neue logic checks
 int hindernisLinks;
 int hindernisRechts;
+int magnetsensor;
 //Hall Sensor
 int Hall_Val1=0,Hall_Val2=0;
 // Ultraschall
@@ -79,8 +80,10 @@ void magnetLesen() {
   Hall_Val2=digitalRead(HALL_SENSOR_D);
   if(Hall_Val2 == 0) {
     Serial.print("Ja"); // das hier wird nur zum loggen ausgeführt, man kann danach die hall_val2 trz abfragen für eine andere aktion
+    magnetsensor =  1;
   } else {
     Serial.print("Nein");
+    magnetsensor = 0
   }
   Serial.println("   ");
 }
@@ -409,10 +412,17 @@ void loop() {
   if (entfernungRechts > entfernungRechtsOld) {
     kurzerAusgleichNachRechts();
     Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
-  }
+  
+  if (magnetsensor == 1) { //LED an-aus
+    LEDan()
+  
+  else
+  LEDaus()
+  {
   delay(200); //zum Testen
   hindernisLinks = 0;
   hindernisRechts = 0;
 }
 //Code Ende
 // test vscode 2 und test githu
+
