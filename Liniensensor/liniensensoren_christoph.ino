@@ -85,7 +85,7 @@ void magnetLesen() {
     magnetsensor =  1;
   } else {
     Serial.print("Nein");
-    magnetsensor = 0
+    magnetsensor = 0;
   }
   Serial.println("   ");
 }
@@ -236,11 +236,11 @@ void linieVerfolgen() {
 }
 
 void LEDan() { //definiert die Methode zum anschalten der LED
-    analogWrite(a == 1); //Setz den Analogen pin auf 1
+//    analogWrite(a == 1); //Setz den Analogen pin auf 1
 }
 
 void LEDaus() { //definiert die Methode zum ausschalten der LED
-    analogWrite(a == 0); // Setz den Analogen pin auf 0
+//    analogWrite(a == 0); // Setz den Analogen pin auf 0
 }
 
 
