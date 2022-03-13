@@ -418,7 +418,7 @@ void loop() {
   if (magnetsensor == 1) { //LED an-aus
     LEDan();
   
-  else {
+  } else {
   LEDaus();
   delay(200); //zum Testen
   hindernisLinks = 0;
