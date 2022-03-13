@@ -234,11 +234,11 @@ void linieVerfolgen() {
 }
 
 void LEDan() { //definiert die Methode zum anschalten der LED
-    analogWrite(a == 1) //Setz den Analogen pin auf 1
+    analogWrite(a == 1); //Setz den Analogen pin auf 1
 }
 
-void LEDaus() {//definiert die Methode zum ausschalten der LED
-    analogWrite(a==0) // Setz den Analogen pin auf 0
+void LEDaus() { //definiert die Methode zum ausschalten der LED
+    analogWrite(a==0); // Setz den Analogen pin auf 0
 }
 
 
@@ -414,15 +414,14 @@ void loop() {
     Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
   
   if (magnetsensor == 1) { //LED an-aus
-    LEDan()
+    LEDan();
   
-  else
-  LEDaus()
-  {
+  else {
+  LEDaus();
   delay(200); //zum Testen
   hindernisLinks = 0;
   hindernisRechts = 0;
-}
+  } 
 //Code Ende
 // test vscode 2 und test githu
 
