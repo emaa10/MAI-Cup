@@ -253,7 +253,7 @@ void linieLinks() { //Sensor links
     outRight = 200;
     motorAnsteuern();
     Serial.println("Dreht sich jez rechts auf 200, links 0");
-    for (while True:) { //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
+    while(true) { //startet die Schleife um sich um 90* zu drehen, macht dies 830 mal da in der schleife ein delay von 1 drin ist
       delay(1); //das besagte delay
       int statusSensorLeft = digitalRead(ir_left); //funktioniert
       int statusSensorRight = digitalRead(ir_right); //funktioniert
