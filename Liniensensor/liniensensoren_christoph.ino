@@ -372,7 +372,7 @@ void setup() {
 void loop() {
   entfernungMessenVorne(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenLinks(); //entfernung links und rechts messen wenn vorne nh wand is
-    ntfernungMessenRechts();
+  entfernungMessenRechts();
   if (entfernungVorne <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
       if (entfernungLinks <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
