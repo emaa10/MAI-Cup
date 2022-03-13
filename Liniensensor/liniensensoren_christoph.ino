@@ -62,6 +62,8 @@ int entfernungRechtsOld;
 //technik
 int durchgangCounter=0;
 
+int a;
+
 // - Methoden -
 
 void infoSerial() { //existiert nur für einen überblick über die ausgaben
@@ -238,7 +240,7 @@ void LEDan() { //definiert die Methode zum anschalten der LED
 }
 
 void LEDaus() { //definiert die Methode zum ausschalten der LED
-    analogWrite(a==0); // Setz den Analogen pin auf 0
+    analogWrite(a == 0); // Setz den Analogen pin auf 0
 }
 
 
@@ -423,5 +425,5 @@ void loop() {
   hindernisRechts = 0;
   } 
 //Code Ende
-// test vscode 2 und test githu
+// test vscode 2 und test github
 
