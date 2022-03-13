@@ -424,6 +424,7 @@ void loop() {
   hindernisLinks = 0;
   hindernisRechts = 0;
   } 
+}
 //Code Ende
 // test vscode 2 und test github
 
