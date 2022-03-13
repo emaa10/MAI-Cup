@@ -414,7 +414,7 @@ void loop() {
   if (entfernungRechts > entfernungRechtsOld) {
     kurzerAusgleichNachRechts();
     Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
-  
+  }
   if (magnetsensor == 1) { //LED an-aus
     LEDan();
   
