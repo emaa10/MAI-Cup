@@ -35,6 +35,7 @@
 //Infrarot Sensor
 int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
 int ir_right = A1;
+int ir_middle = 1;
 
 
 // - Daten -
@@ -95,6 +96,17 @@ void magnetLesen() {
 void linieLinks() {
   int statusSensorLeft = digitalRead(ir_left);
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
+    Serial.print("Linie");
+    Serial.print("   ");
+  } else {
+    Serial.print("Boden");
+    Serial.print("   ");
+  }
+}
+
+void linieMitte() {
+  int statusSensorMiddle = digitalRead(ir_middle);
+  if(statusSensorMiddle == 1) { // diese abfrage kann man später auch noch verwenden
     Serial.print("Linie");
     Serial.print("   ");
   } else {
@@ -292,6 +304,7 @@ void setup() {
   // Infrarotsensoren
   pinMode(ir_left, INPUT); // sensor pin INPUT
   pinMode(ir_right, INPUT); // sensor pin INPUT
+  pinMode(ir_middle, INPUT);
   // Hall Sensor
   pinMode(HALL_SENSOR_D,INPUT);
 
@@ -313,6 +326,7 @@ void loop() {
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
   entfernungMessenRechts();
   linieLinks();
+  linieMitte();
   linieRechts();
   magnetLesen();
   if (entfernungVorne <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
@@ -359,7 +373,7 @@ void loop() {
   }
 
 
-  //linienabfrage start
+  //linienabfrage start, nur erste version
   int statusSensorLeft = digitalRead(ir_left);
   int statusSensorRight = digitalRead(ir_right);
   if (statusSensorLeft == 1 || statusSensorRight == 1) { //wenn sensor links oder redchts auf linie ist
