@@ -35,7 +35,7 @@
 //Infrarot Sensor
 int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
 int ir_right = A1;
-int ir_middle = 1;
+#define IR_MIDDLE 1
 
 
 // - Daten -
@@ -96,21 +96,21 @@ void magnetLesen() {
 void linieLinks() {
   int statusSensorLeft = digitalRead(ir_left);
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
-    Serial.print("1");
+    Serial.print("Linie");
     Serial.print("   ");
   } else {
-    Serial.print("else");
+    Serial.print("Boden");
     Serial.print("   ");
   }
 }
 
 void linieMitte() {
-  int statusSensorMiddle = digitalRead(ir_middle);
+  int statusSensorMiddle = digitalRead(IR_MIDDLE);
   if(statusSensorMiddle == 1) { // diese abfrage kann man später auch noch verwenden
-    Serial.print("1");
+    Serial.print("Linie");
     Serial.print("   ");
   } else {
-    Serial.print("else");
+    Serial.print("Boden");
     Serial.print("   ");
   }
 }
@@ -118,10 +118,10 @@ void linieMitte() {
 void linieRechts() {
   int statusSensorRight = digitalRead(ir_right);
   if(statusSensorRight == 1) {
-    Serial.print("1");
+    Serial.print("Linie");
     Serial.print("   ");
   } else
-    Serial.print("else");
+    Serial.print("Boden");
     Serial.print("   ");
 }
 
@@ -304,7 +304,7 @@ void setup() {
   // Infrarotsensoren
   pinMode(ir_left, INPUT); // sensor pin INPUT
   pinMode(ir_right, INPUT); // sensor pin INPUT
-  pinMode(ir_middle, INPUT);
+  pinMode(IR_MIDDLE, INPUT);
   // Hall Sensor
   pinMode(HALL_SENSOR_D,INPUT);
 
