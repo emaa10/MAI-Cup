@@ -35,7 +35,7 @@
 //Infrarot Sensor
 int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
 int ir_right = A1;
-#define IR_MIDDLE 1
+//#define IR_MIDDLE 1
 
 
 // - Daten -
