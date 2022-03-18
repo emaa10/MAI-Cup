@@ -96,10 +96,10 @@ void magnetLesen() {
 void linieLinks() {
   int statusSensorLeft = digitalRead(ir_left);
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
-    Serial.print("Linie");
+    Serial.print("1");
     Serial.print("   ");
   } else {
-    Serial.print("Boden");
+    Serial.print("else");
     Serial.print("   ");
   }
 }
@@ -107,10 +107,10 @@ void linieLinks() {
 void linieMitte() {
   int statusSensorMiddle = digitalRead(ir_middle);
   if(statusSensorMiddle == 1) { // diese abfrage kann man später auch noch verwenden
-    Serial.print("Linie");
+    Serial.print("1");
     Serial.print("   ");
   } else {
-    Serial.print("Boden");
+    Serial.print("else");
     Serial.print("   ");
   }
 }
@@ -118,10 +118,10 @@ void linieMitte() {
 void linieRechts() {
   int statusSensorRight = digitalRead(ir_right);
   if(statusSensorRight == 1) {
-    Serial.print("Linie");
+    Serial.print("1");
     Serial.print("   ");
   } else
-    Serial.print("Boden");
+    Serial.print("else");
     Serial.print("   ");
 }
 
