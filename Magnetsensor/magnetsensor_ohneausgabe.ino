@@ -23,4 +23,11 @@ void loop() {
    Val2=digitalRead(Hall_Sensor_D);
    Serial.print("\t");
    Serial.println(Val2);
+
+   if(Val1 >= 512) {
+       Serial.print("Magnet da laut analog");
+   }
+   if(Val2 == 0) {
+       Serial.print("Magnet da laut digital");
+   }
 }
