@@ -4,7 +4,7 @@
  */
 
 #define Hall_Sensor A0          //A0 used with analog output, D2 with digital output
-#define Hall_Sensor_D 2
+#define Hall_Sensor_D A2
 
 int Val1=0,Val2=0;             //Here you can store both values, the Val2 can be boolean
 
