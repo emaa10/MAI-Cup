@@ -255,18 +255,14 @@ void kurzerAusgleichNachRechts() {
   motorAnsteuern();
 }
 
-void linieVerfolgen() {
+void linienInformationen() { //liest die aktuellen informationen ab
   int statusSensorLeft = digitalRead(IR_LEFT);
+  int statusSensorMiddle = digitalRead(IR_MIDDLE);
   int statusSensorRight = digitalRead(IR_RIGHT);
-  if(statusSensorLeft == 1) {
-    outLeft = 0;
-    outRight = 200;
-    motorAnsteuern();
-  } if(statusSensorRight == 1) {
-    outLeft = 200;
-    outRight == 0;
-    motorAnsteuern();
-  }
+}
+
+void linieVerfolgen() { 
+  linienInformationen() //liest die aktuellen informationen ab
 }
 
 // ------------------------------------------------------------------------------------
@@ -374,12 +370,7 @@ void loop() {
 
 
   //linienabfrage start, nur erste version
-  int statusSensorLeft = digitalRead(IR_LEFT);
-  int statusSensorRight = digitalRead(IR_RIGHT);
-  if (statusSensorLeft == 1 || statusSensorRight == 1) { //wenn sensor links oder redchts auf linie ist
-    linieVerfolgen();
-    fahrenBeide();
-  }  
+  linienInformationen() //liest die aktuellen informationen ab
 
 
   //in der mitte fahren test
