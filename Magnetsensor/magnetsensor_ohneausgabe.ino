@@ -26,8 +26,10 @@ void loop() {
 
    if(Val1 >= 512) {
        Serial.print("Magnet da laut analog");
+       Serial.print("\t");
    }
    if(Val2 == 0) {
        Serial.print("Magnet da laut digital");
+       Serial.print("\t");
    }
 }
