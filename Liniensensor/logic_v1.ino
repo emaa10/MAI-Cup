@@ -311,14 +311,14 @@ void setup() {
 void loop() {
     int statusSensorLeft = digitalRead(IR_LEFT);
     int statusSensorMiddle = digitalRead(IR_MIDDLE);
-    int statusSensorRight = digitalRead(IR_RIGHT);();
+    int statusSensorRight = digitalRead(IR_RIGHT);
     while(statusSensorMiddle = 1) {
         outLeft = 50;
         outRight = 50;
         motorAnsteuern();
         int statusSensorLeft = digitalRead(IR_LEFT);
         int statusSensorMiddle = digitalRead(IR_MIDDLE);
-        int statusSensorRight = digitalRead(IR_RIGHT);();
+        int statusSensorRight = digitalRead(IR_RIGHT);
     }
     while(statusSensorLeft = 1) {
         outRight = 100;
@@ -326,7 +326,7 @@ void loop() {
         motorAnsteuern();
         int statusSensorLeft = digitalRead(IR_LEFT);
         int statusSensorMiddle = digitalRead(IR_MIDDLE);
-        int statusSensorRight = digitalRead(IR_RIGHT);();
+        int statusSensorRight = digitalRead(IR_RIGHT);
     }
     while(statusSensorRight = 1) {
         outLeft = 100;
@@ -334,6 +334,6 @@ void loop() {
         motorAnsteuern();
         int statusSensorLeft = digitalRead(IR_LEFT);
         int statusSensorMiddle = digitalRead(IR_MIDDLE);
-        int statusSensorRight = digitalRead(IR_RIGHT);();
+        int statusSensorRight = digitalRead(IR_RIGHT);
     }
 }
