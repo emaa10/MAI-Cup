@@ -312,16 +312,16 @@ void loop() {
     int statusSensorLeft = digitalRead(IR_LEFT);
     int statusSensorMiddle = digitalRead(IR_MIDDLE);
     int statusSensorRight = digitalRead(IR_RIGHT);
-    while(statusSensorMiddle = 1) {
+    if(statusSensorMiddle == 1) {
         Serial.println("Mitte");
-        outLeft = 50;
-        outRight = 50;
+        outLeft == 50;
+        outRight == 50;
         motorAnsteuern();
         int statusSensorLeft = digitalRead(IR_LEFT);
         int statusSensorMiddle = digitalRead(IR_MIDDLE);
         int statusSensorRight = digitalRead(IR_RIGHT);
     }
-    while(statusSensorLeft = 1) {
+    if(statusSensorLeft == 1) {
         Serial.println("Left");
         outRight = 100;
         outLeft = 0;
@@ -330,7 +330,7 @@ void loop() {
         int statusSensorMiddle = digitalRead(IR_MIDDLE);
         int statusSensorRight = digitalRead(IR_RIGHT);
     }
-    while(statusSensorRight = 1) {
+    if(statusSensorRight == 1) {
         Serial.println("Right");
         outLeft = 100;
         outRight = 0;
