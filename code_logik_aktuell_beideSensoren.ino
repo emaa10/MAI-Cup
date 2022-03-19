@@ -30,7 +30,7 @@
 #define TRIGGER_RECHTS 4 
 #define ECHO_RECHTS A4
 //Hall Sensor
-#define HALL_SENSOR A0          //analog output (optional)
+//#define HALL_SENSOR A0          //analog output (optional)
 #define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
 //Infrarot Sensor
 int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
