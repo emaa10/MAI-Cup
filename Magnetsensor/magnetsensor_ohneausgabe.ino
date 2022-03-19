@@ -32,4 +32,5 @@ void loop() {
        Serial.print("Magnet da laut digital");
        Serial.print("\t");
    }
+   delay(100);
 }
