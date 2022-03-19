@@ -261,9 +261,6 @@ void linienInformationen() { //liest die aktuellen informationen ab
   int statusSensorRight = digitalRead(IR_RIGHT);
 }
 
-void linieVerfolgen() { 
-  linienInformationen() //liest die aktuellen informationen ab
-}
 
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
@@ -312,20 +309,31 @@ void setup() {
 }
 
 void loop() {
-    linienInformationen();
+    int statusSensorLeft = digitalRead(IR_LEFT);
+    int statusSensorMiddle = digitalRead(IR_MIDDLE);
+    int statusSensorRight = digitalRead(IR_RIGHT);();
     while(statusSensorMiddle = 1) {
         outLeft = 50;
         outRight = 50;
         motorAnsteuern();
+        int statusSensorLeft = digitalRead(IR_LEFT);
+        int statusSensorMiddle = digitalRead(IR_MIDDLE);
+        int statusSensorRight = digitalRead(IR_RIGHT);();
     }
     while(statusSensorLeft = 1) {
         outRight = 100;
         outLeft = 0;
         motorAnsteuern();
+        int statusSensorLeft = digitalRead(IR_LEFT);
+        int statusSensorMiddle = digitalRead(IR_MIDDLE);
+        int statusSensorRight = digitalRead(IR_RIGHT);();
     }
     while(statusSensorRight = 1) {
         outLeft = 100;
         outRight = 0;
         motorAnsteuern();
+        int statusSensorLeft = digitalRead(IR_LEFT);
+        int statusSensorMiddle = digitalRead(IR_MIDDLE);
+        int statusSensorRight = digitalRead(IR_RIGHT);();
     }
 }
