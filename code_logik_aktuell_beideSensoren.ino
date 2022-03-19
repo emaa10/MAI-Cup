@@ -371,6 +371,18 @@ void loop() {
 
   //linienabfrage start, nur erste version
   linienInformationen() //liest die aktuellen informationen ab
+  if(statusSensorMiddle == 1) {
+    stehenbleiben();
+    for(statusSensorMiddle == 1) {
+      outRight = 50;
+      outLeft = 50;
+      motorAnsteuern();
+    }
+    if(statusSensorLeft == 1) {
+      outRight = 100;
+      outLeft = 0;
+    }
+  }
 
 
   //in der mitte fahren test
