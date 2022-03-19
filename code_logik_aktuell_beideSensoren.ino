@@ -33,9 +33,9 @@
 //#define HALL_SENSOR A0          //analog output (optional)
 #define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
 //Infrarot Sensor
-int ir_left = A3; // connect ir sensor to arduino pin 2 (left one)
-int ir_right = A1;
-//#define IR_MIDDLE 1
+#define IR_LEFT A3 // connect ir sensor to arduino pin 2 (left one)
+#define IR_RIGHT A1
+#define IR_MIDDLE A0
 
 
 // - Daten -
@@ -94,7 +94,7 @@ void magnetLesen() {
 }
 
 void linieLinks() {
-  int statusSensorLeft = digitalRead(ir_left);
+  int statusSensorLeft = digitalRead(IR_LEFT);
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
     Serial.print("Linie");
     Serial.print("   ");
@@ -116,7 +116,7 @@ void linieMitte() {
 }
 
 void linieRechts() {
-  int statusSensorRight = digitalRead(ir_right);
+  int statusSensorRight = digitalRead(IR_RIGHT);
   if(statusSensorRight == 1) {
     Serial.print("Linie");
     Serial.print("   ");
@@ -256,8 +256,8 @@ void kurzerAusgleichNachRechts() {
 }
 
 void linieVerfolgen() {
-  int statusSensorLeft = digitalRead(ir_left);
-  int statusSensorRight = digitalRead(ir_right);
+  int statusSensorLeft = digitalRead(IR_LEFT);
+  int statusSensorRight = digitalRead(IR_RIGHT);
   if(statusSensorLeft == 1) {
     outLeft = 0;
     outRight = 200;
@@ -302,8 +302,8 @@ void setup() {
   pinMode(TRIGGER_RECHTS, OUTPUT); // Trigger-Pin ist ein Ausgang
   pinMode(ECHO_RECHTS, INPUT); // Echo-Pin ist ein Eingang
   // Infrarotsensoren
-  pinMode(ir_left, INPUT); // sensor pin INPUT
-  pinMode(ir_right, INPUT); // sensor pin INPUT
+  pinMode(IR_LEFT, INPUT); // sensor pin INPUT
+  pinMode(IR_RIGHT, INPUT); // sensor pin INPUT
   pinMode(IR_MIDDLE, INPUT);
   // Hall Sensor
   pinMode(HALL_SENSOR_D,INPUT);
@@ -374,8 +374,8 @@ void loop() {
 
 
   //linienabfrage start, nur erste version
-  int statusSensorLeft = digitalRead(ir_left);
-  int statusSensorRight = digitalRead(ir_right);
+  int statusSensorLeft = digitalRead(IR_LEFT);
+  int statusSensorRight = digitalRead(IR_RIGHT);
   if (statusSensorLeft == 1 || statusSensorRight == 1) { //wenn sensor links oder redchts auf linie ist
     linieVerfolgen();
     fahrenBeide();
