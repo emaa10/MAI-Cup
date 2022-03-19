@@ -24,7 +24,7 @@ void loop() {
    Serial.print("\t");
    Serial.println(Val2);
 
-   if(Val1 >= 512) {
+   if(Val1 >= 514) {
        Serial.print("Magnet da laut analog");
        Serial.print("\t");
    }
