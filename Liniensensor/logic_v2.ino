@@ -262,12 +262,6 @@ void linienInformationen() { //liest die aktuellen informationen ab
   int statusSensorRight = digitalRead(IR_RIGHT);
 }
 
-void modusLinie() { //anderer modus in den "geschalten" wird
-  while()
-}
-
-
-
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
 // ------------------------------------------------------------------------------------
@@ -323,35 +317,48 @@ void loop() {
   int statusSensorMiddle = digitalRead(IR_MIDDLE);
   int statusSensorRight = digitalRead(IR_RIGHT);
   if(statusSensorMiddle == 1) {
+    Serial.println("Linie erkannt");                        //SERIAL
     outLeft = 100;
     outRight = 100;
     motorAnsteuern();
     while(1) {
-      int statusSensorLeft = digitalRead(IR_LEFT);
-      int statusSensorMiddle = digitalRead(IR_MIDDLE);
-      int statusSensorRight = digitalRead(IR_RIGHT);
+      int statusSensorLeft = digitalRead(IR_LEFT);        //MUSS ABGERUFEN WERDEN
+      int statusSensorMiddle = digitalRead(IR_MIDDLE);    //MUSS ABGERUFEN WERDEN
+      int statusSensorRight = digitalRead(IR_RIGHT);      //MUSS ABGERUFEN WERDEN
       while(statusSensorMiddle == 1) {
+        Serial.println("Fährt über while 1");               //SERIAL
         outLeft = 100;
         outRight = 100;
         motorAnsteuern();
       }
       while(statusSensorMiddle == 0) {
+        Serial.println("Keine Linie mehr!!!");              //SERIAL
         linksRechtsCount++;
+        int statusSensorLeft = digitalRead(IR_LEFT);      //MUSS ABGERUFEN WERDEN
+        int statusSensorMiddle = digitalRead(IR_MIDDLE);  //MUSS ABGERUFEN WERDEN
+        int statusSensorRight = digitalRead(IR_RIGHT);    //MUSS ABGERUFEN WERDEN
         if(linksRechtsCount % 2) { //einmal fährt er nach rechts als ausgleich
+          Serial.println("Linie durch 2, fährt nach rechts");//SERIAL
           outLeft = 100;
           outRight = 0;
           delay(100);
+          break;
         } else { //ein anderes mal fährt er nach links als ausgleich
+          Serial.println("nicht durch 2, links");            //SERIAL
           outRight = 100;
           outLeft = 0;
+          delay(100);
+          break;
         }
       }
 
 
       while(statusSensorLeft == 1) {
+        Serial.println("Linker sensor erkannt, fähjrt nach links");//SERIAL
         halbUmdrehungLinks();
       }
       while(statusSensorRight == 1) {
+        Serial.println("Rechter sensor erkannt, fährt nach rechts");//SERIAL
         halbUmdrehungRechts();
       }
     }
