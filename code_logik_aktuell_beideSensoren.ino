@@ -416,10 +416,7 @@ void loop() {
     } 
     durchgangCounter = 0;
   }
-  //infoSerial(); //Zeigt bei der Ausgabe tipps für die Spalten an
-  //delay(200); //zum Testen, könnten wir gut dalassen
+
   hindernisLinks = 0;
   hindernisRechts = 0;
 }
-//Code Ende
-//test 2 -> can see it in vscode
