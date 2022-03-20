@@ -330,6 +330,7 @@ void loop() {
         outLeft = 100;
         outRight = 100;
         motorAnsteuern();
+        break;
       }
       while(statusSensorMiddle == 0) {
         Serial.println("Keine Linie mehr!!!");              //SERIAL
@@ -350,16 +351,19 @@ void loop() {
           delay(100);
           break;
         }
+        break;
       }
 
 
       while(statusSensorLeft == 1) {
         Serial.println("Linker sensor erkannt, fähjrt nach links");//SERIAL
         halbUmdrehungLinks();
+        break;
       }
       while(statusSensorRight == 1) {
         Serial.println("Rechter sensor erkannt, fährt nach rechts");//SERIAL
         halbUmdrehungRechts();
+        break;
       }
     }
   }
