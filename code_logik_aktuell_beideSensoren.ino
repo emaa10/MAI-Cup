@@ -402,7 +402,7 @@ void loop() {
 
 
   //In der Mitte fahren
-  if (durchgangCounter == 10) {
+  if (durchgangCounter == 10 && readSensorMiddle == 0) {
     if (readDistanceLeft() < 500 && readDistanceLeft() > 0 && readDistanceRight() < 500 && readDistanceRight() > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
       if (readDistanceLeft() > readDistanceRight()) { //wenn links weiter weg ist als rechts
         kurzerAusgleichNachLinks(); //fährt kurz nach links als ausgleich
