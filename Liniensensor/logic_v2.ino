@@ -337,6 +337,7 @@ void loop() {
         outLeft = 100;
         outRight = 0;
         motorAnsteuern(); //genau andersrum
+      }
     }
   }
     
