@@ -70,18 +70,40 @@ int entfernungRechtsOld;
 int durchgangCounter=0;
 
 // - Funktionen -
-
-int readSensorLeft() {
+//liniensensor
+int readSensorLeft() { //sensor links
   return digitalRead(IR_LEFT);
 }
 
-int readSensorMiddle() {
+int readSensorMiddle() { //sensor middle
   return digitalRead(IR_MIDDLE);
 }
 
-int readSensorRight() {
+int readSensorRight() { //sensor rechts
   return digitalRead(IR_RIGHT);
 }
+// distance
+long readDistance(int trigger, int echo) { //main
+  digitalWrite(trigger, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
+  delay(5); // Pause 5 Millisekunden
+  digitalWrite(trigger, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
+  delay(10); //Dieser „Ton“ erklingt für 10 Millisekunden.
+  digitalWrite(trigger, LOW);//Dann wird der „Ton“ abgeschaltet.
+  long dauer = pulseIn(echo, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
+  return (long)((dauer/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
+ }
+
+long readDistanceFront() { //front ultraschall
+  return readDistance(TRIGGER_VORNE, ECHO_VORNE);
+ }
+
+long readDistanceLeft() { //left ultraschall
+  return readDistance(TRIGGER_LINKS, ECHO_LINKS);
+ }
+
+long readDistanceRight() { //right ultraschall
+  return readDistance(TRIGGER_RECHTS, ECHO_RECHTS);
+ }
 
 // - Methoden -
 
