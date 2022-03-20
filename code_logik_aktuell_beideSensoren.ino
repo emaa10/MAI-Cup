@@ -355,12 +355,12 @@ void loop() {
   magnetLesen();
   //ausgabe ende
   //entfernung zu variable
-  if (readDistanceFront <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+  if (readDistanceFront() <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
-    if (readDistanceLeft <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
+    if (readDistanceLeft() <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
       hindernisLinks = 1;
     }
-    if (readDistanceRight <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+    if (readDistanceRight() <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
       hindernisRechts = 1;
     }
 
@@ -388,14 +388,14 @@ void loop() {
 
   //Linienabfrage
 
-  if(readSensorLeft == 1 && readSensorMiddle == 1) {
+  if(readSensorLeft() == 1 && readSensorMiddle() == 1) {
       halbUmdrehungLinks();
   }
-  if(readSensorRight == 1 && readSensorMiddle == 1) {
+  if(readSensorRight() == 1 && readSensorMiddle() == 1) {
       halbUmdrehungRechts();
   }
   //nicht benötigt, funktioniert aber
-  if(readSensorRight == 0 && readSensorLeft == 0 && readSensorMiddle == 0) {
+  if(readSensorRight() == 0 && readSensorLeft() == 0 && readSensorMiddle() == 0) {
       outRight == 100;
       outLeft == 100;
       motorAnsteuern();
@@ -404,12 +404,12 @@ void loop() {
 
   //In der Mitte fahren
   if (durchgangCounter == 10) {
-    if (readDistanceLeft < 500 && readDistanceLeft > 0 && readDistanceRight < 500 && readDistanceRight > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
-      if (readDistanceLeft > readDistanceRight) { //wenn links weiter weg ist als rechts
+    if (readDistanceLeft() < 500 && readDistanceLeft() > 0 && readDistanceRight() < 500 && readDistanceRight() > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
+      if (readDistanceLeft() > readDistanceRight()) { //wenn links weiter weg ist als rechts
         kurzerAusgleichNachLinks(); //fährt kurz nach links als ausgleich
         //Serial.print("Will nach links ausgleichen");
       }
-      if (readDistanceRight > readDistanceLeft) { //wenn rechts weiter weg ist als links
+      if (readDistanceRight() > readDistanceLeft()) { //wenn rechts weiter weg ist als links
         kurzerAusgleichNachRechts();
         //Serial.print("Will nach RECHTS ausgleichen");
       }
