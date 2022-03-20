@@ -68,6 +68,10 @@ int entfernungLinksOld; //alte variable wird hier gespeichert
 int entfernungRechtsOld;
 //technik
 int durchgangCounter=0;
+unsigned long previousMillis = 0;
+#define SPEEDSYNCINTERVAL 500
+
+
 
 // - Funktionen -
 //liniensensor
@@ -410,16 +414,18 @@ void loop() {
 
 
   //In der Mitte fahren
-
-  if(readDistanceLeft() > readDistanceRight()) {
-    outRight += 5;
-    motorAnsteuernGeradeausLauf();
+  unsigned long currentMillis = millis(); //delay ohne delay
+  if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL) {
+    previousMillis = currentMillis;
+    if(readDistanceLeft() > readDistanceRight()) {
+      outRight += 5;
+      motorAnsteuernGeradeausLauf();
+    }
+    if(readDistanceRight() > readDistanceLeft()) {
+      outLeft += 5;
+      motorAnsteuernGeradeausLauf();
+    }
   }
-  if(readDistanceRight() > readDistanceLeft()) {
-    outLeft += 5;
-    motorAnsteuernGeradeausLauf();
-  }
-
 
   hindernisLinks = 0;
   hindernisRechts = 0;
