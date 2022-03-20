@@ -105,12 +105,11 @@ long readDistanceRight() { //right ultraschall
   return readDistance(TRIGGER_RECHTS, ECHO_RECHTS);
  }
 
-// - Methoden -
-
-void infoSerial() { //existiert nur für einen überblick über die ausgaben
-  //Serial.println("41 cm   41 cm   5 cm   22 cm   23 cm   Nein   Nein   Nein");
-  //Serial.println("Left  - Leftold-Vorne - R neu - R old  left - right - magnet      left/right -> Linie");
+int readMagnetSensor() {
+  return digitalRead(HALL_SENSOR_D);
 }
+
+// - Methoden -
 
 void motorAnsteuern() {
   analogWrite(RIGHT_LPWM,outRight); //Schreibe Geschwindigkeit auf Pins
@@ -118,6 +117,8 @@ void motorAnsteuern() {
   analogWrite(LEFT_LPWM,outLeft);   //Schreibe Geschwindigkeit auf Pins
   analogWrite(LEFT_RPWM,0);         //Schreibe Geschwindigkeit auf Pins
 }
+
+//AUSGABENFUNKTINIEN
 
 void magnetLesen() {
   Hall_Val2=digitalRead(HALL_SENSOR_D);
@@ -179,11 +180,7 @@ void stehenbleiben() {
   outRight = 0;
   motorAnsteuern();
 }
-
-/*
- * Methode zum Messen der Entfernung
- * @todo: links und rechts wieder einkommentieren
- */
+//old, dienen nur zur ausgabe
 void entfernungMessenVorne() {
   digitalWrite(TRIGGER_VORNE, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
@@ -248,6 +245,9 @@ void entfernungMessenRechts() {
   Serial.print(entfernungRechtsOld);
   Serial.print(" cm   ");
 }
+
+
+
 
 void umdrehungZeit() {
     delay(830);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
@@ -335,7 +335,7 @@ void setup() {
   Serial.println("----- INFO: Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
   Serial.println("----- INFO: Im Setup Fahren gestartet");
-  delay(1500); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
+//  delay(1500); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
 }
 
 
@@ -345,6 +345,7 @@ void setup() {
 void loop() {
   durchgangCounter++; //eigentlich schwachsinn funktioniert aber
   //Serial.print(durchgangCounter);
+  //ausgabe start
   entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
   entfernungMessenRechts();
@@ -352,13 +353,14 @@ void loop() {
   linieMitte();
   linieRechts();
   magnetLesen();
+  //ausgabe ende
   //entfernung zu variable
-  if (entfernungVorne <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+  if (readDistanceFront <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
-    if (entfernungLinks <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
+    if (readDistanceLeft <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
       hindernisLinks = 1;
     }
-    if (entfernungRechts <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+    if (readDistanceRight <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
       hindernisRechts = 1;
     }
 
@@ -383,29 +385,17 @@ void loop() {
       fahrenBeide();
     }
   }
-/*
-  //Gerade fahren Skript (alt)
-  if (entfernungRechtsOld > entfernungRechts) { //er speichert alle 200ms die alte und die neue entfernung und vergleicht beide variablen dann. wenn rechts vorher weiter weg war, nähert er sich nach rechts an und fährt nun nach links (nur kurz). umgekehrt halt genauso
-    kurzerAusgleichNachLinks();
-    //Serial.println("----- INFO: Rechts war davor weiter weg, daher fährt er kurz nach links");
-  }
-  if (entfernungRechts > entfernungRechtsOld) {
-    kurzerAusgleichNachRechts();
-    //Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
-  }*/
-
 
   //Linienabfrage
-  int statusSensorLeft = digitalRead(IR_LEFT);
-  int statusSensorMiddle = digitalRead(IR_MIDDLE);
-  int statusSensorRight = digitalRead(IR_RIGHT);
-  if(statusSensorLeft == 1 && statusSensorMiddle == 1) {
+
+  if(readSensorLeft == 1 && readSensorMiddle == 1) {
       halbUmdrehungLinks();
   }
-  if(statusSensorRight == 1 && statusSensorMiddle == 1) {
+  if(readSensorRight == 1 && readSensorMiddle == 1) {
       halbUmdrehungRechts();
   }
-  if(statusSensorRight == 0 && statusSensorLeft == 0 && statusSensorMiddle == 0) {
+  //nicht benötigt, funktioniert aber
+  if(readSensorRight == 0 && readSensorLeft == 0 && readSensorMiddle == 0) {
       outRight == 100;
       outLeft == 100;
       motorAnsteuern();
@@ -414,12 +404,12 @@ void loop() {
 
   //In der Mitte fahren
   if (durchgangCounter == 10) {
-    if (entfernungLinks < 500 && entfernungLinks > 0 && entfernungRechts < 500 && entfernungRechts > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
-      if (entfernungLinks > entfernungRechts) { //wenn links weiter weg ist als rechts
+    if (readDistanceLeft < 500 && readDistanceLeft > 0 && readDistanceRight < 500 && readDistanceRight > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
+      if (readDistanceLeft > readDistanceRight) { //wenn links weiter weg ist als rechts
         kurzerAusgleichNachLinks(); //fährt kurz nach links als ausgleich
         //Serial.print("Will nach links ausgleichen");
       }
-      if (entfernungRechts > entfernungLinks) { //wenn rechts weiter weg ist als links
+      if (readDistanceRight > readDistanceLeft) { //wenn rechts weiter weg ist als links
         kurzerAusgleichNachRechts();
         //Serial.print("Will nach RECHTS ausgleichen");
       }
