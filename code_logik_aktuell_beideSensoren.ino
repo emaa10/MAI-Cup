@@ -69,6 +69,20 @@ int entfernungRechtsOld;
 //technik
 int durchgangCounter=0;
 
+// - Funktionen -
+
+int readSensorLeft() {
+  return digitalRead(IR_LEFT);
+}
+
+int readSensorMiddle() {
+  return digitalRead(IR_MIDDLE);
+}
+
+int readSensorRight() {
+  return digitalRead(IR_RIGHT);
+}
+
 // - Methoden -
 
 void infoSerial() { //existiert nur für einen überblick über die ausgaben
@@ -255,15 +269,6 @@ void kurzerAusgleichNachRechts() {
   motorAnsteuern();
 }
 
-void linienInformationen() { //liest die aktuellen informationen ab
-  int statusSensorLeft = digitalRead(IR_LEFT);
-  int statusSensorMiddle = digitalRead(IR_MIDDLE);
-  int statusSensorRight = digitalRead(IR_RIGHT);
-}
-
-void linieVerfolgen() { 
-  linienInformationen() //liest die aktuellen informationen ab
-}
 
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
