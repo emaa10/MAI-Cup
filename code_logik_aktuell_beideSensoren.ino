@@ -69,7 +69,7 @@ int entfernungRechtsOld;
 //technik
 int durchgangCounter=0;
 unsigned long previousMillis = 0;
-#define SPEEDSYNCINTERVAL 500
+#define SPEEDSYNCINTERVAL 300
 
 
 
@@ -418,11 +418,11 @@ void loop() {
   if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL) {
     previousMillis = currentMillis;
     if(readDistanceLeft() > readDistanceRight()) {
-      outRight += 5;
+      outRight += 10;
       motorAnsteuernGeradeausLauf();
     }
     if(readDistanceRight() > readDistanceLeft()) {
-      outLeft += 5;
+      outLeft += 10;
       motorAnsteuernGeradeausLauf();
     }
   }
