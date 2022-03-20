@@ -309,34 +309,35 @@ void setup() {
 }
 
 void loop() {
-    int statusSensorLeft = digitalRead(IR_LEFT);
-    int statusSensorMiddle = digitalRead(IR_MIDDLE);
-    int statusSensorRight = digitalRead(IR_RIGHT);
-    if(statusSensorMiddle == 1) {
-        Serial.println("Mitte");
-        outLeft == 50;
-        outRight == 50;
-        motorAnsteuern();
-        int statusSensorLeft = digitalRead(IR_LEFT);
-        int statusSensorMiddle = digitalRead(IR_MIDDLE);
-        int statusSensorRight = digitalRead(IR_RIGHT);
-    }
-    if(statusSensorLeft == 1) {
-        Serial.println("Left");
-        outRight = 100;
-        outLeft = 0;
-        motorAnsteuern();
-        int statusSensorLeft = digitalRead(IR_LEFT);
-        int statusSensorMiddle = digitalRead(IR_MIDDLE);
-        int statusSensorRight = digitalRead(IR_RIGHT);
-    }
-    if(statusSensorRight == 1) {
-        Serial.println("Right");
+  Serial.print("nothing to do");
+  outLeft = 100;
+  outRight = 100;
+  motorAnsteuern();
+  int statusSensorLeft = digitalRead(IR_LEFT);
+  int statusSensorMiddle = digitalRead(IR_MIDDLE);
+  int statusSensorRight = digitalRead(IR_RIGHT);
+  if(statusSensorMiddle == 1) { //wenn einmal vom mittleren sensor eine linie gesehen wird
+    while(statusSensorLeft == 0 && statusSensorRight == 0) {//und solange bis keiner von dem linken oder rechten sensor eine linie sieht
+      while(statusSensorMiddle == 1) { //solange der mittlere sensor eine linie sieht
         outLeft = 100;
         outRight = 0;
-        motorAnsteuern();
-        int statusSensorLeft = digitalRead(IR_LEFT);
-        int statusSensorMiddle = digitalRead(IR_MIDDLE);
-        int statusSensorRight = digitalRead(IR_RIGHT);
+        motorAnsteuern(); //fährt nach rechts bis keine linie mehr da is
+      }
+      while(statusSensorMiddle == 0) {
+        outRight = 100;
+        outLeft = 0;
+        motorAnsteuern(); //wenn keine linie mehr da ist fährt er wieder nach rechts
+      }      
+      while(statusSensorMiddle == 1) { //solange der mittlere sensor eine linie sieht
+        outRight = 100;
+        outLeft = 0;
+        motorAnsteuern(); //fährt nach links bis keine linie mehr da is
+      }
+      while(statusSensorMiddle == 0) {
+        outLeft = 100;
+        outRight = 0;
+        motorAnsteuern(); //genau andersrum
     }
+  }
+    
 }
