@@ -113,9 +113,17 @@ int readMagnetSensor() {
 
 void motorAnsteuern() {
   analogWrite(RIGHT_LPWM,outRight); //Schreibe Geschwindigkeit auf Pins
-  analogWrite(RIGHT_RPWM,0);        //Schreibe Geschwindigkeit auf Pins9
+  analogWrite(RIGHT_RPWM,0);        //Schreibe Geschwindigkeit auf Pins
   analogWrite(LEFT_LPWM,outLeft);   //Schreibe Geschwindigkeit auf Pins
   analogWrite(LEFT_RPWM,0);         //Schreibe Geschwindigkeit auf Pins
+}
+
+void motorAnsteuernGeradeausLauf() {
+  if(outLeft >= 70 || outRight >= 70) {
+    outLeft -= 20;
+    outRight -= 20;
+  }
+  motorAnsteuern();
 }
 
 //AUSGABENFUNKTINIEN
@@ -402,19 +410,16 @@ void loop() {
 
 
   //In der Mitte fahren
-  if (readSensorMiddle() == 0) {
-    if (readDistanceLeft() < 500 && readDistanceLeft() > 0 && readDistanceRight() < 500 && readDistanceRight() > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
-      if (readDistanceLeft() > readDistanceRight()) { //wenn links weiter weg ist als rechts
-        kurzerAusgleichNachLinks(); //fährt kurz nach links als ausgleich
-        //Serial.print("Will nach links ausgleichen");
-      }
-      if (readDistanceRight() > readDistanceLeft()) { //wenn rechts weiter weg ist als links
-        kurzerAusgleichNachRechts();
-        //Serial.print("Will nach RECHTS ausgleichen");
-      }
-    } 
-    durchgangCounter = 0;
+
+  if(readDistanceLeft() > readDistanceRight()) {
+    outRight += 5;
+    motorAnsteuernGeradeausLauf();
   }
+  if(readDistanceRight() > readDistanceLeft()) {
+    outLeft += 5;
+    motorAnsteuernGeradeausLauf();
+  }
+
 
   hindernisLinks = 0;
   hindernisRechts = 0;
