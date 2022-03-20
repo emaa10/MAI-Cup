@@ -68,6 +68,7 @@ int entfernungLinksOld; //alte variable wird hier gespeichert
 int entfernungRechtsOld;
 //technik
 int durchgangCounter=0;
+int linksRechtsCount=0;
 
 // - Methoden -
 
@@ -321,15 +322,37 @@ void loop() {
   int statusSensorLeft = digitalRead(IR_LEFT);
   int statusSensorMiddle = digitalRead(IR_MIDDLE);
   int statusSensorRight = digitalRead(IR_RIGHT);
-  if(statusSensorMiddle == 1) { //sobald eine linie vorgefunden wird
-    int statusSensorLeft = digitalRead(IR_LEFT);
-    int statusSensorMiddle = digitalRead(IR_MIDDLE);
-    int statusSensorRight = digitalRead(IR_RIGHT);
-    while(statusSensorMiddle == 1) {
+  if(statusSensorMiddle == 1) {
+    outLeft = 100;
+    outRight = 100;
+    motorAnsteuern();
+    while(1) {
       int statusSensorLeft = digitalRead(IR_LEFT);
       int statusSensorMiddle = digitalRead(IR_MIDDLE);
       int statusSensorRight = digitalRead(IR_RIGHT);
-      modusLinie(); //extra void
+      while(statusSensorMiddle == 1) {
+        outLeft = 100;
+        outRight = 100;
+        motorAnsteuern();
+      }
+      while(statusSensorMiddle == 0) {
+        linksRechtsCount++;
+        if(linksRechtsCount % 2) { //einmal fährt er nach rechts als ausgleich
+          outLeft = 100;
+          outRight = 0;
+          delay(100);
+        } else { //ein anderes mal fährt er nach links als ausgleich
+          outRight = 100;
+          outLeft = 0;
+        }
+      }
+
+
+      while(statusSensorLeft == 1) {
+        halbUmdrehungLinks();
+      }
+      while(statusSensorRight == 1) {
+        halbUmdrehungRechts();
+      }
     }
-  }
 }  
