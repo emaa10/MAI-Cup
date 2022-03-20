@@ -166,8 +166,8 @@ void linieRechts() {
  * Motoren starten (beiden fahren)
  */
 void fahrenBeide() {
-  outLeft = 105; //Setze Geschwindigkeit links auf 100
-  outRight = 110; //Setze Geschwindigkeit rechts auf 100
+  outLeft = 50; //Setze Geschwindigkeit links auf 100
+  outRight = 50; //Setze Geschwindigkeit rechts auf 100
   motorAnsteuern();
 //  Serial.println("fahren beide laut Methode");
 }
@@ -396,8 +396,7 @@ void loop() {
   }
   //nicht benötigt, funktioniert aber
   if(readSensorRight() == 0 && readSensorLeft() == 0 && readSensorMiddle() == 0) {
-      outRight == 100;
-      outLeft == 100;
+      fahrenBeide();
       motorAnsteuern();
   }
 
