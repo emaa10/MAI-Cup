@@ -325,6 +325,7 @@ void loop() {
   linieMitte();
   linieRechts();
   magnetLesen();
+  //entfernung zu variable
   if (entfernungVorne <= 23) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
     if (entfernungLinks <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
@@ -334,8 +335,7 @@ void loop() {
       hindernisRechts = 1;
     }
 
-
-    //Abfrage start 
+    //Entfernung Abfrage 
     if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
       stehenbleiben();
       Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
@@ -356,9 +356,8 @@ void loop() {
       fahrenBeide();
     }
   }
-  //test
-
-  //gerade fahren skript beginn
+/*
+  //Gerade fahren Skript (alt)
   if (entfernungRechtsOld > entfernungRechts) { //er speichert alle 200ms die alte und die neue entfernung und vergleicht beide variablen dann. wenn rechts vorher weiter weg war, nähert er sich nach rechts an und fährt nun nach links (nur kurz). umgekehrt halt genauso
     kurzerAusgleichNachLinks();
     //Serial.println("----- INFO: Rechts war davor weiter weg, daher fährt er kurz nach links");
@@ -366,26 +365,27 @@ void loop() {
   if (entfernungRechts > entfernungRechtsOld) {
     kurzerAusgleichNachRechts();
     //Serial.println("----- INFO: Links war davor weiter weg, daher fährt er kurz nach rechts");
+  }*/
+
+
+  //Linienabfrage
+  int statusSensorLeft = digitalRead(IR_LEFT);
+  int statusSensorMiddle = digitalRead(IR_MIDDLE);
+  int statusSensorRight = digitalRead(IR_RIGHT);
+  if(statusSensorLeft == 1 && statusSensorMiddle == 1) {
+      halbUmdrehungLinks();
   }
-
-
-  //linienabfrage start, nur erste version
-  linienInformationen() //liest die aktuellen informationen ab
-  if(statusSensorMiddle == 1) {
-    stehenbleiben();
-    for(statusSensorMiddle == 1) {
-      outRight = 50;
-      outLeft = 50;
+  if(statusSensorRight == 1 && statusSensorMiddle == 1) {
+      halbUmdrehungRechts();
+  }
+  if(statusSensorRight == 0 && statusSensorLeft == 0 && statusSensorMiddle == 0) {
+      outRight == 100;
+      outLeft == 100;
       motorAnsteuern();
-    }
-    if(statusSensorLeft == 1) {
-      outRight = 100;
-      outLeft = 0;
-    }
   }
 
 
-  //in der mitte fahren test
+  //In der Mitte fahren
   if (durchgangCounter == 10) {
     if (entfernungLinks < 500 && entfernungLinks > 0 && entfernungRechts < 500 && entfernungRechts > 0) { //nur wenn alle messungen genau sind, (links und rechts) also größer als 0 und kleiner als 500cm
       if (entfernungLinks > entfernungRechts) { //wenn links weiter weg ist als rechts
@@ -399,7 +399,7 @@ void loop() {
     } 
     durchgangCounter = 0;
   }
-  infoSerial(); //Zeigt bei der Ausgabe tipps für die Spalten an
+  //infoSerial(); //Zeigt bei der Ausgabe tipps für die Spalten an
   //delay(200); //zum Testen, könnten wir gut dalassen
   hindernisLinks = 0;
   hindernisRechts = 0;
