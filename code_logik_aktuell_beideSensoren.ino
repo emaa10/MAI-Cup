@@ -413,15 +413,15 @@ void loop() {
   }
 
 
-  //In der Mitte fahren
+  //Speedsync
   unsigned long currentMillis = millis(); //delay ohne delay
   if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL) {
     previousMillis = currentMillis;
-    if(readDistanceLeft() > readDistanceRight()) {
+    if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
       outRight += 10;
       motorAnsteuernGeradeausLauf();
     }
-    if(readDistanceRight() > readDistanceLeft()) {
+    if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
       outLeft += 10;
       motorAnsteuernGeradeausLauf();
     }
