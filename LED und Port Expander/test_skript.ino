@@ -1,14 +1,17 @@
+#include "PCF8575.h"
+PCF8575 PCF(0x38);
 #define LED_PIN 4
 
 void setup() {
-  pinMode(LED_PIN, OUTPUT);
-
+  Serial.begin(9600);
+  PCF.begin();
 }
 
 void loop() {
+  //PCF.write16(1);
   digitalWrite(LED_PIN, HIGH);
-  delay(10000);
+  delay(1000);
+  //PCF.write16(0);
   digitalWrite(LED_PIN, LOW);
-  delay(10000);
-
+  delay(1000);
 }
