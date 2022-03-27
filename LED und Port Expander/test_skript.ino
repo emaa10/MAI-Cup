@@ -11,7 +11,7 @@ void setup() {
 }
 
 void loop() {
-  pcf8575.digitalWrite(LED_PIN, HIGH);
+  pcf8575.digitalWrite(LED_PIN, 200);
   Serial.println("LED Pin high");
   delay(1000);
   pcf8575.digitalWrite(LED_PIN, LOW);
