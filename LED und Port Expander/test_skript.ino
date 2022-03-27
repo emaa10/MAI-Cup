@@ -1,5 +1,6 @@
 #include "PCF8575.h"
-PCF8575 pcf8575(0x21, A0, A1);
+
+PCF8575 pcf8575(0x21);
 #define LED_PIN P0
 
 void setup() {
@@ -11,7 +12,9 @@ void setup() {
 
 void loop() {
   pcf8575.digitalWrite(LED_PIN, HIGH);
+  Serial.println("LED Pin high");
   delay(1000);
   pcf8575.digitalWrite(LED_PIN, LOW);
+  Serial.println("LED Pin low");
   delay(1000);
 }
