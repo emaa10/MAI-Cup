@@ -354,7 +354,7 @@ void loop() {
   outRight = 150;
   motorAnsteuern();
   entfernungMessenLinks();
-  entfernungMessenRechts();
+  entfernungMessenRechts();<
   entfernungMessenVorne();
   int statusSensorMiddle = digitalRead(IR_MIDDLE);
   int statusSensorLeft = digitalRead(IR_LEFT);
