@@ -13,3 +13,8 @@ void loop() {
   pcf8575.digitalWrite(P0, LOW);
   delay(1000);
 }
+
+
+
+//Stand: 2022-04-04 
+//Funktioniert, LED leuchtet aber nur kurz auf...
