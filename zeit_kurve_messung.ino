@@ -37,13 +37,17 @@ void setup() {
   digitalWrite(LEFT_REN,HIGH);
   digitalWrite(LEFT_LEN,HIGH);
   delay(2000);
+
+
+
+
   outLeft = 0;
-  outRight = 200;
+  outRight = 110;
   analogWrite(RIGHT_LPWM,outRight);
   analogWrite(RIGHT_RPWM,0);
   analogWrite(LEFT_LPWM,outLeft);
   analogWrite(LEFT_RPWM,0);
-  delay(900); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  delay(1000); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   outRight = 0;
   analogWrite(RIGHT_LPWM,outRight);
   analogWrite(RIGHT_RPWM,0);
