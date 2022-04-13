@@ -417,7 +417,7 @@ void loop() {
 
   //Speedsync
   unsigned long currentMillis = millis(); //delay ohne delay
-  if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL) {
+  if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
     previousMillis = currentMillis;
     if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
       outRight += 30;
