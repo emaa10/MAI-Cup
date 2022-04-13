@@ -71,6 +71,8 @@ int durchgangCounter=0;
 unsigned long previousMillis = 0;
 #define SPEEDSYNCINTERVAL 300
 
+int umdrehungZeit=1250;
+int umdrehungSpeed=110;
 
 
 // - Funktionen -
@@ -261,8 +263,8 @@ void entfernungMessenRechts() {
 
 
 
-void umdrehungZeit() {
-    delay(830);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
+void umdrehungZeitVoid() {
+    delay(umdrehungZeit);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
 }
 // outdated
 void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
@@ -270,24 +272,24 @@ void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
 }
 
 void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
-    outLeft = 200;
+    outLeft = umdrehungSpeed;
     outRight = 0;
     motorAnsteuern();
-    umdrehungZeit();
+    delay(umdrehungZeit);
     outLeft = 0;
     motorAnsteuern();
 }
 
 void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
     outLeft = 0;
-    outRight = 200;
+    outRight = umdrehungSpeed;
     motorAnsteuern();
-    umdrehungZeit();
+    delay(umdrehungZeit);
     outRight = 0;
     motorAnsteuern();
 }
-
-void kurzerAusgleichNachLinks() {
+//Nicht benutzt
+/*void kurzerAusgleichNachLinks() {
   outRight = 200;
   motorAnsteuern();
   delay(250);
@@ -302,7 +304,7 @@ void kurzerAusgleichNachRechts() {
   outLeft = 105;
   motorAnsteuern();
 }
-
+*/
 
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
