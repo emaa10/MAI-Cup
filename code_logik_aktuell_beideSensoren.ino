@@ -420,11 +420,11 @@ void loop() {
   if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL) {
     previousMillis = currentMillis;
     if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
-      outRight += 20;
+      outRight += 30;
       motorAnsteuernGeradeausLauf();
     }
     if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
-      outLeft += 20;
+      outLeft += 30;
       motorAnsteuernGeradeausLauf();
     }
   }
