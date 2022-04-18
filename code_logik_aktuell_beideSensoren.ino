@@ -42,13 +42,6 @@
 //motor
 int outLeft; 
 int outRight;
-// alte trash logic dinger
-int logicRight; //Temporärer Speicher bei der Kurve
-int logicLeft; //Temporärer Speicher bei der Kurve
-int logicRight1; //Temporärer Speicher bei der Kurve
-int logicLeft1; //Temporärer Speicher bei der Kurve
-int logicRight2; //Temporärer Speicher bei der Kurve
-int logicLeft2; //Temporärer Speicher bei der Kurve
 // neue logic checks
 int hindernisLinks;
 int hindernisRechts;
@@ -70,10 +63,12 @@ int entfernungRechtsOld;
 int durchgangCounter=0;
 unsigned long previousMillis = 0;
 #define SPEEDSYNCINTERVAL 300
-
-int umdrehungZeit=1250;
-int umdrehungSpeed=110;
-
+//90° Drehung
+const int umdrehungZeit=1250;
+const int umdrehungSpeed=110;
+//Linienskript
+enum LineDirection {NOTHING, LEFT, RIGHT};
+var LineDirection lastKnownLineDirection = NOTHING;
 
 // - Funktionen -
 //liniensensor
@@ -370,39 +365,60 @@ void loop() {
   linieRechts();
   magnetLesen();
   //ausgabe ende
-  //entfernung zu variable
-  if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
-    if (readDistanceLeft() <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
-      hindernisLinks = 1;
-    }
-    if (readDistanceRight() <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
-      hindernisRechts = 1;
-    }
 
-    //Hindernis Abfrage 
-    if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
-      stehenbleiben();
-      Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
-    }
-    else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
-      halbUmdrehungRechts();
-      fahrenBeide();
-      //Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
-    }
-    else if (hindernisRechts == 1) { 
-      halbUmdrehungLinks();
-      fahrenBeide();
-      //Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
-    }
-    else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
-      //Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
-      halbUmdrehungRechts();
-      fahrenBeide();
-    }
-  }
+ if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1) { //wenn keiner der sensoren eine linie erkannt hat
+ 
+    //entfernung zu variable
+    if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+      if (readDistanceLeft() <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
+        hindernisLinks = 1;
+      }
+      if (readDistanceRight() <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+        hindernisRechts = 1;
+      }
 
-  //Linienabfrage
+      //Hindernis Abfrage 
+      if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
+        stehenbleiben();
+        Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
+      }
+      else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
+        halbUmdrehungRechts();
+        fahrenBeide();
+        //Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
+      }
+      else if (hindernisRechts == 1) { 
+        halbUmdrehungLinks();
+        fahrenBeide();
+        //Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
+      }
+      else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
+        //Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
+        halbUmdrehungRechts();
+        fahrenBeide();
+      }
+    }
+    //Speedsync
+    unsigned long currentMillis = millis(); //delay ohne delay
+    if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
+      previousMillis = currentMillis;
+      if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+        outRight += 30;
+        motorAnsteuernGeradeausLauf();
+      }
+      if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
+        outLeft += 30;
+        motorAnsteuernGeradeausLauf();
+      }
+    }
+ }
 
+ //Linienabfrage
+ else { //wenn doch eine linie erkannt wurde
+
+ }
+
+ /*
   if(readSensorLeft() == 1 && readSensorMiddle() == 1) {
       halbUmdrehungLinks();
   }
@@ -413,20 +429,8 @@ void loop() {
   if(readSensorRight() == 0 && readSensorLeft() == 0 && readSensorMiddle() == 0) {
       fahrenBeide();
       motorAnsteuern();
-  }
+  }*/
 
 
-  //Speedsync
-  unsigned long currentMillis = millis(); //delay ohne delay
-  if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
-    previousMillis = currentMillis;
-    if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
-      outRight += 30;
-      motorAnsteuernGeradeausLauf();
-    }
-    if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
-      outLeft += 30;
-      motorAnsteuernGeradeausLauf();
-    }
-  }
+  
 }
