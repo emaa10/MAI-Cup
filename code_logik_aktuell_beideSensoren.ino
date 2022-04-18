@@ -359,8 +359,8 @@ void setup() {
  * Main Loop
  */
 void loop() {
-  durchgangCounter++; //eigentlich schwachsinn funktioniert aber
-  //Serial.print(durchgangCounter);
+  hindernisLinks = 0;
+  hindernisRechts = 0;
   //ausgabe start
   entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
@@ -372,7 +372,6 @@ void loop() {
   //ausgabe ende
   //entfernung zu variable
   if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
-    stehenbleiben(); //direkt stehenbleiben
     if (readDistanceLeft() <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
       hindernisLinks = 1;
     }
@@ -380,7 +379,7 @@ void loop() {
       hindernisRechts = 1;
     }
 
-    //Entfernung Abfrage 
+    //Hindernis Abfrage 
     if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
       stehenbleiben();
       Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
@@ -430,7 +429,4 @@ void loop() {
       motorAnsteuernGeradeausLauf();
     }
   }
-
-  hindernisLinks = 0;
-  hindernisRechts = 0;
 }
