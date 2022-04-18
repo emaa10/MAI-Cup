@@ -354,7 +354,7 @@ void setup() {
  * Main Loop
  */
 void loop() {
-  fahrenBeide();
+  fahrenBeide(); //losfahren
   hindernisLinks = 0;
   hindernisRechts = 0;
   //ausgabe start
