@@ -68,7 +68,7 @@ const int umdrehungZeit=1250;
 const int umdrehungSpeed=110;
 //Linienskript
 enum LineDirection {NOTHING, LEFT, RIGHT};
-var LineDirection lastKnownLineDirection = NOTHING;
+LineDirection lastKnownLineDirection = NOTHING;
 
 // - Funktionen -
 //liniensensor
