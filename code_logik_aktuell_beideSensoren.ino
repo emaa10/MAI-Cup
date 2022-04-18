@@ -354,6 +354,7 @@ void setup() {
  * Main Loop
  */
 void loop() {
+  fahrenBeide();
   hindernisLinks = 0;
   hindernisRechts = 0;
   //ausgabe start
@@ -366,7 +367,7 @@ void loop() {
   magnetLesen();
   //ausgabe ende
 
- if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1) { //wenn keiner der sensoren eine linie erkannt hat
+ if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1 && lastKnownLineDirection == NOTHING) { //wenn keiner der sensoren eine linie erkannt hat
  
     //entfernung zu variable
     if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
@@ -415,6 +416,48 @@ void loop() {
 
  //Linienabfrage
  else { //wenn doch eine linie erkannt wurde
+
+//wenn linker sensor 1 ist und der mittlere 0: stehen bleiben, nahc links drehen solange bis mittlerer sensor auch linie sieht und der linke nicht mehr
+  if(readSensorLeft() == 1 && readSensorMiddle() == 0) {
+    stehenbleiben();
+    lastKnownLineDirection = LEFT; //er "merkt" sich auf welcher seite zuletzt eine linie war
+    while(readSensorMiddle() == 0) {
+      outRight == 20;
+      motorAnsteuern();
+    }
+    stehenbleiben();
+  } 
+//wenn rechter sensor 1 ist und der mittlere 0: stehen bleiben, nach rechts drehen solange bis mittlerer sensor 1 ist und rechter 0
+  else if(readSensorRight() == 1 && readSensorMiddle() == 0) {
+    stehenbleiben();
+    lastKnownLineDirection = RIGHT; //er "merkt" sich auf welcher seite zuletzt eine linie war
+    while(readSensorMiddle() == 0) {
+      outLeft == 20;
+      motorAnsteuern();
+    }
+    stehenbleiben();
+  } 
+//wenn alle sensoren 0 sind: dreht in die jeweilige richtung, bis mittlerer sensor wieder 1, dann lastDirectionRecognized = 0
+  if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1 && lastKnownLineDirection != NOTHING) {
+    if(lastKnownLineDirection == LEFT) {
+      lastKnownLineDirection = NOTHING;
+      stehenbleiben();
+      while(readSensorMiddle() == 0) {
+        outRight == 20;
+        motorAnsteuern();
+      }
+      stehenbleiben();
+    }
+    else if(lastKnownLineDirection == RIGHT) {
+      lastKnownLineDirection = NOTHING;
+      stehenbleiben();
+      while(readSensorMiddle() == 0) {
+        outLeft == 20;
+        motorAnsteuern();
+      }
+      stehenbleiben();
+    }
+  }
 
  }
 
