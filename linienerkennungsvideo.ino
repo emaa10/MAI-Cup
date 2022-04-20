@@ -355,5 +355,17 @@ void setup() {
 
 
 void loop() {
-    Serial.println(readSensorMiddle());
+    Serial.print("Links: ");
+    Serial.print(readSensorLeft());
+    Serial.print("     ");
+
+    Serial.print("Mitte: ");
+    Serial.print(readSensorMiddle());
+    Serial.print("     ");
+
+    Serial.print("Rechts: ");
+    Serial.print(readSensorRight());
+    Serial.println("     ");
+
+    delay(200);
 }
