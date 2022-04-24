@@ -45,7 +45,7 @@ int outRight;// Soll-Wert rechts
 int motorLeft;  // Ist-Wert links
 int motorRight; // Ist-Wert rechts
 unsigned long previousMillisMotor = 0;
-#define MOTORSPEEDSYNCINTERVAL 100
+#define MOTORSPEEDSYNCINTERVAL 20
 #define MOTORSPEEDSYNCSTEP 5
 // neue logic checks
 int hindernisLinks;
@@ -383,98 +383,99 @@ void loop() {
   linieRechts();
   magnetLesen();
   //ausgabe ende
+  if(readMagnetSensor() != 0) { //wenn ein magnet da ist
+    if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1 && lastKnownLineDirection == NOTHING) { //wenn keiner der sensoren eine linie erkannt hat
 
-  if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1 && lastKnownLineDirection == NOTHING) { //wenn keiner der sensoren eine linie erkannt hat
+        //entfernung zu variable
+        if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
+          if (readDistanceLeft() <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
+            hindernisLinks = 1;
+          }
+          if (readDistanceRight() <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
+            hindernisRechts = 1;
+          }
 
-      //entfernung zu variable
-      if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
-        if (readDistanceLeft() <= 23) { //wenn links eine wand ist wird hindernisLinks auf 1 gesetzt (wenn links weniger als 0 cm entfernt ist auch, also bei einem messfehler)
-          hindernisLinks = 1;
+          //Hindernis Abfrage 
+          if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
+            stehenbleiben();
+            Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
+          }
+          else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
+            halbUmdrehungRechts();
+            fahrenBeide();
+            //Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
+          }
+          else if (hindernisRechts == 1) { 
+            halbUmdrehungLinks();
+            fahrenBeide();
+            //Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
+          }
+          else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
+            //Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
+            halbUmdrehungRechts();
+            fahrenBeide();
+          }
         }
-        if (readDistanceRight() <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
-          hindernisRechts = 1;
-        }
+        /*
+        //Speedsync
+        unsigned long currentMillis = millis(); //delay ohne delay
+        if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
+          previousMillis = currentMillis;
+          if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+            outRight += 30;
+            motorAnsteuernGeradeausLauf();
+          }
+          if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
+            outLeft += 30;
+            motorAnsteuernGeradeausLauf();
+          }
+        }*/
+    }
 
-        //Hindernis Abfrage 
-        if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
-          stehenbleiben();
-          Serial.println("----- INFO: Stehen geblieben, da 2 Hindernisse vorhanden sind");
-        }
-        else if (hindernisLinks == 1) { // wenn links ein hindernis ist, fährt er wieder los und gibt eine ausgabe (als erstes mal zum testen)
-          halbUmdrehungRechts();
-          fahrenBeide();
-          //Serial.println("----- INFO: Links hindernis fährt also nach rechts -----");
-        }
-        else if (hindernisRechts == 1) { 
-          halbUmdrehungLinks();
-          fahrenBeide();
-          //Serial.println("----- INFO: Rechts hindernis fährt also nach links -----");
-        }
-        else if (0 == hindernisLinks + hindernisRechts) { //bei keinem hindernis und nur vorne fährt er halt rechts
-          //Serial.println("----- INFO: Kein Hindernis links/rechts --> fährt nach rechts");
-          halbUmdrehungRechts();
-          fahrenBeide();
-        }
-      }
-      //Speedsync
-      unsigned long currentMillis = millis(); //delay ohne delay
-      if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
-        previousMillis = currentMillis;
-        if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
-          outRight += 30;
-          motorAnsteuernGeradeausLauf();
-        }
-        if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
-          outLeft += 30;
-          motorAnsteuernGeradeausLauf();
-        }
-      }
-  }
+    //Linienabfrage
+    else { //wenn doch eine linie erkannt wurde
 
-  //Linienabfrage
-  else { //wenn doch eine linie erkannt wurde
-
-  //wenn linker sensor 1 ist und der mittlere 0: stehen bleiben, nahc links drehen solange bis mittlerer sensor auch linie sieht und der linke nicht mehr
-    if(readSensorLeft() == 1 && readSensorMiddle() == 0) {
-      stehenbleiben();
-      lastKnownLineDirection = LEFT; //er "merkt" sich auf welcher seite zuletzt eine linie war
-      while(readSensorMiddle() == 0) {
-        outRight == 20;
-        motorAnsteuern();
-      }
-      stehenbleiben();
-    } 
-  //wenn rechter sensor 1 ist und der mittlere 0: stehen bleiben, nach rechts drehen solange bis mittlerer sensor 1 ist und rechter 0
-    else if(readSensorRight() == 1 && readSensorMiddle() == 0) {
-      stehenbleiben();
-      lastKnownLineDirection = RIGHT; //er "merkt" sich auf welcher seite zuletzt eine linie war
-      while(readSensorMiddle() == 0) {
-        outLeft == 20;
-        motorAnsteuern();
-      }
-      stehenbleiben();
-    } 
-  //wenn alle sensoren 0 sind: dreht in die jeweilige richtung, bis mittlerer sensor wieder 1, dann lastDirectionRecognized = 0
-    if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1 && lastKnownLineDirection != NOTHING) {
-      if(lastKnownLineDirection == LEFT) {
-        lastKnownLineDirection = NOTHING;
+    //wenn linker sensor 1 ist und der mittlere 0: stehen bleiben, nahc links drehen solange bis mittlerer sensor auch linie sieht und der linke nicht mehr
+      if(readSensorLeft() == 1 && readSensorMiddle() == 0) {
         stehenbleiben();
+        lastKnownLineDirection = LEFT; //er "merkt" sich auf welcher seite zuletzt eine linie war
         while(readSensorMiddle() == 0) {
           outRight == 20;
           motorAnsteuern();
         }
         stehenbleiben();
-      }
-      else if(lastKnownLineDirection == RIGHT) {
-        lastKnownLineDirection = NOTHING;
+      } 
+    //wenn rechter sensor 1 ist und der mittlere 0: stehen bleiben, nach rechts drehen solange bis mittlerer sensor 1 ist und rechter 0
+      else if(readSensorRight() == 1 && readSensorMiddle() == 0) {
         stehenbleiben();
+        lastKnownLineDirection = RIGHT; //er "merkt" sich auf welcher seite zuletzt eine linie war
         while(readSensorMiddle() == 0) {
           outLeft == 20;
           motorAnsteuern();
         }
         stehenbleiben();
+      } 
+    //wenn alle sensoren 0 sind: dreht in die jeweilige richtung, bis mittlerer sensor wieder 1, dann lastDirectionRecognized = 0
+      if(readSensorLeft() != 1 && readSensorMiddle() != 1 && readSensorRight() != 1 && lastKnownLineDirection != NOTHING) {
+        if(lastKnownLineDirection == LEFT) {
+          lastKnownLineDirection = NOTHING;
+          stehenbleiben();
+          while(readSensorMiddle() == 0) {
+            outRight == 20;
+            motorAnsteuern();
+          }
+          stehenbleiben();
+        }
+        else if(lastKnownLineDirection == RIGHT) {
+          lastKnownLineDirection = NOTHING;
+          stehenbleiben();
+          while(readSensorMiddle() == 0) {
+            outLeft == 20;
+            motorAnsteuern();
+          }
+          stehenbleiben();
+        }
       }
     }
-
  }
 }
