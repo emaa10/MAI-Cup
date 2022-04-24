@@ -52,8 +52,8 @@ int hindernisLinks;
 int hindernisRechts;
 //Hall Sensor
 int Hall_Val1=0,Hall_Val2=0;
-enum HallPosition {LEFT, RIGHT};
-HallPosition magnetPosition = LEFT;                                                             //INFO: HIER KANN MAN DIE MAGNETPOSITION KONFIGURIEREN
+enum HallPosition {LINKS, RECHTS};
+HallPosition magnetPosition = LINKS;                                                             //INFO: HIER KANN MAN DIE MAGNETPOSITION KONFIGURIEREN
 // Ultraschall
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
