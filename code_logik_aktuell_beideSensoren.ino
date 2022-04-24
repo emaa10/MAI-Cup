@@ -71,8 +71,8 @@ int durchgangCounter=0;
 unsigned long previousMillis = 0;
 #define SPEEDSYNCINTERVAL 300
 //90° Drehung
-const int umdrehungZeit=1250;
-const int umdrehungSpeed=110;
+const int umdrehungZeit=1500;
+const int umdrehungSpeed=70;
 //Linienskript
 enum LineDirection {NOTHING, LEFT, RIGHT};
 LineDirection lastKnownLineDirection = NOTHING;
@@ -145,9 +145,9 @@ void motorAnsteuern() {
     }
   }
   analogWrite(RIGHT_LPWM,motorRight); //Schreibe Geschwindigkeit auf Pins
-  analogWrite(RIGHT_RPWM,0);        //Schreibe Geschwindigkeit auf Pins
+  analogWrite(RIGHT_RPWM,0);          //Schreibe Geschwindigkeit auf Pins
   analogWrite(LEFT_LPWM,motorLeft);   //Schreibe Geschwindigkeit auf Pins
-  analogWrite(LEFT_RPWM,0);         //Schreibe Geschwindigkeit auf Pins
+  analogWrite(LEFT_RPWM,0);           //Schreibe Geschwindigkeit auf Pins
 }
 
 void motorAnsteuernGeradeausLauf() {
@@ -206,12 +206,6 @@ void linieRechts() {
  * Motoren starten (beiden fahren)
  */
 void fahrenBeide() {
-  /*for(int outBoth=10; outBoth <= 70; outBoth++) {
-    outLeft = outBoth;
-    outRight = outBoth;
-    motorAnsteuern();
-    delay(5);
-  }*/
   outLeft = 40;
   outRight = 40;
   motorAnsteuern();
@@ -306,39 +300,25 @@ void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
 }
 
 void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
-    outLeft = umdrehungSpeed;
-    outRight = 0;
-    motorAnsteuern();
-    delay(umdrehungZeit);
-    outLeft = 0;
-    motorAnsteuern();
+  stehenbleiben();
+  outLeft = umdrehungSpeed;
+  outRight = 0;
+  motorAnsteuern();
+  delay(umdrehungZeit);
+  outLeft = 0;
+  motorAnsteuern();
 }
 
 void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
-    outLeft = 0;
-    outRight = umdrehungSpeed;
-    motorAnsteuern();
-    delay(umdrehungZeit);
-    outRight = 0;
-    motorAnsteuern();
-}
-//Nicht benutzt
-/*void kurzerAusgleichNachLinks() {
-  outRight = 200;
+  stehenbleiben();
+  outLeft = 0;
+  outRight = umdrehungSpeed;
   motorAnsteuern();
-  delay(250);
-  outRight = 110;
+  delay(umdrehungZeit);
+  outRight = 0;
   motorAnsteuern();
 }
 
-void kurzerAusgleichNachRechts() {
-  outLeft = 200;
-  motorAnsteuern();
-  delay(250);
-  outLeft = 105;
-  motorAnsteuern();
-}
-*/
 
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
