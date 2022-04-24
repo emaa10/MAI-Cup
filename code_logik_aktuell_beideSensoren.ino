@@ -371,7 +371,7 @@ void setup() {
  * Main Loop
  */
 void loop() {
-  fahrenBeide(); //losfahren
+  fahrenBeide(); //losfahren, Wird UMBEDINGT benötigt für MotorSpeedSync!!
   hindernisLinks = 0;
   hindernisRechts = 0;
   //ausgabe start
@@ -477,20 +477,4 @@ void loop() {
     }
 
  }
-
- /*
-  if(readSensorLeft() == 1 && readSensorMiddle() == 1) {
-      halbUmdrehungLinks();
-  }
-  if(readSensorRight() == 1 && readSensorMiddle() == 1) {
-      halbUmdrehungRechts();
-  }
-  //nicht benötigt, funktioniert aber
-  if(readSensorRight() == 0 && readSensorLeft() == 0 && readSensorMiddle() == 0) {
-      fahrenBeide();
-      motorAnsteuern();
-  }*/
-
-
-  
 }
