@@ -175,9 +175,12 @@ void linieRechts() {
  * Motoren starten (beiden fahren)
  */
 void fahrenBeide() {
-  outLeft = 50; //Setze Geschwindigkeit links auf 100
-  outRight = 50; //Setze Geschwindigkeit rechts auf 100
-  motorAnsteuern();
+  for(int outBoth=10; outBoth <= 70, outBoth++) {
+    outBoth = outLeft;
+    outBoth = outRight;
+    motorAnsteuern();
+    delay(30);
+  }
 //  Serial.println("fahren beide laut Methode");
 }
 
