@@ -175,7 +175,7 @@ void linieRechts() {
  * Motoren starten (beiden fahren)
  */
 void fahrenBeide() {
-  for(int outBoth=10; outBoth <= 70, outBoth++) {
+  for(int outBoth=10; outBoth <= 70; outBoth++) {
     outBoth = outLeft;
     outBoth = outRight;
     motorAnsteuern();
