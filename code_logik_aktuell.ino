@@ -24,11 +24,11 @@
 #define TRIGGER_VORNE 12 //Ultraschallsensor vorne Trigger Pin 
 #define ECHO_VORNE 13    //Ultraschallsensor vorne Echo Pin 
 // Ultraschall links
-#define TRIGGER_LINKS 7 
-#define ECHO_LINKS A5
+#define TRIGGER_LINKS 4 
+#define ECHO_LINKS A4
 //Ultraschall rechts
-#define TRIGGER_RECHTS 4 
-#define ECHO_RECHTS A4
+#define TRIGGER_RECHTS 7 
+#define ECHO_RECHTS A5
 //Hall Sensor
 //#define HALL_SENSOR A0          //analog output (optional)
 #define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
