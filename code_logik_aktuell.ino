@@ -443,7 +443,7 @@ void loop() {
     else if(magnetPosition == LINKS) { //und er links ist 
       halbUmdrehungRechts(); //richtig weiterfahren
     }
-  }'/
+  }*/
 
   hindernisLinks = 0;
   hindernisRechts = 0;
