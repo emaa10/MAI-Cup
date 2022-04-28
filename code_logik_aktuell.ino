@@ -127,9 +127,9 @@ void motorAnsteuern() {
 }
 
 void motorAnsteuernGeradeausLauf() {
-  if(outLeft >= 70 || outRight >= 70) {
-    outLeft -= 20;
-    outRight -= 20;
+  if(outLeft >= 80 || outRight >= 80) {
+    outLeft -= 30;
+    outRight -= 30;
   }
   motorAnsteuern();
 }
@@ -443,7 +443,7 @@ void loop() {
     else if(magnetPosition == LINKS) { //und er links ist 
       halbUmdrehungRechts(); //richtig weiterfahren
     }
-  }*/
+  }'/
 
   hindernisLinks = 0;
   hindernisRechts = 0;
