@@ -435,6 +435,7 @@ void loop() {
   }
 
   //Magnetskript
+  /*
   if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
     if(magnetPosition == RECHTS) { //und er rechts ist
       halbUmdrehungLinks(); //richtig weiterfahren
@@ -442,7 +443,7 @@ void loop() {
     else if(magnetPosition == LINKS) { //und er links ist 
       halbUmdrehungRechts(); //richtig weiterfahren
     }
-  }
+  }*/
 
   hindernisLinks = 0;
   hindernisRechts = 0;
