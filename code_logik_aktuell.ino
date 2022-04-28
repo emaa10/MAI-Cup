@@ -280,6 +280,7 @@ void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
     delay(umdrehungZeit);
     outLeft = 0;
     motorAnsteuern();
+    Serial.print("Rechts umdrehung");
 }
 
 void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
@@ -289,6 +290,7 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
     delay(umdrehungZeit);
     outRight = 0;
     motorAnsteuern();
+    Serial.print("Links umdrehung");
 }
 //Nicht benutzt
 /*void kurzerAusgleichNachLinks() {
