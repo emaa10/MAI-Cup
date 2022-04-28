@@ -54,6 +54,8 @@ int hindernisLinks;
 int hindernisRechts;
 //Hall Sensor
 int Hall_Val1=0,Hall_Val2=0;
+enum HallPosition {LINKS, RECHTS};
+HallPosition magnetPosition = LINKS;                                                        // MAGNET CONFIG HIER
 // Ultraschall
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
@@ -425,6 +427,16 @@ void loop() {
     if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
       outLeft += 30;
       motorAnsteuernGeradeausLauf();
+    }
+  }
+
+  //Magnetskript
+  if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
+    if(magnetPosition == RECHTS) { //und er rechts ist
+      halbUmdrehungLinks(); //richtig weiterfahren
+    }
+    else if(magnetPosition == LINKS) { //und er links ist 
+      halbUmdrehungRechts(); //richtig weiterfahren
     }
   }
 
