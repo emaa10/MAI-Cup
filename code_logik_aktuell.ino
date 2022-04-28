@@ -207,13 +207,15 @@ void entfernungMessenVorne() {
   entfernungVorne = (long)((dauerVorne/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungVorne >= 500 || entfernungVorne <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
+    Serial.print("Vorne: ")
     Serial.print(entfernungVorne); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
+    Serial.print("Vorne: ")
     Serial.print(entfernungVorne); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
   //  Serial.println(" cm Vorne"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
-  Serial.print(" cm   ");
+  Serial.print("cm   ");
 }
 
 void entfernungMessenLinks() {
@@ -227,15 +229,15 @@ void entfernungMessenLinks() {
   entfernungLinks = (long)((dauerLinks/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungLinks >= 500 || entfernungLinks <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
+    Serial.print("Links: ")
     Serial.print(entfernungLinks); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
+    Serial.print("Links: ")
     Serial.print(entfernungLinks); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
   //  Serial.print(" cm Links"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
-  Serial.print(" cm   ");
-  Serial.print(entfernungLinksOld);
-  Serial.print(" cm   ");
+  Serial.print("cm   ");
   //Serial.println(" Alte Entfernung links");
 }
 
@@ -251,15 +253,15 @@ void entfernungMessenRechts() {
   entfernungRechts = (long)((dauerRechts/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
   if (entfernungRechts >= 500 || entfernungRechts <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
+    Serial.print("Rechts: ")
     Serial.print(entfernungRechts); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
   }
   else {
+    Serial.print("Rechts: ")
     Serial.print(entfernungRechts); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
   //  Serial.println(" cm Rechts"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
   }
-  Serial.print(" cm   ");
-  Serial.print(entfernungRechtsOld);
-  Serial.print(" cm   ");
+  Serial.print("cm   ");
 }
 
 
@@ -280,7 +282,7 @@ void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
     delay(umdrehungZeit);
     outLeft = 0;
     motorAnsteuern();
-    Serial.print("Rechts umdrehung");
+    Serial.println("Rechts umdrehung");
 }
 
 void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
@@ -290,7 +292,7 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
     delay(umdrehungZeit);
     outRight = 0;
     motorAnsteuern();
-    Serial.print("Links umdrehung");
+    Serial.println("Links umdrehung");
 }
 //Nicht benutzt
 /*void kurzerAusgleichNachLinks() {
