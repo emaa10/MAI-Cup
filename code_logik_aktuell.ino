@@ -104,12 +104,22 @@ long readDistance(int trigger, int echo) { //main
   return (long)((dauer/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
  }
 
+long readDistancePE(int trigger, int echo) { //main, mit Portexpander
+  pcf8575.digitalWrite(trigger, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
+  delay(5); // Pause 5 Millisekunden
+  pcf8575.digitalWrite(trigger, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
+  delay(10); //Dieser „Ton“ erklingt für 10 Millisekunden.
+  pcf8575.digitalWrite(trigger, LOW);//Dann wird der „Ton“ abgeschaltet.
+  long dauer = pulseIn(echo, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
+  return (long)((dauer/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
+ }
+
 long readDistanceFront() { //front ultraschall
-  return readDistance(TRIGGER_VORNE, ECHO_VORNE);
+  return readDistancePE(TRIGGER_VORNE, ECHO_VORNE);
  }
 
 long readDistanceLeft() { //left ultraschall
-  return readDistance(TRIGGER_LINKS, ECHO_LINKS);
+  return readDistancePE(TRIGGER_LINKS, ECHO_LINKS);
  }
 
 long readDistanceRight() { //right ultraschall
@@ -339,10 +349,10 @@ void setup() {
   digitalWrite(LEFT_LEN,HIGH); //Pin beschreiben
   
   // Abstandssensor vorne
-  pinMode(TRIGGER_VORNE, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pcf8575.pinMode(TRIGGER_VORNE, OUTPUT); // Trigger-Pin ist ein Ausgang
   pinMode(ECHO_VORNE, INPUT); // Echo-Pin ist ein Eingang
   // Abstandssensor links
-  pinMode(TRIGGER_LINKS, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pcf8575.pinMode(TRIGGER_LINKS, OUTPUT); // Trigger-Pin ist ein Ausgang
   pinMode(ECHO_LINKS, INPUT); // Echo-Pin ist ein Eingang
   // Abstandssensor rechts
   pinMode(TRIGGER_RECHTS, OUTPUT); // Trigger-Pin ist ein Ausgang
