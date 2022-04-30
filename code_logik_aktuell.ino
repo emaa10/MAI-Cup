@@ -25,7 +25,7 @@
 #define ECHO_VORNE 13    //Ultraschallsensor vorne Echo Pin 
 // Ultraschall links
 #define TRIGGER_LINKS 7 
-#define ECHO_LINKS A4
+#define ECHO_LINKS A5
 //Ultraschall rechts
 #define TRIGGER_RECHTS 4 
 #define ECHO_RECHTS A4
