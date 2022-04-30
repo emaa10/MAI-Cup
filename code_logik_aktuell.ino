@@ -201,11 +201,11 @@ void stehenbleiben() {
 }
 //old, dienen nur zur ausgabe
 void entfernungMessenVorne() {
-  pcf8575.digitalWrite(TRIGGER_VORNE, HIGH); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
+  pcf8575.digitalWrite(TRIGGER_VORNE, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
-  pcf8575.digitalWrite(TRIGGER_VORNE, LOW); //Jetzt sendet man eine Ultraschallwelle los.
+  pcf8575.digitalWrite(TRIGGER_VORNE, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
   delay(10); //Dieser „Ton“ erklingt für 10 Millisekunden.
-  pcf8575.digitalWrite(TRIGGER_VORNE, HIGH);//Dann wird der „Ton“ abgeschaltet.
+  pcf8575.digitalWrite(TRIGGER_VORNE, LOW);//Dann wird der „Ton“ abgeschaltet.
   dauerVorne = pulseIn(ECHO_VORNE, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
   entfernungVorne = (long)((dauerVorne/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
@@ -223,11 +223,11 @@ void entfernungMessenVorne() {
 
 void entfernungMessenLinks() {
   entfernungLinksOld = entfernungLinks;
-  pcf8575.digitalWrite(TRIGGER_LINKS, HIGH); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
+  pcf8575.digitalWrite(TRIGGER_LINKS, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
-  pcf8575.digitalWrite(TRIGGER_LINKS, LOW); //Jetzt sendet man eine Ultraschallwelle los.
+  pcf8575.digitalWrite(TRIGGER_LINKS, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
   delay(10); //Dieser „Ton“ erklingt für 10 Millisekunden.
-  pcf8575.digitalWrite(TRIGGER_LINKS, HIGH);//Dann wird der „Ton“ abgeschaltet.
+  pcf8575.digitalWrite(TRIGGER_LINKS, LOW);//Dann wird der „Ton“ abgeschaltet.
   dauerLinks = pulseIn(ECHO_LINKS, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
   entfernungLinks = (long)((dauerLinks/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
