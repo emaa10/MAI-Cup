@@ -2,7 +2,6 @@
 
 PCF8575 pcf8575(0x21);
 #define LED_PIN P0
-#define MAGNETPIN P7
 
 void setup() {
   Serial.begin(9600);
@@ -19,10 +18,4 @@ void loop() {
   pcf8575.digitalWrite(LED_PIN, HIGH);
   Serial.println("LED Pin high");
   delay(1000);
-  
-  //magnetsensor
-  
-  int magnet=pcf8575.digitalRead(MAGNETPIN);
-  Serial.println(magnet);
-
 }
