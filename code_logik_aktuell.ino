@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#include "PCF8575.h"
+
+PCF8575 pcf8575(0x21); //portexpander bus adresse und name 
 
 /*
   MAI Cup Junior Code
@@ -21,14 +24,14 @@
 #define LEFT_REN 2
 #define LEFT_LEN 3
 // Ultraschall vorne/MITTE
-#define TRIGGER_VORNE 12 //Ultraschallsensor vorne Trigger Pin 
-#define ECHO_VORNE 13    //Ultraschallsensor vorne Echo Pin 
+#define TRIGGER_VORNE P0 //auf portexpander 
+#define ECHO_VORNE 13 
 // Ultraschall links
-#define TRIGGER_LINKS 7 
-#define ECHO_LINKS A5
+#define TRIGGER_LINKS P1 //auf portexpander 
+#define ECHO_LINKS 12
 //Ultraschall rechts
-#define TRIGGER_RECHTS 4 
-#define ECHO_RECHTS A4
+#define TRIGGER_RECHTS 7 
+#define ECHO_RECHTS 4
 //Hall Sensor
 //#define HALL_SENSOR A0          //analog output (optional)
 #define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
@@ -198,11 +201,11 @@ void stehenbleiben() {
 }
 //old, dienen nur zur ausgabe
 void entfernungMessenVorne() {
-  digitalWrite(TRIGGER_VORNE, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
+  pcf8575.digitalWrite(TRIGGER_VORNE, HIGH); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
-  digitalWrite(TRIGGER_VORNE, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
+  pcf8575.digitalWrite(TRIGGER_VORNE, LOW); //Jetzt sendet man eine Ultraschallwelle los.
   delay(10); //Dieser „Ton“ erklingt für 10 Millisekunden.
-  digitalWrite(TRIGGER_VORNE, LOW);//Dann wird der „Ton“ abgeschaltet.
+  pcf8575.digitalWrite(TRIGGER_VORNE, HIGH);//Dann wird der „Ton“ abgeschaltet.
   dauerVorne = pulseIn(ECHO_VORNE, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
   entfernungVorne = (long)((dauerVorne/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
@@ -220,11 +223,11 @@ void entfernungMessenVorne() {
 
 void entfernungMessenLinks() {
   entfernungLinksOld = entfernungLinks;
-  digitalWrite(TRIGGER_LINKS, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
+  pcf8575.digitalWrite(TRIGGER_LINKS, HIGH); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
-  digitalWrite(TRIGGER_LINKS, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
+  pcf8575.digitalWrite(TRIGGER_LINKS, LOW); //Jetzt sendet man eine Ultraschallwelle los.
   delay(10); //Dieser „Ton“ erklingt für 10 Millisekunden.
-  digitalWrite(TRIGGER_LINKS, LOW);//Dann wird der „Ton“ abgeschaltet.
+  pcf8575.digitalWrite(TRIGGER_LINKS, HIGH);//Dann wird der „Ton“ abgeschaltet.
   dauerLinks = pulseIn(ECHO_LINKS, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
   entfernungLinks = (long)((dauerLinks/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
   
@@ -334,6 +337,7 @@ void setup() {
   pinMode(LEFT_REN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
   digitalWrite(LEFT_REN,HIGH); //Pin beschreiben
   digitalWrite(LEFT_LEN,HIGH); //Pin beschreiben
+  
   // Abstandssensor vorne
   pinMode(TRIGGER_VORNE, OUTPUT); // Trigger-Pin ist ein Ausgang
   pinMode(ECHO_VORNE, INPUT); // Echo-Pin ist ein Eingang
@@ -350,6 +354,7 @@ void setup() {
   // Hall Sensor
   pinMode(HALL_SENSOR_D,INPUT);
 
+  pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN
   
   Serial.println("----- INFO: Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
