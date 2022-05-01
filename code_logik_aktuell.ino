@@ -35,10 +35,13 @@ PCF8575 pcf8575(0x21); //portexpander bus adresse und name
 //Hall Sensor
 //#define HALL_SENSOR A0          //analog output (optional)
 #define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
+int hallValAlt;
 //Infrarot Sensor
 #define IR_LEFT A3 // connect ir sensor to arduino pin 2 (left one)
 #define IR_RIGHT A1
 #define IR_MIDDLE A0
+//LED
+#define LED_PIN P2
 
 
 // - Daten -
@@ -128,6 +131,13 @@ long readDistanceRight() { //right ultraschall
 
 int readMagnetSensor() {
   return digitalRead(HALL_SENSOR_D);
+  if(readMagnetSensor() == 0) { //wenn magnet
+    if(readMagnetSensor() == 0 && hallValAlt == 0) { //wenn davor auchs chon magnet war
+      ledAn();
+    }
+  } else if(readMagnetSensor == 1) {
+    ledAus();
+  }
 }
 
 // - Methoden -
@@ -149,12 +159,24 @@ void motorAnsteuernGeradeausLauf() {
 
 //AUSGABENFUNKTINIEN
 
+void ledAn() {
+  pcf8575.digitalWrite(LED_PIN, LOW); //led wird angeschaltet
+}
+
+void ledAus() {
+  pcf8575.digitalWrite(LED_PIN, HIGH); //led wird ausgeschaltet
+}
+
 void magnetLesen() {
   Hall_Val2=digitalRead(HALL_SENSOR_D);
   if(Hall_Val2 == 0) {
     Serial.print("Ja"); // das hier wird nur zum loggen ausgeführt, man kann danach die hall_val2 trz abfragen für eine andere aktion
+    if(Hall_Val2 == 0 && hallValAlt == 0) {
+      ledAn();
+    }
   } else {
     Serial.print("Nein");
+    ledAus();
   }
   Serial.println("   ");
 }
@@ -363,9 +385,13 @@ void setup() {
   pinMode(IR_MIDDLE, INPUT);
   // Hall Sensor
   pinMode(HALL_SENSOR_D,INPUT);
+  //LED
+  pcf8575.pinMode(LED_PIN, OUTPUT);
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////
   pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN
-  
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
   Serial.println("----- INFO: Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
   Serial.println("----- INFO: Im Setup Fahren gestartet");
@@ -387,6 +413,7 @@ void loop() {
   linieMitte();
   linieRechts();
   magnetLesen();
+  hallValAlt = readMagnetSensor();
   //ausgabe ende
   //entfernung zu variable
   if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
@@ -450,15 +477,18 @@ void loop() {
   }
 
   //Magnetskript
-  /*
   if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
-    if(magnetPosition == RECHTS) { //und er rechts ist
-      halbUmdrehungLinks(); //richtig weiterfahren
+    if(hallValAlt == 0 && readMagnetSensor() == 0) { //wenn wirklich ein magnet da ist, 2 mal hintereinander ist
+      ledAn();
+      if(magnetPosition == RECHTS) {
+        halbUmdrehungLinks();
+      } else if(magnetPosition == LINKS) {
+        halbUmdrehungRechts();
+      }
     }
-    else if(magnetPosition == LINKS) { //und er links ist 
-      halbUmdrehungRechts(); //richtig weiterfahren
-    }
-  }*/
+  } else{ //wenn kein magnet da is
+    ledAus();
+  }
 
   hindernisLinks = 0;
   hindernisRechts = 0;
