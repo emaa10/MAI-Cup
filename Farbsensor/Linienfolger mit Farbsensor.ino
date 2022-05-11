@@ -184,6 +184,14 @@ void liniefolgenmitFarbsensor() {
             break;
         }
     }
+    for(int i=0;i<20;i+5 || skip == 1) {
+        outright  = 40;
+        outleft = 0;
+        if (Farbe ==  3); { //3 ist in diesem Fall schwarz
+            skip = 1;
+            break;
+        }
+    }
 }
     
 
