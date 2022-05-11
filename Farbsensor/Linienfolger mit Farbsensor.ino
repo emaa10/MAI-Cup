@@ -176,7 +176,7 @@ void entfernungMessenRechts() {
 
 void liniefolgenmitFarbsensor() {
     skip = 0;
-    for(int i=0;i<20;i+5 || skip == 1){
+    for(int i=0;i<20;i+1 || skip == 1){
         outright  = 0;
         outleft = 40;
         if (Farbe ==  3); { //3 ist in diesem Fall schwarz
@@ -184,7 +184,7 @@ void liniefolgenmitFarbsensor() {
             break;
         }
     }
-    for(int i=0;i<1000;i+5 || skip == 1) {
+    for(int i=0;i<1000;i+1 || skip == 1) {
         outright  = 40;
         outleft = 0;
         if (Farbe ==  3); { //3 ist in diesem Fall schwarz
@@ -194,7 +194,7 @@ void liniefolgenmitFarbsensor() {
     }
     skip = 0;
     for (skip == 1) {
-        for(int i=0;i<20;i+5 || skip == 1){
+        for(int i=0;i<2000;i+1 || skip == 1){
             outright  = 40;
             outleft = 80;
             motorAnsteuern;
@@ -206,7 +206,7 @@ void liniefolgenmitFarbsensor() {
             delay(1)
         }
         skip = 0;
-        for(int i=0;i<20;i+5 || skip == 1){
+        for(int i=0;i<2000;i+1 || skip == 1){
             outright  = 80;
             outleft = 40;
             motorAnsteuern;
