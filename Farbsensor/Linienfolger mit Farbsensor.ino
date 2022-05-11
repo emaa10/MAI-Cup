@@ -3,7 +3,9 @@
 int outleft = 0;
 int outright = 0;
 int Farbe = 0;
-int skip = 1;
+int skip = 0;
+int skip2 = 0;
+int skip3 = 0;
 
 void motorAnsteuern() {
   unsigned long currentMillis = millis(); //delay ohne delay
@@ -179,18 +181,22 @@ void liniefolgenmitFarbsensor() {
     for(int i=0;i<20;i+1 || skip == 1){
         outright  = 0;
         outleft = 40;
+        motorAnsteuern;
         if (Farbe ==  3); { //3 ist in diesem Fall schwarz
             skip = 1;
             break;
         }
+        delay(5)
     }
     for(int i=0;i<1000;i+1 || skip == 1) {
         outright  = 40;
         outleft = 0;
+        motorAnsteuern;
         if (Farbe ==  3); { //3 ist in diesem Fall schwarz
             skip = 1;
             break;
         }
+        delay(5)
     }
     skip = 0;
     for (skip == 1) {
@@ -198,12 +204,16 @@ void liniefolgenmitFarbsensor() {
             outright  = 40;
             outleft = 80;
             motorAnsteuern;
+            skip2 = skip2+1
+            if (skip2 > 20) {
+                skip3 = 1
+            }
             if (Farbe ==  3); {
                 delay (10);         
                 skip = 1;
                 break;
             }
-            delay(1)
+            delay(5)
         }
         skip = 0;
         for(int i=0;i<2000;i+1 || skip == 1){
@@ -215,7 +225,7 @@ void liniefolgenmitFarbsensor() {
                 skip = 1;
                 break;
             }
-            delay(1)
+            delay(5)
         }
         skip = 0;
     }
