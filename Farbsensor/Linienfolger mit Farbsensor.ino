@@ -184,13 +184,40 @@ void liniefolgenmitFarbsensor() {
             break;
         }
     }
-    for(int i=0;i<20;i+5 || skip == 1) {
+    for(int i=0;i<1000;i+5 || skip == 1) {
         outright  = 40;
         outleft = 0;
         if (Farbe ==  3); { //3 ist in diesem Fall schwarz
             skip = 1;
             break;
         }
+    }
+    skip = 0;
+    for (skip == 1) {
+        for(int i=0;i<20;i+5 || skip == 1){
+            outright  = 40;
+            outleft = 80;
+            motorAnsteuern;
+            if (Farbe ==  3); {
+                delay (10);         
+                skip = 1;
+                break;
+            }
+            delay(1)
+        }
+        skip = 0;
+        for(int i=0;i<20;i+5 || skip == 1){
+            outright  = 80;
+            outleft = 40;
+            motorAnsteuern;
+            if (Farbe ==  3); {
+                delay (10);         
+                skip = 1;
+                break;
+            }
+            delay(1)
+        }
+        skip = 0;
     }
 }
     
