@@ -279,16 +279,16 @@ void Farbemessen() {
 
 void Farbeausgeben() {
   if (Farbe == 1) {
-    serial.print(Rot);
+    Serial.print("Rot");
   }
   if (Farbe == 2) {
-    serial.print(Grün);
+    Serial.print("Grün");
   }
   if (Farbe == 3) {
-    Serial.print(Schwarz);
+    Serial.print("Schwarz");
   }
   if (Frabe == 4) {
-    Serial.print(Blau);
+    Serial.print("Blau");
   }
 }
     
@@ -332,3 +332,6 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
 // ------------------------------------------------------------------------------------
 
 
+void setup() {
+  Serial.begin(9600);
+}
