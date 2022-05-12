@@ -2,10 +2,11 @@
 
 int outleft = 0;
 int outright = 0;
-int Farbe = 0;
+int Farbe = 0; //Farben Index: 1 = Rot, 2 = Grün, 3 = Schwarz, 4 = Blau
 int skip = 0;
 int skip2 = 0;
 int skip3 = 0;
+int frequency = 0; // Für Farbsensor
 
 void motorAnsteuern() {
   unsigned long currentMillis = millis(); //delay ohne delay
@@ -241,6 +242,54 @@ void liniefolgenmitFarbsensor() {
     skip = 0;
     skip2 = 0;
     skip3 = 0;
+}
+
+void Farbemessen() {
+  // Setting RED filtered photodiodes to be read
+  digitalWrite(SENSOR_S2, LOW);
+  digitalWrite(SENSOR_S3, LOW);
+  frequency = pulseIn(SENSOR_OUT, LOW); // Reading the output frequency
+  // Farbe auslesung RED
+  if (frequency < 2000) {
+    Farbe = 1;
+  }
+  delay(100);
+
+  // Setting GREEN filtered photodiodes to be read
+  digitalWrite(SENSOR_S2, HIGH);
+  digitalWrite(SENSOR_S3, HIGH);
+  frequency = pulseIn(SENSOR_OUT, LOW);
+  // Farbe auslesung GREEN
+  if (frequency < 2000) {
+    Farbe = 2;
+  }
+  delay(100);
+
+  // Setting BLUE filtered photodiodes to be read
+  digitalWrite(SENSOR_S2, LOW);
+  digitalWrite(SENSOR_S3, HIGH);
+  frequency = pulseIn(SENSOR_OUT, LOW);
+  // Farbe auslesung BLUE
+  if (frequency < 2000) {
+    Farbe = 4;
+  }
+  delay(100);
+  }
+}
+
+void Farbeausgeben() {
+  if (Farbe == 1) {
+    serial.print(Rot);
+  }
+  if (Farbe == 2) {
+    serial.print(Grün);
+  }
+  if (Farbe == 3) {
+    Serial.print(Schwarz);
+  }
+  if (Frabe == 4) {
+    Serial.print(Blau);
+  }
 }
     
 
