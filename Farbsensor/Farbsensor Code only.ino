@@ -57,3 +57,18 @@ void loop()
   Serial.println("  ");
   delay(100);
 }
+
+void setup()
+{
+  pinMode(SENSOR_S0, OUTPUT);
+  pinMode(SENSOR_S1, OUTPUT);
+  pinMode(SENSOR_S2, OUTPUT);
+  pinMode(SENSOR_S3, OUTPUT);
+  pinMode(SENSOR_OUT, INPUT);
+
+  // Setting frequency-scaling to 20%
+  digitalWrite(SENSOR_S0, HIGH);
+  digitalWrite(SENSOR_S1, LOW);
+
+  Serial.begin(9600);
+}
