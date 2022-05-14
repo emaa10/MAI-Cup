@@ -326,6 +326,13 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
   motorAnsteuern();
 }
 
+void Zielzoneerkennen() {
+  if (Farbe = 2) {
+    for(int i=0;i<9999999999999999999999999999;i+1 )
+    delay(100),
+  }
+}
+
 
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
