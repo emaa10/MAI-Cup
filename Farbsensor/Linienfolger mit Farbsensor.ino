@@ -244,7 +244,7 @@ void liniefolgenmitFarbsensor() {
     skip3 = 0;
 }
 
-void Farbemessen() {
+void farbeMessen() {
   // Setting RED filtered photodiodes to be read
   digitalWrite(SENSOR_S2, LOW);
   digitalWrite(SENSOR_S3, LOW);
@@ -274,10 +274,9 @@ void Farbemessen() {
     Farbe = 4;
   }
   delay(100);
-  }
 }
 
-void Farbeausgeben() {
+void farbeAusgeben() {
   if (Farbe == 1) {
     Serial.println("Rot");
   }
@@ -297,7 +296,7 @@ void Frabemessenbesser() {
   outright = 0;
   motorAnsteuern();
   for(int i=0;i<4;i+1 ) {
-    Farbemessen();
+    farbeMessen();
     delay(10);
   }
 }
