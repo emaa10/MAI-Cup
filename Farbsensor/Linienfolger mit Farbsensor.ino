@@ -250,7 +250,7 @@ void Farbemessen() {
   digitalWrite(SENSOR_S3, LOW);
   frequency = pulseIn(SENSOR_OUT, LOW); // Reading the output frequency
   // Farbe auslesung RED
-  if (frequency < 2000) {
+  if (frequency < 300) {
     Farbe = 1;
   }
   delay(100);
@@ -260,7 +260,7 @@ void Farbemessen() {
   digitalWrite(SENSOR_S3, HIGH);
   frequency = pulseIn(SENSOR_OUT, LOW);
   // Farbe auslesung GREEN
-  if (frequency < 2000) {
+  if (frequency < 300) {
     Farbe = 2;
   }
   delay(100);
@@ -270,7 +270,7 @@ void Farbemessen() {
   digitalWrite(SENSOR_S3, HIGH);
   frequency = pulseIn(SENSOR_OUT, LOW);
   // Farbe auslesung BLUE
-  if (frequency < 2000) {
+  if (frequency < 300) {
     Farbe = 4;
   }
   delay(100);
@@ -279,16 +279,16 @@ void Farbemessen() {
 
 void Farbeausgeben() {
   if (Farbe == 1) {
-    Serial.print("Rot");
+    Serial.println("Rot");
   }
   if (Farbe == 2) {
-    Serial.print("Grün");
+    Serial.println("Grün");
   }
   if (Farbe == 3) {
-    Serial.print("Schwarz");
+    Serial.println("Schwarz");
   }
   if (Frabe == 4) {
-    Serial.print("Blau");
+    Serial.println("Blau");
   }
 }
 
