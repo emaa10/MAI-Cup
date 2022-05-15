@@ -291,6 +291,16 @@ void Farbeausgeben() {
     Serial.print("Blau");
   }
 }
+
+void Frabemessenbesser() {
+  outleft = 0;
+  outright = 0;
+  motorAnsteuern();
+  for(int i=0;i<4;i+1 ) {
+    Farbemessen();
+    delay(10);
+  }
+}
     
 
 
