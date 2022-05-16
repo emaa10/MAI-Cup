@@ -245,36 +245,46 @@ void liniefolgenmitFarbsensor() {
 }
 
 void farbeMessen() {
-  // Setting RED filtered photodiodes to be read
   digitalWrite(SENSOR_S2, LOW);
   digitalWrite(SENSOR_S3, LOW);
   frequency = pulseIn(SENSOR_OUT, LOW); // Reading the output frequency
   // Farbe auslesung RED
-  if (frequency < 300) {
-    Farbe = 1;
-  }
-  delay(100);
+  delay(100)
+  if (frequency < 900) {
+    // Setting RED filtered photodiodes to be read
+    digitalWrite(SENSOR_S2, LOW);
+    digitalWrite(SENSOR_S3, LOW);
+    frequency = pulseIn(SENSOR_OUT, LOW); // Reading the output frequency
+    // Farbe auslesung RED
+    if (frequency < 300) {
+      Farbe = 1;
+    }
+    delay(100);
 
-  // Setting GREEN filtered photodiodes to be read
-  digitalWrite(SENSOR_S2, HIGH);
-  digitalWrite(SENSOR_S3, HIGH);
-  frequency = pulseIn(SENSOR_OUT, LOW);
-  // Farbe auslesung GREEN
-  if (frequency < 300) {
-    Farbe = 2;
-  }
-  delay(100);
+    // Setting GREEN filtered photodiodes to be read
+    digitalWrite(SENSOR_S2, HIGH);
+    digitalWrite(SENSOR_S3, HIGH);
+    frequency = pulseIn(SENSOR_OUT, LOW);
+    // Farbe auslesung GREEN
+    if (frequency < 300) {
+      Farbe = 2;
+    }
+    delay(100);
 
-  // Setting BLUE filtered photodiodes to be read
-  digitalWrite(SENSOR_S2, LOW);
-  digitalWrite(SENSOR_S3, HIGH);
-  frequency = pulseIn(SENSOR_OUT, LOW);
-  // Farbe auslesung BLUE
-  if (frequency < 300) {
-    Farbe = 4;
+    // Setting BLUE filtered photodiodes to be read
+    digitalWrite(SENSOR_S2, LOW);
+    digitalWrite(SENSOR_S3, HIGH);
+    frequency = pulseIn(SENSOR_OUT, LOW);
+    // Farbe auslesung BLUE
+    if (frequency < 300) {
+      Farbe = 4;
+    }
+    delay(100);
   }
-  delay(100);
+
 }
+
+  
 
 void farbeAusgeben() {
   if (Farbe == 1) {
