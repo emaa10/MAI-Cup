@@ -21,21 +21,24 @@
 #define LEFT_REN 2
 #define LEFT_LEN 3
 // Ultraschall vorne/MITTE
-#define TRIGGER_VORNE 12 //Ultraschallsensor vorne Trigger Pin 
-#define ECHO_VORNE 13    //Ultraschallsensor vorne Echo Pin 
+#define TRIGGER_VORNE P0 //auf portexpander 
+#define ECHO_VORNE 13 
 // Ultraschall links
-#define TRIGGER_LINKS 7 
-#define ECHO_LINKS A5
+#define TRIGGER_LINKS P1 //auf portexpander 
+#define ECHO_LINKS 12
 //Ultraschall rechts
-#define TRIGGER_RECHTS 4 
-#define ECHO_RECHTS A4
+#define TRIGGER_RECHTS P3 
+#define ECHO_RECHTS 4
 //Hall Sensor
 //#define HALL_SENSOR A0          //analog output (optional)
 #define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
+int hallValAlt;
 //Infrarot Sensor
 #define IR_LEFT A3 // connect ir sensor to arduino pin 2 (left one)
 #define IR_RIGHT A1
 #define IR_MIDDLE A0
+//LED
+#define LED_PIN P2
 
 
 // - Daten -

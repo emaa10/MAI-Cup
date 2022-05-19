@@ -30,7 +30,7 @@ PCF8575 pcf8575(0x21); //portexpander bus adresse und name
 #define TRIGGER_LINKS P1 //auf portexpander 
 #define ECHO_LINKS 12
 //Ultraschall rechts
-#define TRIGGER_RECHTS 7 
+#define TRIGGER_RECHTS P3 
 #define ECHO_RECHTS 4
 //Hall Sensor
 //#define HALL_SENSOR A0          //analog output (optional)
