@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#define SENSOR_S0 3
-#define SENSOR_S1 2
-#define SENSOR_S2 4
-#define SENSOR_S3 5
-#define SENSOR_OUT 6
+#define SENSOR_S0 11
+#define SENSOR_S1 12
+#define SENSOR_S2 10
+#define SENSOR_S3 9
+#define SENSOR_OUT 8
 
 #define RIGHT_RPWM 5
 #define RIGHT_LPWM 6
