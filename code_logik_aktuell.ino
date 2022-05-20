@@ -42,7 +42,12 @@ int hallValAlt;
 #define IR_MIDDLE A0
 //LED
 #define LED_PIN P2
-
+//farbsensor
+#define SENSOR_S0 P4
+#define SENSOR_S1 P5
+#define SENSOR_S2 P6
+#define SENSOR_S3 P7
+#define SENSOR_OUT 7
 
 // - Daten -
 //motor
@@ -387,6 +392,17 @@ void setup() {
   pinMode(HALL_SENSOR_D,INPUT);
   //LED
   pcf8575.pinMode(LED_PIN, OUTPUT);
+  //farbsensor
+  pcf8575.pinMode(SENSOR_S0, OUTPUT);
+  pcf8575.pinMode(SENSOR_S1, OUTPUT);
+  pcf8575.pinMode(SENSOR_S2, OUTPUT);
+  pcf8575.pinMode(SENSOR_S3, OUTPUT);
+  pcf8575.pinMode(SENSOR_OUT, INPUT);
+
+  // Setting frequency-scaling to 20% (farbsensor)
+  pcf8575.digitalWrite(SENSOR_S0, HIGH);
+  pcf8575.digitalWrite(SENSOR_S1, LOW);
+
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN

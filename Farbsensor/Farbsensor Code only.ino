@@ -1,9 +1,12 @@
 #include <Arduino.h>
+
+//farbsensor pins
 #define SENSOR_S0 11
 #define SENSOR_S1 12
 #define SENSOR_S2 10
 #define SENSOR_S3 9
 #define SENSOR_OUT 8
+
 
 #define RIGHT_RPWM 5
 #define RIGHT_LPWM 6
