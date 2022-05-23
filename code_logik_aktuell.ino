@@ -155,20 +155,20 @@ int readMagnetSensor() {
 }
 
 int readRedColor() {
-  digitalWrite(SENSOR_S2, LOW);
-  digitalWrite(SENSOR_S3, LOW);
+  pcf8575.digitalWrite(SENSOR_S2, LOW);
+  pcf8575.digitalWrite(SENSOR_S3, LOW);
   return  pulseIn(SENSOR_OUT, LOW);
 }
 
 int readGreenColor() {
-  digitalWrite(SENSOR_S2, HIGH);
-  digitalWrite(SENSOR_S3, HIGH);
+  pcf8575.digitalWrite(SENSOR_S2, HIGH);
+  pcf8575.digitalWrite(SENSOR_S3, HIGH);
   return pulseIn(SENSOR_OUT, LOW);
 }
 
 int readBlueColor() {
-  digitalWrite(SENSOR_S2, LOW);
-  digitalWrite(SENSOR_S3, HIGH);
+  pcf8575.digitalWrite(SENSOR_S2, LOW);
+  pcf8575.digitalWrite(SENSOR_S3, HIGH);
   return pulseIn(SENSOR_OUT, LOW);
 }
 
