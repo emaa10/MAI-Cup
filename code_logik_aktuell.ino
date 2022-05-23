@@ -43,12 +43,13 @@ int hallValAlt2;
 #define IR_MIDDLE A0
 //LED
 #define LED_PIN P2
+
 //farbsensor
 #define SENSOR_S0 P4
 #define SENSOR_S1 P5
 #define SENSOR_S2 P6
 #define SENSOR_S3 P7
-#define SENSOR_OUT 7
+#define SENSOR_OUT 7 //einziger pin der nicht auf portexpander sein muss
 
 // - Daten -
 //motor
@@ -88,6 +89,13 @@ unsigned long previousMillis = 0;
 int umdrehungZeit=1250;
 int umdrehungSpeed=110;
 
+//farbsensor
+int frequency = 0;
+int redWert;
+int grunWert;
+int blueWert;
+
+//---------------------------------//
 
 // - Funktionen -
 //liniensensor
@@ -144,6 +152,24 @@ int readMagnetSensor() {
   } else if(readMagnetSensor() == 1) {
     ledAus();
   }
+}
+
+int readRedColor() {
+  digitalWrite(SENSOR_S2, LOW);
+  digitalWrite(SENSOR_S3, LOW);
+  return redWert = pulseIn(SENSOR_OUT, LOW);
+}
+
+int readGreenColor() {
+  digitalWrite(SENSOR_S2, HIGH);
+  digitalWrite(SENSOR_S3, HIGH);
+  return grunWert = pulseIn(SENSOR_OUT, LOW);
+}
+
+int readBlueColor() {
+  digitalWrite(SENSOR_S2, LOW);
+  digitalWrite(SENSOR_S3, HIGH);
+  return blueWert = pulseIn(SENSOR_OUT, LOW);
 }
 
 // - Methoden -
@@ -218,6 +244,7 @@ void linieRechts() {
     Serial.print("Boden");
     Serial.print("   ");
 }
+
 
 /*
  * Motoren starten (beiden fahren)
@@ -393,16 +420,17 @@ void setup() {
   pinMode(HALL_SENSOR_D,INPUT);
   //LED
   pcf8575.pinMode(LED_PIN, OUTPUT);
+
   //farbsensor
-  pcf8575.pinMode(SENSOR_S0, OUTPUT);
-  pcf8575.pinMode(SENSOR_S1, OUTPUT);
-  pcf8575.pinMode(SENSOR_S2, OUTPUT);
-  pcf8575.pinMode(SENSOR_S3, OUTPUT);
-  pcf8575.pinMode(SENSOR_OUT, INPUT);
+  pcf8575.pinMode(SENSOR_S0, OUTPUT); //portexpander
+  pcf8575.pinMode(SENSOR_S1, OUTPUT); //portexpander
+  pcf8575.pinMode(SENSOR_S2, OUTPUT); //portexpander
+  pcf8575.pinMode(SENSOR_S3, OUTPUT); //portexpander
+  pinMode(SENSOR_OUT, INPUT);
 
   // Setting frequency-scaling to 20% (farbsensor)
-  pcf8575.digitalWrite(SENSOR_S0, HIGH);
-  pcf8575.digitalWrite(SENSOR_S1, LOW);
+  pcf8575.digitalWrite(SENSOR_S0, HIGH); //portexpander
+  pcf8575.digitalWrite(SENSOR_S1, LOW); //portexpander
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -422,7 +450,7 @@ void setup() {
 void loop() {
   durchgangCounter++; //eigentlich schwachsinn funktioniert aber
   //Serial.print(durchgangCounter);
-  
+
   //ausgabe start
   entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
