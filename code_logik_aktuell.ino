@@ -332,8 +332,26 @@ void entfernungMessenRechts() {
   Serial.print("cm   ");
 }
 
+void ausgabeRot() {
+  redWert = readRedColor();
+  Serial.print("   ");
+  Serial.print("R= ");
+  Serial.print(redWert);
+}
 
+void ausgabeGrun() {
+  grunWert = readGreenColor();
+  Serial.print("   ");
+  Serial.print("G= ");
+  Serial.print(grunWert);
+}
 
+void ausgabeBlue() {
+  redWert = readBlueColor();
+  Serial.print("   ");
+  Serial.print("B= ");
+  Serial.print(blueWert);
+}
 
 void umdrehungZeitVoid() {
     delay(umdrehungZeit);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
