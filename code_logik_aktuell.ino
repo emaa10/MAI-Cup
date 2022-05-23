@@ -510,4 +510,6 @@ void loop() {
 
   hindernisLinks = 0;
   hindernisRechts = 0;
+  hallValAlt2 = 0;
+  hallValAlt = 0;
 }
