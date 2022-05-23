@@ -210,7 +210,6 @@ void magnetLesen() {
     Serial.print("Nein");
     ledAus();
   }
-  Serial.print("   ");
 }
 
 void linieLinks() {
