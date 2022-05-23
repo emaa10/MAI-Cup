@@ -210,7 +210,7 @@ void magnetLesen() {
     Serial.print("Nein");
     ledAus();
   }
-  Serial.println("   ");
+  Serial.print("   ");
 }
 
 void linieLinks() {
@@ -350,7 +350,7 @@ void ausgabeBlue() {
   redWert = readBlueColor();
   Serial.print("   ");
   Serial.print("B= ");
-  Serial.print(blueWert);
+  Serial.println(blueWert);
 }
 
 void umdrehungZeitVoid() {
@@ -479,6 +479,9 @@ void loop() {
   magnetLesen();
   hallValAlt = readMagnetSensor();
   hallValAlt2 = hallValAlt;
+  ausgabeRot();
+  ausgabeGrun();
+  ausgabeBlue();
   //ausgabe ende
 
   //entfernung zu variable
