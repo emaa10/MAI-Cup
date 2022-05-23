@@ -36,6 +36,7 @@ PCF8575 pcf8575(0x21); //portexpander bus adresse und name
 //#define HALL_SENSOR A0          //analog output (optional)
 #define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
 int hallValAlt;
+int hallValAlt2;
 //Infrarot Sensor
 #define IR_LEFT A3 // connect ir sensor to arduino pin 2 (left one)
 #define IR_RIGHT A1
@@ -430,6 +431,7 @@ void loop() {
   linieRechts();
   magnetLesen();
   hallValAlt = readMagnetSensor();
+  hallValAlt2 = hallValAlt;
   //ausgabe ende
   //entfernung zu variable
   if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
@@ -494,7 +496,7 @@ void loop() {
 
   //Magnetskript
   if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
-    if(hallValAlt == 0 && readMagnetSensor() == 0) { //wenn wirklich ein magnet da ist, 2 mal hintereinander ist
+    if(hallValAlt == 0 && readMagnetSensor() == 0 && hallValAlt2 == 0) { //wenn wirklich ein magnet da ist, 3 mal hintereinander ist
       ledAn();
       if(magnetPosition == RECHTS) {
         halbUmdrehungLinks();
