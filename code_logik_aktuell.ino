@@ -157,19 +157,19 @@ int readMagnetSensor() {
 int readRedColor() {
   digitalWrite(SENSOR_S2, LOW);
   digitalWrite(SENSOR_S3, LOW);
-  return redWert = pulseIn(SENSOR_OUT, LOW);
+  return  pulseIn(SENSOR_OUT, LOW);
 }
 
 int readGreenColor() {
   digitalWrite(SENSOR_S2, HIGH);
   digitalWrite(SENSOR_S3, HIGH);
-  return grunWert = pulseIn(SENSOR_OUT, LOW);
+  return pulseIn(SENSOR_OUT, LOW);
 }
 
 int readBlueColor() {
   digitalWrite(SENSOR_S2, LOW);
   digitalWrite(SENSOR_S3, HIGH);
-  return blueWert = pulseIn(SENSOR_OUT, LOW);
+  return pulseIn(SENSOR_OUT, LOW);
 }
 
 // - Methoden -
