@@ -422,6 +422,7 @@ void setup() {
 void loop() {
   durchgangCounter++; //eigentlich schwachsinn funktioniert aber
   //Serial.print(durchgangCounter);
+  
   //ausgabe start
   entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
@@ -433,6 +434,7 @@ void loop() {
   hallValAlt = readMagnetSensor();
   hallValAlt2 = hallValAlt;
   //ausgabe ende
+
   //entfernung zu variable
   if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
