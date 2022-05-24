@@ -346,7 +346,7 @@ void ausgabeGrun() {
 }
 
 void ausgabeBlue() {
-  redWert = readBlueColor();
+  blueWert = readBlueColor();
   Serial.print("   ");
   Serial.print("B= ");
   Serial.println(blueWert);
