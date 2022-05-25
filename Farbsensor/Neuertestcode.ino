@@ -47,13 +47,11 @@ void setup() {
 }
 
 void loop() {
-   grunWert = readGreenColor();
-   if(grunWert < 30 ) {
-        Serial.println("Zielzone_erkannt");
+   if(readGreenColor() < 30) {
+      Serial.println("Zielzone_erkannt");
     }
-    else(grunWert > 30){
-          Serial.println("Keine_Zielzone_erkannt");
+    else {
+      Serial.println("Keine_Zielzone_erkannt");
     }
     delay(100)
-    
 }
