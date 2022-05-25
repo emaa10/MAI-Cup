@@ -557,6 +557,13 @@ void loop() {
   } else{ //wenn kein magnet da is
     ledAus();
   }
+  //farbsensor zielzone
+  if(readGreenColor() < 30) {
+      Serial.println("Zielzone_erkannt");
+    }
+    else {
+      Serial.println("Keine_Zielzone_erkannt");
+    }
 
   hindernisLinks = 0;
   hindernisRechts = 0;
