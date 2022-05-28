@@ -95,10 +95,17 @@ int redWert;
 int grunWert;
 int blueWert;
 //farbsensor API
-int zielzoneMinWert = 10;
-int zielzoneMaxWert = 30; //zielzone geht von minwert bis maxwert
-int lineMinWert;
-int lineMaxWert;
+int zielzoneMinWertGreen = 10;
+
+int zielzoneMaxWertGreen = 30; //zielzone geht von minwert bis maxwert
+
+int lineMinWertBlue = 130; 
+int lineMinWertGreen = 130;
+int lineMinWertRed = 130;
+
+int lineMaxWertBlue = 250;
+int lineMaxWertGreen = 250;
+int lineMaxWertRed = 250;
 //---------------------------------//
 
 // - Funktionen -
@@ -492,7 +499,9 @@ void loop() {
   } else {
     Serial.print("  ");
   }
-
+  if(readBlueColor() > 130 && readGreenColor() > 130 && readRedColor() > 130) {
+    Serial.print("  L");
+  }
   Serial.println("");
 
   //ausgabe ende
