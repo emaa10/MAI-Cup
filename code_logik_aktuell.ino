@@ -353,7 +353,7 @@ void ausgabeBlue() {
   blueWert = readBlueColor();
   Serial.print("   ");
   Serial.print("B= ");
-  Serial.println(blueWert);
+  Serial.print(blueWert);
 }
 
 void umdrehungZeitVoid() {
@@ -485,6 +485,14 @@ void loop() {
   ausgabeRot();
   ausgabeGrun();
   ausgabeBlue();
+
+  //farbsensor zielzone
+  if(readGreenColor() < 30) {
+    Serial.print("  Z");
+  } else {
+    Serial.print("  ");
+  }
+
   //ausgabe ende
 
   //entfernung zu variable
@@ -561,12 +569,7 @@ void loop() {
   } else{ //wenn kein magnet da is
     ledAus();
   }
-  //farbsensor zielzone
-  if(readGreenColor() < 30) {
-    Serial.print("  Z");
-  } else {
-    Serial.print("  ");
-  }
+  
 
   hindernisLinks = 0;
   hindernisRechts = 0;
