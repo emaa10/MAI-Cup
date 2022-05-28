@@ -94,7 +94,11 @@ int frequency = 0;
 int redWert;
 int grunWert;
 int blueWert;
-
+//farbsensor API
+int zielzoneMinWert = 10;
+int zielzoneMaxWert = 30; //zielzone geht von minwert bis maxwert
+int lineMinWert;
+int lineMaxWert;
 //---------------------------------//
 
 // - Funktionen -
@@ -559,9 +563,9 @@ void loop() {
   }
   //farbsensor zielzone
   if(readGreenColor() < 30) {
-    Serial.println("Zielzone_erkannt");
+    Serial.print("  Z");
   } else {
-    Serial.println("Keine_Zielzone_erkannt");
+    Serial.print("  ");
   }
 
   hindernisLinks = 0;
