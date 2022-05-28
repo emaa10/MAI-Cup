@@ -493,6 +493,8 @@ void loop() {
     Serial.print("  ");
   }
 
+  Serial.println("")
+
   //ausgabe ende
 
   //entfernung zu variable
