@@ -493,7 +493,7 @@ void loop() {
     Serial.print("  ");
   }
 
-  Serial.println("")
+  Serial.println("");
 
   //ausgabe ende
 
