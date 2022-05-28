@@ -502,9 +502,11 @@ void loop() {
   if(readBlueColor() > 130 && readGreenColor() > 130 && readRedColor() > 130) {
     Serial.print("  L");
   }
-  Serial.println("");
 
+
+  Serial.println("");
   //ausgabe ende
+
 
   //entfernung zu variable
   if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
