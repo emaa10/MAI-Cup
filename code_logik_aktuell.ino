@@ -566,6 +566,6 @@ void loop() {
 
   hindernisLinks = 0;
   hindernisRechts = 0;
-  hallValAlt2 = 0;
-  hallValAlt = 0;
-}
+  hallValAlt2 = 1;  //müssen wir leider auf 1 setzten weil magnet = 0
+  hallValAlt = 1;   //müssen wir leider auf 1 setzten weil magnet = 0
+} 
