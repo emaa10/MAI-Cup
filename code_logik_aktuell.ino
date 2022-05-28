@@ -499,8 +499,8 @@ void loop() {
   } else {
     Serial.print("  ");
   }
-  if(readBlueColor() > 130 && readGreenColor() > 130 && readRedColor() > 130) {
-    Serial.print("  L");
+  if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
+    Serial.print("  L"); //linienerkennung, variablen oben einstellbar
   }
 
 
