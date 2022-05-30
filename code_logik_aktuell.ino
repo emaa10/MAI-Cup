@@ -501,7 +501,9 @@ void loop() {
   if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
     Serial.print("  L"); //linienerkennung, variablen oben einstellbar
   }
-  if()
+  if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
+    Serial.print("  Z"); //linienerkennung, variablen oben einstellbar
+  }
 
 
   Serial.println("");
