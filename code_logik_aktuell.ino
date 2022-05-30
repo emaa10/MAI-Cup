@@ -503,6 +503,7 @@ void loop() {
   }
   if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
     Serial.print("  Z"); //linienerkennung, variablen oben einstellbar
+    //exit(0);
   }
 
 
