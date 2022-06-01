@@ -110,6 +110,11 @@ int lineMinWertRed = 130;
 int lineMaxWertBlue = 250;
 int lineMaxWertGreen = 250;
 int lineMaxWertRed = 250;
+
+int lineTempVarRed;
+int lineTempVarGreen;
+int lineTempVarBlue;
+
 //---------------------------------//
 
 // - Funktionen -
@@ -169,10 +174,18 @@ int readMagnetSensor() {
   }
 }
 
+int readLineColorSensor() {
+  if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 int readRedColor() {
   pcf8575.digitalWrite(SENSOR_S2, LOW);
   pcf8575.digitalWrite(SENSOR_S3, LOW);
-  return  pulseIn(SENSOR_OUT, LOW);
+  return pulseIn(SENSOR_OUT, LOW);
 }
 
 int readGreenColor() {
