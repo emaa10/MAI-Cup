@@ -94,6 +94,7 @@ int frequency = 0;
 int redWert;
 int grunWert;
 int blueWert;
+
 //farbsensor API
 int zielzoneMinWertRed = 33;     //zielzone geht von minwert bis maxwert
 //int zielzoneMinWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
