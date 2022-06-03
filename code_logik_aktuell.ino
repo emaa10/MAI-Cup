@@ -104,9 +104,9 @@ int zielzoneMaxWertRed = 42;
 //int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
 int zielzoneMaxWertBlue = 42;
 
-int lineMinWertBlue = 130; 
+int lineMinWertBlue = 100; 
 int lineMinWertGreen = 130;
-int lineMinWertRed = 130;
+int lineMinWertRed = 115;
 
 int lineMaxWertBlue = 250;
 int lineMaxWertGreen = 250;
