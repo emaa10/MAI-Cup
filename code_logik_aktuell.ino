@@ -105,8 +105,8 @@ int zielzoneMaxWertRed = 55;
 int zielzoneMaxWertBlue = 55;
 
 int lineMinWertBlue = 100; 
-int lineMinWertGreen = 130;
-int lineMinWertRed = 115;
+int lineMinWertGreen = 100;
+int lineMinWertRed = 100;
 
 int lineMaxWertBlue = 250;
 int lineMaxWertGreen = 250;
