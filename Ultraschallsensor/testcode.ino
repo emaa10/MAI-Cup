@@ -28,3 +28,5 @@ void loop() {
     delay(30);                             // Nach einer Sekunde wiederholen
 
 }
+
+//funktioniert, 4.6.22
