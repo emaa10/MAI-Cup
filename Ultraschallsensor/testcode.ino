@@ -9,16 +9,16 @@ void setup() {
 }
 
 void loop() {
-    digitalWrite(trigger, LOW);              // Den Trigger auf LOW setzen um
+    digitalWrite(TRIGGER, LOW);              // Den Trigger auf LOW setzen um
                                              // ein rauschfreies Signal
                                              // senden zu können
     delay(5);                                // 5 Millisekunden warten
-    digitalWrite(trigger, HIGH);             // Den Trigger auf HIGH setzen um eine 
+    digitalWrite(TRIGGER, HIGH);             // Den Trigger auf HIGH setzen um eine 
                                              // Ultraschallwelle zu senden
     delay(10);                               // 10 Millisekunden warten
-    digitalWrite(trigger, LOW);              // Trigger auf LOW setzen um das 
+    digitalWrite(TRIGGER, LOW);              // Trigger auf LOW setzen um das 
                                              // Senden abzuschließen
-    dauer = pulseIn(echo, HIGH);             // Die Zeit messen bis die 
+    dauer = pulseIn(ECHO, HIGH);             // Die Zeit messen bis die 
                                              // Ultraschallwelle zurückkommt
     entfernung = (dauer/2) / 29.1;           // Die Zeit in den Weg in Zentimeter umrechnen
 
