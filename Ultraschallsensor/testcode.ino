@@ -25,6 +25,6 @@ void loop() {
         Serial.print(entfernung);            // Den Weg in Zentimeter ausgeben
         Serial.println(" cm");               //
 
-    delay(1000);                             // Nach einer Sekunde wiederholen
+    delay(30);                             // Nach einer Sekunde wiederholen
 
 }
