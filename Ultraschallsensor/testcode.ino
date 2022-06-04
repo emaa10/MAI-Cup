@@ -1,17 +1,14 @@
-#define TRIGGER 9
-#define ECHO 8
+#define TRIGGER 4
+#define ECHO 3
 long dauer=0;
 long entfernung=0;
-void setup()
-
-{
-    Serial.begin (9600);                     // Die serielle Kommunikation starten
-    pinMode(trigger, OUTPUT);                // Trigger Pin als Ausgang definieren
-    pinMode(echo, INPUT);                    // Echo Pin als Eingang defnieren
+void setup() {
+    Serial.begin(9600);                 // Die serielle Kommunikation starten
+    pinMode(TRIGGER, OUTPUT);           // Trigger Pin als Ausgang definieren
+    pinMode(ECHO, INPUT);               // Echo Pin als Eingang defnieren
 }
 
-void loop()
-{
+void loop() {
     digitalWrite(trigger, LOW);              // Den Trigger auf LOW setzen um
                                              // ein rauschfreies Signal
                                              // senden zu können
