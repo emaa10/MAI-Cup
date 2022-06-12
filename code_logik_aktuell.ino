@@ -517,9 +517,33 @@ void loop() {
   }
   if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
     Serial.print("  Z"); //linienerkennung, variablen oben einstellbar
+    stehenbleiben();
     exit(0);
   }
 
+  //farbsensor linienfolgeskript
+  while(readLineColorSensor() == 1) {
+    //speedsync soll laufen
+    unsigned long currentMillis = millis(); //delay ohne delay
+    if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
+      previousMillis = currentMillis;
+      if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+        outRight += 30;
+        motorAnsteuernGeradeausLauf();
+      }
+      if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() >= 45) {
+        outLeft += 30;
+      motorAnsteuernGeradeausLauf();
+      }
+    }
+    if(readSensorLeft() == 1 || readSensorRight() == 1) { //wenn irgendein infrarotsensor auf 1 ist und farbsensor auch
+      if(readSensorLeft() == 1 || readLineColorSensor() == 1) {
+        halbUmdrehungLinks();
+      } else if(readSensorRight() == 1 || readLineColorSensor() == 1) {
+        halbUmdrehungRechts();
+      }
+    }
+  }
 
   Serial.println("");
   //ausgabe ende
