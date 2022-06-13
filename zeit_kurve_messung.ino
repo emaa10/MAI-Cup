@@ -21,6 +21,9 @@
 int outLeft;
 int outRight;
 
+int umdrehungSpeed=110;
+int umdrehungZeit=850;
+
 void setup() {
   Serial.begin(9600);
   pinMode(RIGHT_RPWM,OUTPUT);
@@ -38,20 +41,15 @@ void setup() {
   digitalWrite(LEFT_LEN,HIGH);
   delay(2000);
 
-
-
-
-  outLeft = 0;
-  outRight = 110;
-  analogWrite(RIGHT_LPWM,outRight);
+  analogWrite(RIGHT_LPWM,umdrehungSpeed);
   analogWrite(RIGHT_RPWM,0);
-  analogWrite(LEFT_LPWM,outLeft);
+  analogWrite(LEFT_LPWM,umdrehungSpeed);
   analogWrite(LEFT_RPWM,0);
-  delay(1000); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  outRight = 0;
-  analogWrite(RIGHT_LPWM,outRight);
+  delay(umdrehungZeit);                   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  analogWrite(RIGHT_LPWM,0);
   analogWrite(RIGHT_RPWM,0);
-  analogWrite(LEFT_LPWM,outLeft);
+  analogWrite(LEFT_LPWM,0);
   analogWrite(LEFT_RPWM,0);
   delay(1000);
   
@@ -60,12 +58,10 @@ void setup() {
  
  
 void loop() {
-  
-  
-  analogWrite(RIGHT_LPWM,outRight);
+  //nix mehr
+  analogWrite(RIGHT_LPWM,0);
   analogWrite(RIGHT_RPWM,0);
-  analogWrite(LEFT_LPWM,outLeft);
+  analogWrite(LEFT_LPWM,0);
   analogWrite(LEFT_RPWM,0);
-  delay(1000);
 
 }
