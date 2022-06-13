@@ -514,10 +514,10 @@ void loop() {
 
   //farbsensor zielzone
   if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
-    Serial.print("  L"); //linienerkennung, variablen oben einstellbar
+    Serial.println("  L"); //linienerkennung, variablen oben einstellbar
   }
   if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
-    Serial.print("  Z"); //linienerkennung, variablen oben einstellbar
+    Serial.println("  Z"); //linienerkennung, variablen oben einstellbar
     stehenbleiben();
     //exit(0);
   }
