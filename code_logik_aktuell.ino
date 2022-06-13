@@ -550,6 +550,11 @@ void loop() {
         halbUmdrehungRechts();
       }
     }
+    Serial.print(readSensorLeft());
+    Serial.print("  ");
+    Serial.print(readLineColorSensor());
+    Serial.print("  ");
+    Serial.println(readSensorRight());
   }
 
   Serial.println("");
