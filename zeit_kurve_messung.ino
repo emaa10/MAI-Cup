@@ -18,7 +18,7 @@
 #define LEFT_REN 2
 #define LEFT_LEN 3
 
-int outLeft;
+int outLeft=0;
 int outRight;
 
 int umdrehungSpeed=110;
@@ -39,13 +39,16 @@ void setup() {
   pinMode(LEFT_REN,OUTPUT);
   digitalWrite(LEFT_REN,HIGH);
   digitalWrite(LEFT_LEN,HIGH);
-  delay(2000);
+  delay(2000);                            //start delay
+
+
+
 
   analogWrite(RIGHT_LPWM,umdrehungSpeed);
   analogWrite(RIGHT_RPWM,0);
-  analogWrite(LEFT_LPWM,umdrehungSpeed);
+  analogWrite(LEFT_LPWM,0);
   analogWrite(LEFT_RPWM,0);
-  delay(umdrehungZeit);                   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  delay(umdrehungZeit); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   analogWrite(RIGHT_LPWM,0);
   analogWrite(RIGHT_RPWM,0);
@@ -58,10 +61,12 @@ void setup() {
  
  
 void loop() {
-  //nix mehr
+  //stehen bleiben lol
+  
   analogWrite(RIGHT_LPWM,0);
   analogWrite(RIGHT_RPWM,0);
   analogWrite(LEFT_LPWM,0);
   analogWrite(LEFT_RPWM,0);
+  delay(1003974579834589739458734597348957893475893489578934757349857893475890);
 
 }
