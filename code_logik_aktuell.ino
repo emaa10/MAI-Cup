@@ -116,6 +116,7 @@ int lineTempVarRed;
 int lineTempVarGreen;
 int lineTempVarBlue;
 
+int istInModus=0;
 //---------------------------------//
 
 // - Funktionen -
@@ -523,7 +524,10 @@ void loop() {
 
   //farbsensor linienfolgeskript
   while(readLineColorSensor() == 1) {
-    Serial.println("im Modus für Linie");
+    istInModus++;
+    if(istInModus == 1) {
+      Serial.println("im Modus für Linie");
+    }
     //speedsync soll laufen
     unsigned long currentMillis = millis(); //delay ohne delay
     if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
