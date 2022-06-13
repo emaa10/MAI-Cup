@@ -636,4 +636,5 @@ void loop() {
   hindernisRechts = 0;
   hallValAlt2 = 1;  //müssen wir leider auf 1 setzten weil magnet = 0
   hallValAlt = 1;   //müssen wir leider auf 1 setzten weil magnet = 0
+  istInModus = 0;   //dass wir kein spam haben und die ausgabe im modus wieder geht amogus ist btw sus
 } 
