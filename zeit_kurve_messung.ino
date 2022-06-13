@@ -22,7 +22,7 @@ int outLeft=0;
 int outRight;
 
 int umdrehungSpeed=110;
-int umdrehungZeit=850;
+int umdrehungZeit=840;
 
 void setup() {
   Serial.begin(9600);
