@@ -518,11 +518,12 @@ void loop() {
   if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
     Serial.print("  Z"); //linienerkennung, variablen oben einstellbar
     stehenbleiben();
-    exit(0);
+    //exit(0);
   }
 
   //farbsensor linienfolgeskript
   while(readLineColorSensor() == 1) {
+    Serial.println("im Modus für Linie");
     //speedsync soll laufen
     unsigned long currentMillis = millis(); //delay ohne delay
     if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
@@ -538,8 +539,10 @@ void loop() {
     }
     if(readSensorLeft() == 1 || readSensorRight() == 1) { //wenn irgendein infrarotsensor auf 1 ist und farbsensor auch
       if(readSensorLeft() == 1 || readLineColorSensor() == 1) {
+        Serial.println("Halbumdrehung Links im Modus Linie");
         halbUmdrehungLinks();
       } else if(readSensorRight() == 1 || readLineColorSensor() == 1) {
+        Serial.println("Halbumdrehung Rechts im Modus Linie");
         halbUmdrehungRechts();
       }
     }
