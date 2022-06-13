@@ -86,7 +86,7 @@ int durchgangCounter=0;
 unsigned long previousMillis = 0;
 #define SPEEDSYNCINTERVAL 300
 
-int umdrehungZeit=1250;
+int umdrehungZeit=600;
 int umdrehungSpeed=110;
 
 //farbsensor
