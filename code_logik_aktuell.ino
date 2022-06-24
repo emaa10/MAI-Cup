@@ -96,13 +96,13 @@ int grunWert;
 int blueWert;
 
 //farbsensor API
-int zielzoneMinWertRed = 33;     //zielzone geht von minwert bis maxwert
+int zielzoneMinWertRed = 70;     //zielzone geht von minwert bis maxwert
 //int zielzoneMinWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMinWertBlue = 33;
+int zielzoneMinWertBlue = 60;
 
-int zielzoneMaxWertRed = 55; 
+int zielzoneMaxWertRed = 110; 
 //int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMaxWertBlue = 55;
+int zielzoneMaxWertBlue = 90;
 
 int lineMinWertBlue = 100; 
 int lineMinWertGreen = 100;
@@ -554,7 +554,13 @@ void loop() {
     Serial.print("  ");
     Serial.print(readLineColorSensor());
     Serial.print("  ");
-    Serial.println(readSensorRight());
+    Serial.print(readSensorRight());
+    Serial.print("  ");
+    Serial.print(readBlueColor)
+    Serial.print("  ");
+    Serial.print(readRedColor)
+    Serial.print("  ");
+    Serial.println(readGreenColor)
   }
 
   Serial.println("");
