@@ -96,13 +96,13 @@ int grunWert;
 int blueWert;
 
 //farbsensor API
-int zielzoneMinWertRed = 70;     //zielzone geht von minwert bis maxwert
+int zielzoneMinWertRed = 65;     //zielzone geht von minwert bis maxwert
 //int zielzoneMinWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
 int zielzoneMinWertBlue = 60;
 
-int zielzoneMaxWertRed = 110; 
+int zielzoneMaxWertRed = 160; 
 //int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMaxWertBlue = 90;
+int zielzoneMaxWertBlue = 120;
 
 int lineMinWertBlue = 135; 
 int lineMinWertGreen = 180;
@@ -542,10 +542,10 @@ void loop() {
       }
     }
     if(readSensorLeft() == 1 || readSensorRight() == 1) { //wenn irgendein infrarotsensor auf 1 ist und farbsensor auch
-      if(readSensorLeft() == 1 || readLineColorSensor() == 1) {
+      if(readSensorLeft() == 1 && readLineColorSensor() == 1) {
         Serial.println("Halbumdrehung Links im Modus Linie");
         halbUmdrehungLinks();
-      } else if(readSensorRight() == 1 || readLineColorSensor() == 1) {
+      } else if(readSensorRight() == 1 && readLineColorSensor() == 1) {
         Serial.println("Halbumdrehung Rechts im Modus Linie");
         halbUmdrehungRechts();
       }
