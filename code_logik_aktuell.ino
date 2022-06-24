@@ -556,11 +556,11 @@ void loop() {
     Serial.print("  ");
     Serial.print(readSensorRight());
     Serial.print("  ");
-    Serial.print(readBlueColor)
+    Serial.print(readBlueColor);
     Serial.print("  ");
-    Serial.print(readRedColor)
+    Serial.print(readRedColor);
     Serial.print("  ");
-    Serial.println(readGreenColor)
+    Serial.println(readGreenColor);
   }
 
   Serial.println("");
