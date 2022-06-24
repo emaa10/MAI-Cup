@@ -104,13 +104,13 @@ int zielzoneMaxWertRed = 110;
 //int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
 int zielzoneMaxWertBlue = 90;
 
-int lineMinWertBlue = 100; 
-int lineMinWertGreen = 100;
-int lineMinWertRed = 100;
+int lineMinWertBlue = 135; 
+int lineMinWertGreen = 180;
+int lineMinWertRed = 180;
 
-int lineMaxWertBlue = 250;
-int lineMaxWertGreen = 250;
-int lineMaxWertRed = 250;
+int lineMaxWertBlue = 300;
+int lineMaxWertGreen = 300;
+int lineMaxWertRed = 300;
 
 int lineTempVarRed;
 int lineTempVarGreen;
@@ -556,11 +556,11 @@ void loop() {
     Serial.print("  ");
     Serial.print(readSensorRight());
     Serial.print("  ");
-    Serial.print(readBlueColor);
+    Serial.print(readBlueColor());
     Serial.print("  ");
-    Serial.print(readRedColor);
+    Serial.print(readRedColor());
     Serial.print("  ");
-    Serial.println(readGreenColor);
+    Serial.println(readGreenColor());
   }
 
   Serial.println("");
