@@ -643,8 +643,10 @@ void loop() {
     if(hallValAlt == 0 && readMagnetSensor() == 0 && hallValAlt2 == 0) { //wenn wirklich ein magnet da ist, 3 mal hintereinander ist
       ledAn();
       if(magnetPosition == RECHTS) {
+        delay(100);
         halbUmdrehungLinks();
       } else if(magnetPosition == LINKS) {
+        delay(100);
         halbUmdrehungRechts();
       }
     }
