@@ -618,6 +618,16 @@ void loop() {
   unsigned long currentMillis = millis(); //delay ohne delay
   if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
     previousMillis = currentMillis;
+    if(readDistanceLeft() <= 4 || readDistanceRight() <= 4) {
+      if(readDistanceLeft() <= 4) {
+        outLeft += 30;
+        motorAnsteuernGeradeausLauf();
+      }
+      if(readDistanceRight() <= 4) {
+        outRight += 30;
+        motorAnsteuernGeradeausLauf();
+      }
+    }
     if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
       outRight += 30;
       motorAnsteuernGeradeausLauf();
