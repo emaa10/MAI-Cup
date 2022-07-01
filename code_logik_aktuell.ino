@@ -650,6 +650,9 @@ void loop() {
         halbUmdrehungRechts();
       }
     }
+    if(readMagnetSensor() == 0 && readLineColorSensor() == 1) { //linie und magnet gleichzeitig dann abbiegen und ned weird abfragen
+      halbUmdrehungRechts();
+    }
   } else{ //wenn kein magnet da is
     ledAus();
   }
