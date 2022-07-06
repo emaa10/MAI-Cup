@@ -117,6 +117,10 @@ int lineTempVarGreen;
 int lineTempVarBlue;
 
 int istInModus=0;
+
+int oldWertLineRight;
+int oldWertLineLeft;
+
 //---------------------------------//
 
 // - Funktionen -
@@ -511,6 +515,8 @@ void loop() {
   ausgabeRot();
   ausgabeGrun();
   ausgabeBlue();
+  oldWertLineLeft = readSensorLeft();
+  oldWertLineRight = readSensorRight();
 
   //farbsensor zielzone
   if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
@@ -601,10 +607,10 @@ void loop() {
 
   //Linienabfrage
 
-  if(readSensorLeft() == 1 && readSensorMiddle() == 1) {
+  if(readSensorLeft() == 1 && readSensorMiddle() == 1 && oldWertLineLeft == 1) {
       halbUmdrehungLinks();
   }
-  if(readSensorRight() == 1 && readSensorMiddle() == 1) {
+  if(readSensorRight() == 1 && readSensorMiddle() == 1 && oldWertLineRight == 1) {
       halbUmdrehungRechts();
   }
   //nicht benötigt, funktioniert aber
@@ -664,4 +670,6 @@ void loop() {
   hallValAlt2 = 1;  //müssen wir leider auf 1 setzten weil magnet = 0
   hallValAlt = 1;   //müssen wir leider auf 1 setzten weil magnet = 0
   istInModus = 0;   //dass wir kein spam haben und die ausgabe im modus wieder geht amogus ist btw sus
+  oldWertLineLeft = 0;
+  oldWertLineRight = 0;
 } 
