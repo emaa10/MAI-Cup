@@ -81,6 +81,7 @@ long entfernungRechts=0;
 
 int entfernungLinksOld; //alte variable wird hier gespeichert
 int entfernungRechtsOld;
+int minDistanceSide=15; //legt minimum distanz fest dass bot als gang erkennt und ned als wand (bei magnet und linie z.b.)
 //technik
 int durchgangCounter=0;
 unsigned long previousMillis = 0;
@@ -607,19 +608,13 @@ void loop() {
 
   //Linienabfrage
 
-  if(readSensorLeft() == 1 && readSensorMiddle() == 1 && oldWertLineLeft == 1) {
+  if(readSensorLeft() == 1 && readSensorMiddle() == 1 && oldWertLineLeft == 1 && readDistanceLeft >= minDistanceSide) {
       halbUmdrehungLinks();
   }
-  if(readSensorRight() == 1 && readSensorMiddle() == 1 && oldWertLineRight == 1) {
+  if(readSensorRight() == 1 && readSensorMiddle() == 1 && oldWertLineRight == 1 && readDistanceRight >= minDistanceSide) {
       halbUmdrehungRechts();
   }
-  //nicht benötigt, funktioniert aber
-  if(readSensorRight() == 0 && readSensorLeft() == 0 && readSensorMiddle() == 0) {
-      fahrenBeide();
-      motorAnsteuern();
-  }
-
-
+  
   //Speedsync
   unsigned long currentMillis = millis(); //delay ohne delay
   if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
@@ -645,14 +640,13 @@ void loop() {
   }
 
   //Magnetskript
-  /*
   if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
     if(hallValAlt == 0 && readMagnetSensor() == 0 && hallValAlt2 == 0) { //wenn wirklich ein magnet da ist, 3 mal hintereinander ist
       ledAn();
-      if(magnetPosition == RECHTS) {
+      if(magnetPosition == RECHTS && readDistanceLeft >= minDistanceSide) {
         delay(100);
         halbUmdrehungLinks();
-      } else if(magnetPosition == LINKS) {
+      } else if(magnetPosition == LINKS && readDistanceRight >= minDistanceSide) {
         delay(100);
         halbUmdrehungRechts();
       }
@@ -662,7 +656,7 @@ void loop() {
     }
   } else{ //wenn kein magnet da is
     ledAus();
-  }*/
+  }
   
 
   hindernisLinks = 0;
