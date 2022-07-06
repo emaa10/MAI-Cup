@@ -212,7 +212,7 @@ void motorAnsteuern() {
 }
 
 void motorAnsteuernGeradeausLauf() {
-  if(outLeft >= 80 || outRight >= 80) {
+  if(outLeft >= 120 || outRight >= 120) {
     outLeft -= 30;
     outRight -= 30;
   }
@@ -628,7 +628,7 @@ void loop() {
         motorAnsteuernGeradeausLauf();
       }
     }
-    if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+    if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 4 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
       outRight += 30;
       motorAnsteuernGeradeausLauf();
     }
@@ -639,6 +639,7 @@ void loop() {
   }
 
   //Magnetskript
+  /*
   if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
     if(hallValAlt == 0 && readMagnetSensor() == 0 && hallValAlt2 == 0) { //wenn wirklich ein magnet da ist, 3 mal hintereinander ist
       ledAn();
@@ -655,7 +656,7 @@ void loop() {
     }
   } else{ //wenn kein magnet da is
     ledAus();
-  }
+  }*/
   
 
   hindernisLinks = 0;
