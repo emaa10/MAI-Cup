@@ -217,7 +217,8 @@ void motorAnsteuern() {
 }
 
 void motorAnsteuernGeradeausLauf() {
-  if(outLeft >= 120 || outRight >= 120) {
+  if(outLeft >= 80 || outRight >= 80) {
+    Serial.print("Ist in Motor ansterern gerade aus lauf");
     outLeft -= 30;
     outRight -= 30;
   }
@@ -533,6 +534,7 @@ void loop() {
 
   //farbsensor linienfolgeskript
   while(readLineColorSensor() == 1) {
+    Serial.print("Ist in Linenskript Modus");
     istInModus++;
     if(istInModus == 1) {
       Serial.println("im Modus für Linie");
@@ -541,6 +543,7 @@ void loop() {
     unsigned long currentMillis = millis(); //delay ohne delay
     if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
       previousMillis = currentMillis;
+      Serial.print("Ist in Farbsensor Speedsync");
       if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
         outRight += 30;
         motorAnsteuernGeradeausLauf();
@@ -611,9 +614,11 @@ void loop() {
   //Linienabfrage
 
   if(readSensorLeft() == 1 && readSensorMiddle() == 1 && oldWertLineLeft == 1 && readDistanceLeft >= minDistanceSide) {
+      Serial.print("Will nach Links wegen Linienabfrage");
       halbUmdrehungLinks();
   }
   if(readSensorRight() == 1 && readSensorMiddle() == 1 && oldWertLineRight == 1 && readDistanceRight >= minDistanceSide) {
+      Serial.print("Will nach Rechts wegen Linienabfrage");
       halbUmdrehungRechts();
   }
   
@@ -621,6 +626,7 @@ void loop() {
   unsigned long currentMillis = millis(); //delay ohne delay
   if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
     previousMillis = currentMillis;
+    Serial.print("Ist in normalem Speedsync");
     if(readDistanceLeft() <= 4 || readDistanceRight() <= 4) {
       if(readDistanceLeft() <= 4) {
         outLeft += 30;
@@ -643,6 +649,7 @@ void loop() {
 
   //Magnetskript
   if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
+    Serial.print("Magnet erkannt");
     if(hallValAlt == 0 && readMagnetSensor() == 0 && hallValAlt2 == 0) { //wenn wirklich ein magnet da ist, 3 mal hintereinander ist
       ledAn();
       if(magnetPosition == RECHTS && readDistanceLeft >= minDistanceSide) {
