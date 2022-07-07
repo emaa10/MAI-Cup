@@ -1,8 +1,6 @@
 #include <Arduino.h>
 #include "PCF8575.h"
-
 PCF8575 pcf8575(0x21); //portexpander bus adresse und name 
-
 /*
   MAI Cup Junior Code
   made at 25 Jan 2022
@@ -10,7 +8,6 @@ PCF8575 pcf8575(0x21); //portexpander bus adresse und name
   Home
   26.01.2022
 */
-
 //Todos: Zeit für Kurve einfügen, Pins einstellen, Links und rechts verkabeln, Besser Verkabeln
 // - Pins -
 // Motor rechts
@@ -43,14 +40,12 @@ int hallValAlt2;
 #define IR_MIDDLE A0
 //LED
 #define LED_PIN P2
-
 //farbsensor
 #define SENSOR_S0 P4
 #define SENSOR_S1 P5
 #define SENSOR_S2 P6
 #define SENSOR_S3 P7
 #define SENSOR_OUT 7 //einziger pin der nicht auf portexpander sein muss
-
 // - Daten -
 //motor
 int outLeft; 
@@ -72,68 +67,55 @@ HallPosition magnetPosition = LINKS;                                            
 // Ultraschall
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
-
 long dauerLinks=0; 
 long entfernungLinks=0; 
-
 long dauerRechts=0; 
 long entfernungRechts=0;
-
 int entfernungLinksOld; //alte variable wird hier gespeichert
 int entfernungRechtsOld;
-int minDistanceSide=15; //legt minimum distanz fest dass bot als gang erkennt und ned als wand (bei magnet und linie z.b.)
 //technik
 int durchgangCounter=0;
 unsigned long previousMillis = 0;
 #define SPEEDSYNCINTERVAL 300
-
 int umdrehungZeit=840;
 int umdrehungSpeed=110;
-
 //farbsensor
 int frequency = 0;
 int redWert;
 int grunWert;
 int blueWert;
-
 //farbsensor API
 int zielzoneMinWertRed = 65;     //zielzone geht von minwert bis maxwert
 //int zielzoneMinWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
 int zielzoneMinWertBlue = 60;
-
 int zielzoneMaxWertRed = 160; 
 //int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
 int zielzoneMaxWertBlue = 120;
-
 int lineMinWertBlue = 135; 
 int lineMinWertGreen = 180;
 int lineMinWertRed = 180;
-
 int lineMaxWertBlue = 300;
 int lineMaxWertGreen = 300;
 int lineMaxWertRed = 300;
-
 int lineTempVarRed;
 int lineTempVarGreen;
-int lineTempVarBlue;
+ int lineTempVarBlue;
 
-int istInModus=0;
+ int istInModus=0;
 
-int oldWertLineRight;
-int oldWertLineLeft;
+ int oldWertLineRight;
+ int oldWertLineLeft;
 
-//---------------------------------//
+ //---------------------------------//
 
-// - Funktionen -
+ // - Funktionen -
 //liniensensor
 int readSensorLeft() { //sensor links
   return digitalRead(IR_LEFT);
 }
-
 int readSensorMiddle() { //sensor middle
   return digitalRead(IR_MIDDLE);
 }
-
 int readSensorRight() { //sensor rechts
   return digitalRead(IR_RIGHT);
 }
@@ -147,7 +129,6 @@ long readDistance(int trigger, int echo) { //main
   long dauer = pulseIn(echo, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
   return (long)((dauer/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
  }
-
 long readDistancePE(int trigger, int echo) { //main, mit Portexpander
   pcf8575.digitalWrite(trigger, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
   delay(5); // Pause 5 Millisekunden
@@ -157,19 +138,15 @@ long readDistancePE(int trigger, int echo) { //main, mit Portexpander
   long dauer = pulseIn(echo, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
   return (long)((dauer/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
  }
-
 long readDistanceFront() { //front ultraschall
   return readDistancePE(TRIGGER_VORNE, ECHO_VORNE);
  }
-
 long readDistanceLeft() { //left ultraschall
   return readDistancePE(TRIGGER_LINKS, ECHO_LINKS);
  }
-
 long readDistanceRight() { //right ultraschall
   return readDistancePE(TRIGGER_RECHTS, ECHO_RECHTS);
  }
-
 int readMagnetSensor() {
   return digitalRead(HALL_SENSOR_D);
   if(readMagnetSensor() == 0) { //wenn magnet
@@ -180,7 +157,6 @@ int readMagnetSensor() {
     ledAus();
   }
 }
-
 int readLineColorSensor() {
   if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
     return 1;
@@ -188,53 +164,42 @@ int readLineColorSensor() {
     return 0;
   }
 }
-
 int readRedColor() {
   pcf8575.digitalWrite(SENSOR_S2, LOW);
   pcf8575.digitalWrite(SENSOR_S3, LOW);
   return pulseIn(SENSOR_OUT, LOW);
 }
-
 int readGreenColor() {
   pcf8575.digitalWrite(SENSOR_S2, HIGH);
   pcf8575.digitalWrite(SENSOR_S3, HIGH);
   return pulseIn(SENSOR_OUT, LOW);
 }
-
 int readBlueColor() {
   pcf8575.digitalWrite(SENSOR_S2, LOW);
   pcf8575.digitalWrite(SENSOR_S3, HIGH);
   return pulseIn(SENSOR_OUT, LOW);
 }
-
 // - Methoden -
-
 void motorAnsteuern() {
   analogWrite(RIGHT_LPWM,outRight); //Schreibe Geschwindigkeit auf Pins
   analogWrite(RIGHT_RPWM,0);        //Schreibe Geschwindigkeit auf Pins
   analogWrite(LEFT_LPWM,outLeft);   //Schreibe Geschwindigkeit auf Pins
   analogWrite(LEFT_RPWM,0);         //Schreibe Geschwindigkeit auf Pins
 }
-
 void motorAnsteuernGeradeausLauf() {
-  if(outLeft >= 80 || outRight >= 80) {
-    Serial.print("Ist in Motor ansterern gerade aus lauf");
+  if(outLeft >= 120 || outRight >= 120) {
     outLeft -= 30;
     outRight -= 30;
   }
   motorAnsteuern();
 }
-
 //AUSGABENFUNKTINIEN
-
 void ledAn() {
   pcf8575.digitalWrite(LED_PIN, LOW); //led wird angeschaltet
 }
-
 void ledAus() {
   pcf8575.digitalWrite(LED_PIN, HIGH); //led wird ausgeschaltet
 }
-
 void magnetLesen() {
   Hall_Val2=digitalRead(HALL_SENSOR_D);
   if(Hall_Val2 == 0) {
@@ -247,7 +212,6 @@ void magnetLesen() {
     ledAus();
   }
 }
-
 void linieLinks() {
   int statusSensorLeft = digitalRead(IR_LEFT);
   if(statusSensorLeft == 1) { // diese abfrage kann man später auch noch verwenden
@@ -258,7 +222,6 @@ void linieLinks() {
     Serial.print("   ");
   }
 }
-
 void linieMitte() {
   int statusSensorMiddle = digitalRead(IR_MIDDLE);
   if(statusSensorMiddle == 1) { // diese abfrage kann man später auch noch verwenden
@@ -269,7 +232,6 @@ void linieMitte() {
     Serial.print("   ");
   }
 }
-
 void linieRechts() {
   int statusSensorRight = digitalRead(IR_RIGHT);
   if(statusSensorRight == 1) {
@@ -279,8 +241,6 @@ void linieRechts() {
     Serial.print("Boden");
     Serial.print("   ");
 }
-
-
 /*
  * Motoren starten (beiden fahren)
  */
@@ -290,7 +250,6 @@ void fahrenBeide() {
   motorAnsteuern();
 //  Serial.println("fahren beide laut Methode");
 }
-
 /*
  * Motoren stoppen (beide)
  */
@@ -320,7 +279,6 @@ void entfernungMessenVorne() {
   }
   Serial.print("cm   ");
 }
-
 void entfernungMessenLinks() {
   entfernungLinksOld = entfernungLinks;
   pcf8575.digitalWrite(TRIGGER_LINKS, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
@@ -343,8 +301,6 @@ void entfernungMessenLinks() {
   Serial.print("cm   ");
   //Serial.println(" Alte Entfernung links");
 }
-
-
 void entfernungMessenRechts() {
   entfernungRechtsOld = entfernungRechts;
   pcf8575.digitalWrite(TRIGGER_RECHTS, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
@@ -366,28 +322,24 @@ void entfernungMessenRechts() {
   }
   Serial.print("cm   ");
 }
-
 void ausgabeRot() {
   redWert = readRedColor();
   Serial.print("   ");
   Serial.print("R= ");
   Serial.print(redWert);
 }
-
 void ausgabeGrun() {
   grunWert = readGreenColor();
   Serial.print("   ");
   Serial.print("G= ");
   Serial.print(grunWert);
 }
-
 void ausgabeBlue() {
   blueWert = readBlueColor();
   Serial.print("   ");
   Serial.print("B= ");
   Serial.print(blueWert);
 }
-
 void umdrehungZeitVoid() {
     delay(umdrehungZeit);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE KURVE
 }
@@ -395,7 +347,6 @@ void umdrehungZeitVoid() {
 void kursUmdrehungZeit() { //Zeit um wieder auf den Kurs zu kommen
     delay(100);                          //HIER ZEIT EINFÜGEN WIE LANG ES DAUERT FÜR EINE UMDREHUNG
 }
-
 void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
     outLeft = umdrehungSpeed;
     outRight = 0;
@@ -405,7 +356,6 @@ void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
     motorAnsteuern();
     Serial.println("Rechts umdrehung");
 }
-
 void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
     outLeft = 0;
     outRight = umdrehungSpeed;
@@ -431,13 +381,9 @@ void kurzerAusgleichNachRechts() {
   motorAnsteuern();
 }
 */
-
 // ------------------------------------------------------------------------------------
 // -                                Ende der Methoden                                 -
 // ------------------------------------------------------------------------------------
-
-
-
 // - Erster Start -
 void setup() {
   Serial.begin(9600); //Starte den Serial Monitor
@@ -473,37 +419,29 @@ void setup() {
   pinMode(HALL_SENSOR_D,INPUT);
   //LED
   pcf8575.pinMode(LED_PIN, OUTPUT);
-
   //farbsensor
   pcf8575.pinMode(SENSOR_S0, OUTPUT); //portexpander
   pcf8575.pinMode(SENSOR_S1, OUTPUT); //portexpander
   pcf8575.pinMode(SENSOR_S2, OUTPUT); //portexpander
   pcf8575.pinMode(SENSOR_S3, OUTPUT); //portexpander
   pinMode(SENSOR_OUT, INPUT);
-
   // Setting frequency-scaling to 20% (farbsensor)
   pcf8575.digitalWrite(SENSOR_S0, HIGH); //portexpander
   pcf8575.digitalWrite(SENSOR_S1, LOW); //portexpander
-
-
   ////////////////////////////////////////////////////////////////////////////////////////////////
   pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN
   ////////////////////////////////////////////////////////////////////////////////////////////////
-
   Serial.println("----- INFO: Pins gesetzt");
   fahrenBeide(); //Bot startet das Fahren
   Serial.println("----- INFO: Im Setup Fahren gestartet");
 //  delay(1500); //Delay dass nicht direkt irgendwelche Hindernisse erkannt werden
 }
-
-
 /*
  * Main Loop
  */
 void loop() {
   durchgangCounter++; //eigentlich schwachsinn funktioniert aber
   //Serial.print(durchgangCounter);
-
   //ausgabe start
   entfernungMessenLinks(); // er misst durchgehend die entfernung nach vorne
   entfernungMessenVorne(); //entfernung links und rechts messen wenn vorne nh wand is
@@ -514,14 +452,14 @@ void loop() {
   magnetLesen();
   hallValAlt = readMagnetSensor();
   hallValAlt2 = hallValAlt;
-  ausgabeRot();
-  ausgabeGrun();
-  ausgabeBlue();
-  oldWertLineLeft = readSensorLeft();
-  oldWertLineRight = readSensorRight();
+   ausgabeRot();
+   ausgabeGrun();
+   ausgabeBlue();
+   oldWertLineLeft = readSensorLeft();
+   oldWertLineRight = readSensorRight();
 
-  //farbsensor zielzone
-  if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
+   //farbsensor zielzone
+   if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
     Serial.println("  L"); //linienerkennung, variablen oben einstellbar
   }
   if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
@@ -529,12 +467,10 @@ void loop() {
     while(1) {
       stehenbleiben();
       exit(0);
-    }    
+    }
   }
-
   //farbsensor linienfolgeskript
   while(readLineColorSensor() == 1) {
-    Serial.println("Ist in Linenskript Modus");
     istInModus++;
     if(istInModus == 1) {
       Serial.println("im Modus für Linie");
@@ -543,7 +479,6 @@ void loop() {
     unsigned long currentMillis = millis(); //delay ohne delay
     if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
       previousMillis = currentMillis;
-      Serial.println("Ist in Farbsensor Speedsync");
       if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() >= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
         outRight += 30;
         motorAnsteuernGeradeausLauf();
@@ -554,10 +489,10 @@ void loop() {
       }
     }
     if(readSensorLeft() == 1 || readSensorRight() == 1) { //wenn irgendein infrarotsensor auf 1 ist und farbsensor auch
-      if(readSensorLeft() == 1 && readLineColorSensor() == 1) {
+      if(readSensorLeft() == 1 && readLineColorSensor() == 1 && readDistanceLeft >= 25) {
         Serial.println("Halbumdrehung Links im Modus Linie");
         halbUmdrehungLinks();
-      } else if(readSensorRight() == 1 && readLineColorSensor() == 1) {
+      } else if(readSensorRight() == 1 && readLineColorSensor() == 1 && readDistanceRight >= 25) {
         Serial.println("Halbumdrehung Rechts im Modus Linie");
         halbUmdrehungRechts();
       }
@@ -574,11 +509,8 @@ void loop() {
     Serial.print("  ");
     Serial.println(readGreenColor());
   }
-
   Serial.println("");
   //ausgabe ende
-
-
   //entfernung zu variable
   if (readDistanceFront() <= 23 && readDistanceFront() >= 1) { //wenn vorne eine wand ist dann fängt er an links und rechts zu messen
     stehenbleiben(); //direkt stehenbleiben
@@ -588,7 +520,6 @@ void loop() {
     if (readDistanceRight() <= 23) { //wenn rechts eine wand ist wird hindernisRechts auf 1 gesetzt
       hindernisRechts = 1;
     }
-
     //Entfernung Abfrage 
     if (2 == hindernisLinks + hindernisRechts) { //wenn 2 hindernisse vorhanden sind --> stehen bleiben (noch kein richtiger code hier gefunden)
       stehenbleiben();
@@ -611,22 +542,22 @@ void loop() {
     }
   }
 
-  //Linienabfrage
-
-  if(readSensorLeft() == 1 && readSensorMiddle() == 1 && oldWertLineLeft == 1 && readDistanceLeft >= minDistanceSide) {
-      Serial.println("Will nach Links wegen Linienabfrage");
-      halbUmdrehungLinks();
+   //Linienabfrage
+   if(readSensorLeft() == 1 && readSensorMiddle() == 1 && oldWertLineLeft == 1 && readDistanceLeft >= 25) {
+       halbUmdrehungLinks();
+   }
+   if(readSensorRight() == 1 && readSensorMiddle() == 1 && oldWertLineRight == 1 && readDistanceRight >= 25) {
+       halbUmdrehungRechts();
+   }
+   //nicht benötigt, funktioniert aber
+  if(readSensorRight() == 0 && readSensorLeft() == 0 && readSensorMiddle() == 0) {
+      fahrenBeide();
+      motorAnsteuern();
   }
-  if(readSensorRight() == 1 && readSensorMiddle() == 1 && oldWertLineRight == 1 && readDistanceRight >= minDistanceSide) {
-      Serial.println("Will nach Rechts wegen Linienabfrage");
-      halbUmdrehungRechts();
-  }
-  
   //Speedsync
   unsigned long currentMillis = millis(); //delay ohne delay
   if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
     previousMillis = currentMillis;
-    Serial.println("Ist in normalem Speedsync");
     if(readDistanceLeft() <= 4 || readDistanceRight() <= 4) {
       if(readDistanceLeft() <= 4) {
         outLeft += 30;
@@ -646,19 +577,18 @@ void loop() {
       motorAnsteuernGeradeausLauf();
     }
   }
-
   //Magnetskript
   if(readMagnetSensor() == 0) { //wenn ein magnet erkannt wird
-    Serial.println("Magnet erkannt");
     if(hallValAlt == 0 && readMagnetSensor() == 0 && hallValAlt2 == 0) { //wenn wirklich ein magnet da ist, 3 mal hintereinander ist
       ledAn();
-      if(magnetPosition == RECHTS && readDistanceLeft >= minDistanceSide) {
+      /*
+      if(magnetPosition == RECHTS) {
         delay(100);
         halbUmdrehungLinks();
-      } else if(magnetPosition == LINKS && readDistanceRight >= minDistanceSide) {
+      } else if(magnetPosition == LINKS) {
         delay(100);
         halbUmdrehungRechts();
-      }
+      }*/
     }
     if(readMagnetSensor() == 0 && readLineColorSensor() == 1) { //linie und magnet gleichzeitig dann abbiegen und ned weird abfragen
       halbUmdrehungRechts();
@@ -667,7 +597,6 @@ void loop() {
     ledAus();
   }
   
-
   hindernisLinks = 0;
   hindernisRechts = 0;
   hallValAlt2 = 1;  //müssen wir leider auf 1 setzten weil magnet = 0
@@ -675,4 +604,4 @@ void loop() {
   istInModus = 0;   //dass wir kein spam haben und die ausgabe im modus wieder geht amogus ist btw sus
   oldWertLineLeft = 0;
   oldWertLineRight = 0;
-} 
+}
