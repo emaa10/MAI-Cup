@@ -481,11 +481,11 @@ void loop() {
     unsigned long currentMillis = millis(); //delay ohne delay
     if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
       previousMillis = currentMillis;
-      if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 8 || readDistanceRight() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+      if(readDistanceLeft() > readDistanceRight() || readDistanceLeft() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
         outRight += 30;
         motorAnsteuernGeradeausLauf();
       }
-      if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() <= 45) {
+      if(readDistanceRight() > readDistanceLeft() || readDistanceRight() <= 45) {
         outLeft += 30;
       motorAnsteuernGeradeausLauf();
       }
@@ -570,11 +570,11 @@ void loop() {
         motorAnsteuernGeradeausLauf();
       }
     }
-    if(readDistanceLeft() > readDistanceRight() || readDistanceRight() <= 4 || readDistanceRight() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+    if(readDistanceLeft() > readDistanceRight() || readDistanceLeft() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
       outRight += 30;
       motorAnsteuernGeradeausLauf();
     }
-    if(readDistanceRight() > readDistanceLeft() || readDistanceLeft() <= 8 || readDistanceLeft() <= 45) {
+    if(readDistanceRight() > readDistanceLeft() || readDistanceRight() <= 45) {
       outLeft += 30;
       motorAnsteuernGeradeausLauf();
     }
