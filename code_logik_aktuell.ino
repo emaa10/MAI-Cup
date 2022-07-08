@@ -466,10 +466,10 @@ void loop() {
   }
   if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
     Serial.println("  Z"); //linienerkennung, variablen oben einstellbar
-    /*while(1) {
+    while(1) {
       stehenbleiben();
       exit(0);
-    }*/
+    }
   }
   //farbsensor linienfolgeskript
   while(readLineColorSensor() == 1) {
