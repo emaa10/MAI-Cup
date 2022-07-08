@@ -481,11 +481,11 @@ void loop() {
     unsigned long currentMillis = millis(); //delay ohne delay
     if (currentMillis - previousMillis >= SPEEDSYNCINTERVAL  && readSensorMiddle() == 0) {
       previousMillis = currentMillis;
-      if(readDistanceLeft() > readDistanceRight() || readDistanceLeft() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+      if(readDistanceLeft() > readDistanceRight() && readDistanceLeft() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
         outRight += 30;
         motorAnsteuernGeradeausLauf();
       }
-      if(readDistanceRight() > readDistanceLeft() || readDistanceRight() <= 45) {
+      if(readDistanceRight() > readDistanceLeft() && readDistanceRight() <= 45) {
         outLeft += 30;
       motorAnsteuernGeradeausLauf();
       }
@@ -546,10 +546,10 @@ void loop() {
 
    //Linienabfrage
    if(readSensorLeft() == 1 && readSensorMiddle() == 1 && oldWertLineLeft == 1 && readDistanceLeft >= 25) {
-       halbUmdrehungLinks();
+       //halbUmdrehungLinks();
    }
    if(readSensorRight() == 1 && readSensorMiddle() == 1 && oldWertLineRight == 1 && readDistanceRight >= 25) {
-       halbUmdrehungRechts();
+       //halbUmdrehungRechts();
    }
    //nicht benötigt, funktioniert aber
   if(readSensorRight() == 0 && readSensorLeft() == 0 && readSensorMiddle() == 0) {
@@ -570,11 +570,11 @@ void loop() {
         motorAnsteuernGeradeausLauf();
       }
     }
-    if(readDistanceLeft() > readDistanceRight() || readDistanceLeft() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
+    if(readDistanceLeft() > readDistanceRight() && readDistanceLeft() <= 45) { //größer als 45 weil so viel gar nicht sein kann, das ergebnis muss falsch sein
       outRight += 30;
       motorAnsteuernGeradeausLauf();
     }
-    if(readDistanceRight() > readDistanceLeft() || readDistanceRight() <= 45) {
+    if(readDistanceRight() > readDistanceLeft() && readDistanceRight() <= 45) {
       outLeft += 30;
       motorAnsteuernGeradeausLauf();
     }
