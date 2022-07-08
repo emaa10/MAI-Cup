@@ -463,6 +463,7 @@ void loop() {
    oldWertLineRight = readSensorRight();
 
    //farbsensor zielzone
+   /*
    if(readBlueColor() > lineMinWertBlue && readBlueColor() < lineMaxWertBlue && readGreenColor() > lineMinWertGreen && readGreenColor() < lineMaxWertGreen && readRedColor() > lineMinWertRed && readRedColor() < lineMaxWertRed) {
     Serial.println("  L"); //linienerkennung, variablen oben einstellbar
   }
