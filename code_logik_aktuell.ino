@@ -87,19 +87,19 @@ int blueWert;
 //farbsensor API
 int zielzoneMinWertRed = 100;     //zielzone geht von minwert bis maxwert
 //int zielzoneMinWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMinWertBlue = 80;
+int zielzoneMinWertBlue = 85;
 
-int zielzoneMaxWertRed = 130; 
+int zielzoneMaxWertRed = 150; 
 //int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMaxWertBlue = 100;
+int zielzoneMaxWertBlue = 110;
 
-int lineMinWertBlue = 200; 
-int lineMinWertGreen = 300;
-int lineMinWertRed = 300;
+int lineMinWertBlue = 1; 
+int lineMinWertGreen = 1;
+int lineMinWertRed = 1;
 
-int lineMaxWertBlue = 300;
-int lineMaxWertGreen = 400;
-int lineMaxWertRed = 400;
+int lineMaxWertBlue = 2;
+int lineMaxWertGreen = 2;
+int lineMaxWertRed = 2;
 
 int lineTempVarRed;
 int lineTempVarGreen;
