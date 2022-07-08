@@ -63,7 +63,7 @@ int hindernisRechts;
 //Hall Sensor
 int Hall_Val1=0,Hall_Val2=0;
 enum HallPosition {LINKS, RECHTS};
-HallPosition magnetPosition = LINKS;                                                        // MAGNET CONFIG HIER
+HallPosition magnetPosition = RECHTS;                                                        // MAGNET CONFIG HIER
 // Ultraschall
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
@@ -85,18 +85,20 @@ int redWert;
 int grunWert;
 int blueWert;
 //farbsensor API
-int zielzoneMinWertRed = 65;     //zielzone geht von minwert bis maxwert
+int zielzoneMinWertRed = 100;     //zielzone geht von minwert bis maxwert
 //int zielzoneMinWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMinWertBlue = 60;
-int zielzoneMaxWertRed = 160; 
+int zielzoneMinWertBlue = 80;
+
+int zielzoneMaxWertRed = 130; 
 //int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMaxWertBlue = 120;
-int lineMinWertBlue = 135; 
-int lineMinWertGreen = 180;
-int lineMinWertRed = 180;
-int lineMaxWertBlue = 300;
-int lineMaxWertGreen = 300;
-int lineMaxWertRed = 300;
+int zielzoneMaxWertBlue = 85;
+
+int lineMinWertBlue = 55; 
+int lineMinWertGreen = 65;
+int lineMinWertRed = 72;
+int lineMaxWertBlue = 75;
+int lineMaxWertGreen = 120;
+int lineMaxWertRed = 100;
 int lineTempVarRed;
 int lineTempVarGreen;
  int lineTempVarBlue;
@@ -464,10 +466,10 @@ void loop() {
   }
   if(readRedColor() > zielzoneMinWertRed && readRedColor() < zielzoneMaxWertRed && readBlueColor() > zielzoneMinWertBlue && readBlueColor() < zielzoneMaxWertBlue) {
     Serial.println("  Z"); //linienerkennung, variablen oben einstellbar
-    while(1) {
+    /*while(1) {
       stehenbleiben();
       exit(0);
-    }
+    }*/
   }
   //farbsensor linienfolgeskript
   while(readLineColorSensor() == 1) {
