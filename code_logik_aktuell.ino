@@ -189,7 +189,7 @@ void motorAnsteuern() {
   analogWrite(LEFT_RPWM,0);         //Schreibe Geschwindigkeit auf Pins
 }
 void motorAnsteuernGeradeausLauf() {
-  if(outLeft >= 120 || outRight >= 120) {
+  if(outLeft >= 80 || outRight >= 80) {
     outLeft -= 30;
     outRight -= 30;
   }
