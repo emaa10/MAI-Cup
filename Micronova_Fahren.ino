@@ -263,9 +263,10 @@ void setup() {
 }
 
 void loop() {
+  ledAus();
   if(readDistanceFront <= 20) {
     fahrenBeide;
-    delay(500)
+    delay(500);
     while(readDistanceFront >= 20)
         delay(20);
         sollFahren++;
