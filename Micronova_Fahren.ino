@@ -110,6 +110,8 @@ int istInModus=0;
 int oldWertLineRight;
 int oldWertLineLeft;
 
+int sollFahren = 0;
+
  //---------------------------------//
 
 
@@ -257,5 +259,23 @@ void setup() {
   ///////////////////////////////////////////////////////////////////////////////////////////////
   pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN
   ////////////////////////////////////////////////////////////////////////////////////////////////
+
+}
+
+void loop() {
+  if(readDistanceFront <= 20) {
+    fahrenBeide;
+    delay(500)
+    while(readDistanceFront >= 20)
+        delay(20);
+        sollFahren++;
+    } 
+    halbUmdrehungLinks();
+    halbUmdrehungLinks();
+    fahrenBeide();
+    delay(sollFahren * 20);
+    halbUmdrehungRechts;
+    halbUmdrehungRechts;
+    stehenbleiben;
   
 }
