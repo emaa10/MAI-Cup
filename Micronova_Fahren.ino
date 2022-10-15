@@ -213,3 +213,49 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
 
 
 // --------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+void setup() {
+  Serial.begin(9600); //Starte den Serial Monitor
+  // Motor rechts
+  pinMode(RIGHT_RPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(RIGHT_LPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(RIGHT_LEN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(RIGHT_REN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  digitalWrite(RIGHT_REN,HIGH); //Pin beschreiben
+  digitalWrite(RIGHT_LEN,HIGH); //Pin beschreiben
+  // Motor links
+  pinMode(LEFT_RPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(LEFT_LPWM,OUTPUT); //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(LEFT_LEN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  pinMode(LEFT_REN,OUTPUT);  //Pin-Modus setzen --> Pulsweitenmodulation
+  digitalWrite(LEFT_REN,HIGH); //Pin beschreiben
+  digitalWrite(LEFT_LEN,HIGH); //Pin beschreiben
+  
+  // Abstandssensor vorne
+  pcf8575.pinMode(TRIGGER_VORNE, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pinMode(ECHO_VORNE, INPUT); // Echo-Pin ist ein Eingang
+  // Abstandssensor links
+  pcf8575.pinMode(TRIGGER_LINKS, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pinMode(ECHO_LINKS, INPUT); // Echo-Pin ist ein Eingang
+  // Abstandssensor rechts
+  pcf8575.pinMode(TRIGGER_RECHTS, OUTPUT); // Trigger-Pin ist ein Ausgang
+  pinMode(ECHO_RECHTS, INPUT); // Echo-Pin ist ein Eingang
+  //LED
+  pcf8575.pinMode(LED_PIN, OUTPUT);
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  
+}
