@@ -160,9 +160,16 @@ void setup() {
 
 
   pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN
+  ledAus();
 }
  
 void loop() {
-  fahrenBeide();
+  Serial.print(readDistanceFront);
+  if(readDistanceFront > 20) {
+    ledAn();
+    delay(1000);
+    ledAus();
+    delay();
+  }
 
 }
