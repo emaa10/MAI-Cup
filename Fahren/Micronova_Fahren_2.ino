@@ -123,7 +123,26 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
     Serial.println("Links umdrehung");
 }
 
-
+void entfernungMessenVorne() {
+  pcf8575.digitalWrite(TRIGGER_VORNE, LOW); //Hier nimmt man die Spannung für kurze Zeit vom Trigger-Pin, damit man später beim Senden des Trigger-Signals ein rauschfreies Signal hat.
+  delay(5); // Pause 5 Millisekunden
+  pcf8575.digitalWrite(TRIGGER_VORNE, HIGH); //Jetzt sendet man eine Ultraschallwelle los.
+  delay(10); //Dieser „Ton“ erklingt für 10 Millisekunden.
+  pcf8575.digitalWrite(TRIGGER_VORNE, LOW);//Dann wird der „Ton“ abgeschaltet.
+  dauerVorne = pulseIn(ECHO_VORNE, HIGH); //Mit dem Befehl „pulseIn“ zählt der Mikrokontroller die Zeit in Mikrosekunden, bis der Schall zum Ultraschallsensor zurückkehrt.
+  entfernungVorne = (long)((dauerVorne/2) * 0.03432); //Nun berechnet man die Entfernung in Zentimetern. Man teilt zunächst die Zeit durch zwei (Weil man ja nur eine Strecke berechnen möchte und nicht die Strecke hin- und zurück). Den Wert multipliziert man mit der Schallgeschwindigkeit in der Einheit Zentimeter/Mikrosekunde und erhält dann den Wert in Zentimetern.
+  
+  if (entfernungVorne >= 500 || entfernungVorne <= 0) {//Wenn die gemessene Entfernung über 500cm oder unter 0cm liegt,…
+    Serial.print("Vorne: ");
+    Serial.print(entfernungVorne); //dann soll der serial monitor ausgeben „Kein Messwert“, weil Messwerte in diesen Bereichen falsch oder ungenau sind.
+  }
+  else {
+    Serial.print("Vorne: ");
+    Serial.print(entfernungVorne); //…soll der Wert der Entfernung an den serial monitor hier ausgegeben werden.
+  //  Serial.println(" cm Vorne"); // Hinter dem Wert der Entfernung soll auch am Serial Monitor die Einheit "cm" angegeben werden, danach eine neue Zeile
+  }
+  Serial.print("cm   ");
+}
 
 void setup() {
   Serial.begin(9600);
@@ -143,8 +162,7 @@ void setup() {
 
   outLeft = 100;
   outRight = 100;
-
-
+  
   // Abstandssensor vorne
   pcf8575.pinMode(TRIGGER_VORNE, OUTPUT); // Trigger-Pin ist ein Ausgang
   pinMode(ECHO_VORNE, INPUT); // Echo-Pin ist ein Eingang
@@ -163,13 +181,39 @@ void setup() {
   ledAus();
 }
  
+
+int zeit = 0;
+int fahren = 1;
+
+
 void loop() {
-  Serial.print(readDistanceFront);
-  if(readDistanceFront > 20) {
+  Serial.println();
+  Serial.println(int(readDistanceFront));
+  if(int(readDistanceFront) > 30) {
     ledAn();
-    delay(1000);
-    ledAus();
-    delay();
+  }
+  if(int(readDistanceFront) < 30) {
+    Serial.println("Start");
+    Serial.println(int(readDistanceFront));
+    fahrenBeide();
+    int fahren = 1;
+    while(fahren = 1) {
+        delay(20);
+        zeit++;
+        if(int(readDistanceFront) < 30) {
+            fahren = 0;
+            break;
+        }
+    }
+    if(fahren = 0) {
+        stehenbleiben();
+        delay(500);
+        halbUmdrehungLinks();
+        halbUmdrehungLinks();
+        fahrenBeide();
+        delay(zeit * 20);
+        stehenbleiben();
+    }
   }
 
 }
