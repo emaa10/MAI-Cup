@@ -1,16 +1,7 @@
 #include <Arduino.h>
 #include "PCF8575.h"
 PCF8575 pcf8575(0x21); //portexpander bus adresse und name 
-/*
-  MAI Cup Junior Code
-  Micronova Edition
-  made at 25 Jan 2022
-  by Christoph & Emanuel @ MAI Robotics
-  Home
-  26.01.2022
-*/
-// - Pins -
-//motor
+
 #define RIGHT_RPWM 5
 #define RIGHT_LPWM 6
 #define RIGHT_REN 8
@@ -20,6 +11,10 @@ PCF8575 pcf8575(0x21); //portexpander bus adresse und name
 #define LEFT_LPWM 11
 #define LEFT_REN 2
 #define LEFT_LEN 3
+
+int outLeft;
+int outRight;
+
 // Ultraschall vorne/MITTE
 #define TRIGGER_VORNE P0 //auf portexpander 
 #define ECHO_VORNE 13 
@@ -29,41 +24,7 @@ PCF8575 pcf8575(0x21); //portexpander bus adresse und name
 //Ultraschall rechts
 #define TRIGGER_RECHTS P3  //auf portexpander
 #define ECHO_RECHTS 4
-//Hall Sensor
-//#define HALL_SENSOR A0          //analog output (optional)
-#define HALL_SENSOR_D A2        // digital output (benutzt zum auslesen ob magnet oder nd)
-int hallValAlt;
-int hallValAlt2;
-//Infrarot Sensor
-#define IR_LEFT A3 // connect ir sensor to arduino pin 2 (left one)
-#define IR_RIGHT A1
-#define IR_MIDDLE A0
-//LED
-#define LED_PIN P2
-//farbsensor
-#define SENSOR_S0 P4
-#define SENSOR_S1 P5
-#define SENSOR_S2 P6
-#define SENSOR_S3 P7
-#define SENSOR_OUT 7 //einziger pin der nicht auf portexpander sein muss
-// - Daten -
-//motor
-int outLeft; 
-int outRight;
-// alte trash logic dinger
-int logicRight; //Temporärer Speicher bei der Kurve
-int logicLeft; //Temporärer Speicher bei der Kurve
-int logicRight1; //Temporärer Speicher bei der Kurve
-int logicLeft1; //Temporärer Speicher bei der Kurve
-int logicRight2; //Temporärer Speicher bei der Kurve
-int logicLeft2; //Temporärer Speicher bei der Kurve
-// neue logic checks
-int hindernisLinks;
-int hindernisRechts;
-//Hall Sensor
-int Hall_Val1=0,Hall_Val2=0;
-enum HallPosition {LINKS, RECHTS};
-HallPosition magnetPosition = RECHTS;                                                        // MAGNET CONFIG HIER
+
 // Ultraschall
 long dauerVorne=0; // Dauer Speicher für Ultraschcallsensor vorne
 long entfernungVorne=0; // Entfernung Speicher für Ultraschcallsensor vorne
@@ -73,47 +34,16 @@ long dauerRechts=0;
 long entfernungRechts=0;
 int entfernungLinksOld; //alte variable wird hier gespeichert
 int entfernungRechtsOld;
-//technik
-int durchgangCounter=0;
-unsigned long previousMillis = 0;
-#define SPEEDSYNCINTERVAL 300
+
+
 int umdrehungZeit=840;
 int umdrehungSpeed=110;
-//farbsensor
-int frequency = 0;
-int redWert;
-int grunWert;
-int blueWert;
-//farbsensor API
-int zielzoneMinWertRed = 100;     //zielzone geht von minwert bis maxwert
-//int zielzoneMinWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMinWertBlue = 85;
-
-int zielzoneMaxWertRed = 150; 
-//int zielzoneMaxWertGreen -->   Existiert nicht weil zu ungenau, könnte auch Boden sein!!
-int zielzoneMaxWertBlue = 110;
-
-int lineMinWertBlue = 1; 
-int lineMinWertGreen = 1;
-int lineMinWertRed = 1;
-
-int lineMaxWertBlue = 2;
-int lineMaxWertGreen = 2;
-int lineMaxWertRed = 2;
-
-int lineTempVarRed;
-int lineTempVarGreen;
-int lineTempVarBlue;
-
 int istInModus=0;
-
-int oldWertLineRight;
-int oldWertLineLeft;
-
 int sollFahren = 0;
 
- //---------------------------------//
 
+//LED
+#define LED_PIN P2
 
 
 void ledAn() {
@@ -152,39 +82,28 @@ long readDistanceRight() { //right ultraschall
   return readDistancePE(TRIGGER_RECHTS, ECHO_RECHTS);
  }
 
-// - Methoden -
 void motorAnsteuern() {
-  analogWrite(RIGHT_LPWM,outRight); //Schreibe Geschwindigkeit auf Pins
-  analogWrite(RIGHT_RPWM,0);        //Schreibe Geschwindigkeit auf Pins
-  analogWrite(LEFT_LPWM,outLeft);   //Schreibe Geschwindigkeit auf Pins
-  analogWrite(LEFT_RPWM,0);         //Schreibe Geschwindigkeit auf Pins
-}
-void motorAnsteuernGeradeausLauf() {
-  if(outLeft >= 80 || outRight >= 80) {
-    outLeft -= 30;
-    outRight -= 30;
-  }
-  motorAnsteuern();
+  analogWrite(RIGHT_LPWM,outRight);
+  analogWrite(RIGHT_RPWM,0);
+  analogWrite(LEFT_LPWM,outLeft);
+  analogWrite(LEFT_RPWM,0);
 }
 
-/*
- * Motoren starten (beiden fahren)
- */
+
 void fahrenBeide() {
-  outLeft = 50; //Setze Geschwindigkeit links auf 100
-  outRight = 50; //Setze Geschwindigkeit rechts auf 100
+  outLeft = 100; //Setze Geschwindigkeit links auf 100
+  outRight = 100; //Setze Geschwindigkeit rechts auf 100
   motorAnsteuern();
 //  Serial.println("fahren beide laut Methode");
 }
-/*
- * Motoren stoppen (beide)
- */
+ 
 void stehenbleiben() {
   outLeft = 0;
   outRight = 0;
   motorAnsteuern();
 }
 
+  
 void halbUmdrehungRechts() { //Quasi 90* Drehung nach rechts
     outLeft = umdrehungSpeed;
     outRight = 0;
@@ -206,29 +125,8 @@ void halbUmdrehungLinks() { //Quasi 90* Drehung nach links
 
 
 
-
-
-
-
-
-
-
-
-// --------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
 void setup() {
-  Serial.begin(9600); //Starte den Serial Monitor
-
+  Serial.begin(9600);
   pinMode(RIGHT_RPWM,OUTPUT);
   pinMode(RIGHT_LPWM,OUTPUT);
   pinMode(RIGHT_LEN,OUTPUT);
@@ -243,6 +141,10 @@ void setup() {
   digitalWrite(LEFT_REN,HIGH);
   digitalWrite(LEFT_LEN,HIGH);
 
+  outLeft = 100;
+  outRight = 100;
+
+
   // Abstandssensor vorne
   pcf8575.pinMode(TRIGGER_VORNE, OUTPUT); // Trigger-Pin ist ein Ausgang
   pinMode(ECHO_VORNE, INPUT); // Echo-Pin ist ein Eingang
@@ -256,27 +158,11 @@ void setup() {
   pcf8575.pinMode(LED_PIN, OUTPUT);
 
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////
+
   pcf8575.begin(); //HIER DRUNTER KEIN PORTEXPANDER ZEUG MEHR, HIER WIRD BEGONNEN
-  ////////////////////////////////////////////////////////////////////////////////////////////////
-
 }
-
+ 
 void loop() {
-  ledAus();
-  if(readDistanceFront <= 20) {
-    fahrenBeide;
-    delay(500);
-    while(readDistanceFront >= 20)
-        delay(20);
-        sollFahren++;
-    } 
-    halbUmdrehungLinks();
-    halbUmdrehungLinks();
-    fahrenBeide();
-    delay(sollFahren * 20);
-    halbUmdrehungRechts;
-    halbUmdrehungRechts;
-    stehenbleiben;
-  
+  fahrenBeide();
+
 }
