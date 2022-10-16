@@ -33,7 +33,8 @@ void loop() {
     entfernung = (dauer/2) / 29.1;           // Die Zeit in den Weg in Zentimeter umrechnen
 
         Serial.print(entfernung);            // Den Weg in Zentimeter ausgeben
-        Serial.println(" cm");               //
+        Serial.println(" cm");  
+        Serial.println("");//
 
     delay(30);                             // Nach einer Sekunde wiederholen
     if(entfernung <= 30) {
