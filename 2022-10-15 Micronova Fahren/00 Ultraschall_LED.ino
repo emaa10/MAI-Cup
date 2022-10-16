@@ -36,7 +36,7 @@ void loop() {
         Serial.println(" cm");  
         Serial.println("");//
 
-    delay(30);                             // Nach einer Sekunde wiederholen
+    delay(150);                             // Nach einer Sekunde wiederholen
     if(entfernung <= 30) {
         ledAn();
     } else{
