@@ -3,10 +3,10 @@
 #define LED_PIN 4
 
 void ledAn() {
-  digitalWrite(LED_PIN, LOW); 
+  digitalWrite(LED_PIN, HIGH); 
 }
 void ledAus() {
-  digitalWrite(LED_PIN, HIGH); 
+  digitalWrite(LED_PIN, LOW); 
 }
 
 
