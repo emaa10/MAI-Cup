@@ -113,7 +113,7 @@ void loop(){
     entfernungmessen();
     if (entfernung <= 20) {
         for (int y = 0; y <= 15; y++) {
-            halbUmdrehungLinks(),
+            halbUmdrehungLinks();
         }
     }
 }
