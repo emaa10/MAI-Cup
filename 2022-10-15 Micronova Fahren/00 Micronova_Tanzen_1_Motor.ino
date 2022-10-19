@@ -23,6 +23,7 @@ int umdrehungZeit=840;
 int umdrehungSpeed=110;
 int Logic=0; 
 
+
 void ledAn() {
   digitalWrite(LED_PIN, LOW); 
 }
